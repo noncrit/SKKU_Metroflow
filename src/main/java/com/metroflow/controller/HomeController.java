@@ -15,7 +15,8 @@ public class HomeController {
     private final UserRepository USERREPOSITORY;
 
     @GetMapping("/")
-    public String goHome() {
+    public String goHome(Model model, User user) {
+        model.addAttribute("user", user);
         return "home";
     }
 
