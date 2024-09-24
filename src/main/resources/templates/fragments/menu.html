@@ -36,11 +36,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                         <a class="nav-link" href="#">내 주변</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">방명록</a>
+                        <a class="nav-link" href="/board">방명록</a>
                     </li>
                 </ul>
                 <div class="d-flex"> <!-- 로그인 / 로그아웃 -->
-                    <div class="guest">
+                    <div sec:authorize="!isAuthenticated()" class="guest">
                         <a href="/goLogin" class="login btn btn-outline-light" role="button">로그인</a>
                         <a href="/goRegister" class="register btn btn-outline-light" role="button">회원가입</a>
                     </div>

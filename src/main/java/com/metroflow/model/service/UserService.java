@@ -1,9 +1,13 @@
 package com.metroflow.model.service;
 
+import com.metroflow.model.dto.User;
 import com.metroflow.model.dto.UserRegisterForm;
 import com.metroflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 @RequiredArgsConstructor
@@ -30,6 +34,17 @@ public class UserService {
         if (USERREPOSITORY.findByNickname(user.getNickname()).isPresent()) {
             result.rejectValue("nickname", "duplication", "닉네임 중복");
         }
+    }
+
+    // 현재 세션의 유저 객체 model에 저장하는 메소드
+    public User getUserObject() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = new User();
+        if (auth != null) {
+            String userId = auth.getName(); // 로그인한 사용자 id
+            user = USERREPOSITORY.findByUserId(userId).get();
+        }
+        return user;
     }
 
 }
