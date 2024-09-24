@@ -1,9 +1,8 @@
 const svgContainer = document.getElementById("svgContainer");
 const modal = document.getElementById("myModal");
 const modalText = document.getElementById("modalText");
-const closeModal = document.querySelector(".close");
+const closeModal = document.querySelector(".closeTab");
 // let nowZoom = 1; // 현재 비율 (1 = 100%)
-
 
 // 텍스트 클릭 이벤트 리스너 추가
 svgContainer.addEventListener("click", function(event) {
@@ -26,6 +25,10 @@ svgContainer.addEventListener("click", function(event) {
         // 모달 위치 설정
         modal.style.left = `${modalX}px`;
         modal.style.top = `${modalY}px`;
+
+        // 모달 가로 크기 변경
+        // 타임리프로 렌더링하면 css 씹히는 현상있어서 스크립트 처리
+        modal.style.width="20%";
         modal.style.display = "block"; // 모달 표시
     }
 });

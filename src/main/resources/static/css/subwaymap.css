@@ -17,7 +17,7 @@ body {
 /* 확대/축소 버튼 css */
 #controls {
     position: fixed; /* 고정 위치 설정 */
-    top: 20px; /* 상단에서의 거리 */
+    top: 50px; /* 상단에서의 거리 */
     right: 20px; /* 우측에서의 거리 */
     background: rgba(255, 255, 255, 0.8); /* 배경색 추가로 가독성 향상 */
     padding: 10px; /* 내부 여백 */
@@ -25,7 +25,7 @@ body {
     z-index: 10; /* SVG 위에 표시 */
 }
 
- 모달 스타일
+ /*모달 스타일*/
 .modal {
     display: none; /* 기본적으로 숨김 */
     position: fixed;
@@ -44,19 +44,19 @@ body {
     margin: 10% auto; /* 위쪽 여백과 가운데 정렬 */
     padding: 10px;
     border: 1px solid #888;
-    width: 20% !important; /* 원하는 너비로 설정 */
+    width: 90%; /* 원하는 너비로 설정 */
     border-radius: 5px; /* 모서리 둥글게 */
 }
 
-.close {
+.closeTab {
     color: #aaa;
     float: right; /* 우측 정렬 */
     font-size: 10px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.closeTab:hover,
+.closeTab:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
