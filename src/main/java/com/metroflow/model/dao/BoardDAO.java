@@ -1,7 +1,12 @@
 package com.metroflow.model.dao;
 
 import com.metroflow.model.dto.Board;
+import com.metroflow.model.dto.Recommendation;
+import com.metroflow.model.dto.User;
+import com.metroflow.model.service.BoardService;
+import com.metroflow.model.service.UserService;
 import com.metroflow.repository.BoardRepository;
+import com.metroflow.repository.RecommendationRepository;
 import com.metroflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +19,10 @@ import java.time.LocalDateTime;
 public class BoardDAO {
 
     private final BoardRepository BOARDREPOSITORY;
+    private final BoardService BOARDSERVICE;
     private final UserRepository USERREPOSITORY;
+    private final UserService USERSERVICE;
+    private final RecommendationRepository RECOMMENDATIONREPOSITORY;
 
     // 보드 Insert
     public void writeBoard(Board board) {
@@ -26,4 +34,25 @@ public class BoardDAO {
         board.setView(0L);
         BOARDREPOSITORY.save(board);
     }
+
+    public void insertRecommendation(Long no) {
+        Board board = BOARDSERVICE.getInfo(no); // 해당 게시물의 보드 정보
+        User user = USERSERVICE.getUserObject();
+        if (RECOMMENDATIONREPOSITORY.findRecommendationByUserAndBoard(user.getUserId(), no).isPresent()) {
+            return;
+        } else {
+            Recommendation rec = new Recommendation();
+            rec.setUser(user);
+            rec.setBoard(board);
+            rec.setThumbsUp(false);
+            rec.setThumbsDown(false);
+            RECOMMENDATIONREPOSITORY.save(rec);
+        }
+    }
+
+    public void updateRecommendation(Long no) {
+
+    }
+
+
 }

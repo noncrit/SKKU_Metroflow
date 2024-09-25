@@ -2,8 +2,10 @@ package com.metroflow.model.service;
 
 import com.metroflow.model.dto.Board;
 import com.metroflow.model.dto.BoardDTO;
+import com.metroflow.model.dto.Recommendation;
 import com.metroflow.model.dto.User;
 import com.metroflow.repository.BoardRepository;
+import com.metroflow.repository.RecommendationRepository;
 import com.metroflow.repository.SubwayStationRepository;
 import com.metroflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ public class BoardService {
     private final BoardRepository BOARDREPOSITORY;
     private final SubwayStationRepository SUBWAYSTATIONREPOSITORY;
     private final UserRepository USERREPOSITORY;
+    private final UserService USERSERVICE;
+    private final RecommendationRepository RECOMMENDATIONREPOSITORY;
 
     public Map<String, List<String>> getStationNames() {
         List<String> lineOne =  SUBWAYSTATIONREPOSITORY.findByStationName("1");
@@ -81,5 +85,12 @@ public class BoardService {
         Board board = BOARDREPOSITORY.findById(no).get();
         board.setUser(user);
         return board;
+    }
+    public Recommendation getMyRecommendation(Long no) {
+        User user = USERSERVICE.getUserObject();
+        Recommendation rec = RECOMMENDATIONREPOSITORY.findRecommendationByUserAndBoard(user.getUserId(), no).get();
+        rec.setBoard(BOARDREPOSITORY.findById(no).get());
+        rec.setUser(user);
+        return rec;
     }
 }

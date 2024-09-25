@@ -71,6 +71,9 @@ public class BoardController {
         model.addAttribute("board", BOARDSERVICE.getInfo(no));
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
         BOARDREPOSITORY.plusView(no);
+        BOARDDAO.insertRecommendation(no);
+        model.addAttribute("userRec", BOARDSERVICE.getMyRecommendation(no));
+        System.out.println(BOARDSERVICE.getMyRecommendation(no).isThumbsUp());
         return "board/boardContent";
     }
 
