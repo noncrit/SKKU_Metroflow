@@ -6,6 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SubwayMapInfo {
+    // 홈 노선도 화면에 사용하는 DTO
+    // Entity 선언 필요하지 않음
     private Long stationId;
     private String station_name;
     private String station_line;
