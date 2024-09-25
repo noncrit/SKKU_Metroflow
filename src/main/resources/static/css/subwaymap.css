@@ -48,11 +48,24 @@ body {
     border-radius: 5px; /* 모서리 둥글게 */
 }
 
+.modal-header {
+    display: flex;
+    justify-content: space-between; /* 양쪽 끝으로 배치 */
+    align-items: center; /* 세로 정렬 */
+    padding: 10px; /* 패딩 추가 */
+}
+
+/*.closeTab {*/
+/*    color: #aaa;*/
+/*    float: right; !* 우측 정렬 *!*/
+/*    font-size: 10px;*/
+/*    font-weight: bold;*/
+/*}*/
+
 .closeTab {
-    color: #aaa;
-    float: right; /* 우측 정렬 */
-    font-size: 10px;
-    font-weight: bold;
+    cursor: pointer; /* 마우스 커서가 포인터로 바뀌도록 */
+    font-size: 24px; /* 버튼 크기 조정 */
+    margin-left: auto; /* 자동 여백으로 오른쪽 정렬 */
 }
 
 .closeTab:hover,

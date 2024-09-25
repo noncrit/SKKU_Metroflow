@@ -37,6 +37,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2")
+
 }
 
 tasks.withType<Test> {

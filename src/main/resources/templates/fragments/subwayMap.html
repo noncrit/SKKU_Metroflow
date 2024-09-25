@@ -1482,21 +1482,35 @@
     </div>
 
 
-       <!-- 모달 구조 -->
+    <!-- 모달 구조 -->
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <span class="closeTab">&times;</span>
             <div class="modal-header">
-                <h3 id="lineNumber">6호선</h3> <!-- 호선 번호 - 추후 DB에서 가져올 것 -->
+                <span class="closeTab">&times;</span> <!-- 닫기 버튼 -->
             </div>
             <div class="modal-body">
-                <p id="stationName"></p> <!-- 역 이름 - 추후 DB에서 가져올 것 -->
-                <p id="modalText"></p>
-                <p id="congestionLevel">현재 혼잡도 : 30</p> <!-- 혼잡도 - 추후 DB에서 가져올 것 -->
-                
+                <table>
+                    <tr>
+                        <td id="lineNumber">호선</td> <!-- 역 이름 - 추후 DB에서 가져올 것 -->
+                    </tr>
+                    <tr>
+                        <td id="stationName">역이름</td> <!-- 역 이름 - 추후 DB에서 가져올 것 -->
+                    </tr>
+                    <tr>
+                        <td id="nowtime"></td>
+                    </tr>
+                    <tr>
+                        <td id="congestionLevel_uptrack">30</td> <!-- 혼잡도 - 추후 DB에서 가져올 것 -->
+                    </tr>
+                    <tr>
+                        <td id="congestionLevel_downtrack">30</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
+
+
 
 
 </div><!--end of fragment div-->
