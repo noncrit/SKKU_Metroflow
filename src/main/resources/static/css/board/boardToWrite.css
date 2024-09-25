@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.logo-container {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #f8f9fa;
+}
+
+.logo {
+    width: 150px;
+    height: auto;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 2rem;
+    background-color: #001f3f;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+}
+
+.nav-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 25rem;
+    align-items: center;
+}
+
+.nav-items li {
+    display: inline;
+}
+
+.nav-items a {
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn, .btn-outline {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: white;
+    color: #001f3f;
+    border: 2px solid #001f3f;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-outline {
+    background-color: white;
+}
+
+.btn {
+    background-color: white;
+    color: #001f3f;
+}
+
+.btn:hover, .btn-outline:hover {
+    background-color: #e9ecef;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.form-header {
+    padding: 10px;
+    text-align: left;
+}
+
+.form-header h2 {
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-group select {
+    width: calc(100% - 150px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.user-id {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.form-group textarea {
+    height: 300px;
+    resize: none;
+    margin-bottom: 50px;
+}
+
+.form-group button {
+    width: 100px;
+    padding: 10px;
+    background-color: #001f3f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.form-group button:hover {
+    background-color: #006666;
+}
+
+select {
+    padding: 8px;
+    font-size: 14px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    width: 110px !important;
+    margin-bottom: 1px;
+    background-color: white;
+    color: black;
+    display: inline-block;
+}
+
+/* 각 호선의 배경색 및 텍스트 색상 */
+.line-1 {
+    background-color: #0032a0;
+    color: white;
+}
+
+.line-2 {
+    background-color: #00b140;
+    color: white;
+}
+
+.line-3 {
+    background-color: #fc4c02;
+    color: black;
+}
+
+.line-4 {
+    background-color: #00a9e0;
+    color: white;
+}
+
+.line-5 {
+    background-color: #a05eb5;
+    color: white;
+}
+
+.line-6 {
+    background-color: #a9431e;
+    color: white;
+}
+
+.line-7 {
+    background-color: #67823a;
+    color: white;
+}
+
+.line-8 {
+    background-color: #e31c79;
+    color: white;
+}
+
+.line-9 {
+    background-color: #8c8279;
+    color: white;
+}
+
+
+.user-id {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+#station-select {
+    width: 300px;
+    padding: 8px;
+    font-size: 14px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

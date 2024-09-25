@@ -3,6 +3,8 @@ package com.metroflow.model.dto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -12,10 +14,11 @@ public class FavoriteList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long myfavNo;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "userId", referencedColumnName = "userId", nullable = false)
     private User user;
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne
     @JoinColumn(name = "stationId", referencedColumnName = "stationId", nullable = false)
     private SubwayStation station;
 
