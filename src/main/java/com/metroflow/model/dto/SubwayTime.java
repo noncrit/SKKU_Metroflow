@@ -3,6 +3,8 @@ package com.metroflow.model.dto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -14,7 +16,8 @@ public class SubwayTime {
     private long typeId;
 
     @MapsId
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "typeId", referencedColumnName = "typeId")
     private SubwayType subwayType;
 

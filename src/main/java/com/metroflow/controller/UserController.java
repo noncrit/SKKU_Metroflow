@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("/goRegister")
     public String goRegisterPage(Model model) {
-        model.addAttribute("user", new UserRegisterForm());
+        model.addAttribute("sessionUser", new UserRegisterForm());
         return "user/register";
     }
 
