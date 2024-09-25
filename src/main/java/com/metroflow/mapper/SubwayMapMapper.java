@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface SubwayMapMapper {
     //currentColumns은 현재 시간을 time column 형식(ex h0530) 형식으로 바꿔서 가져옴
-    @Select("SELECT s.station_id, s.station_line, ty.direction_type, ${currentColumn} AS timeValue " +
+    @Select("SELECT s.station_id, s.station_name, s.station_line, ty.direction_type, ${currentColumn} AS timeValue " +
             "FROM station s " +
             "JOIN type ty ON ty.station_id = s.station_id " +
             "JOIN time ti ON ti.type_id = ty.type_id " +

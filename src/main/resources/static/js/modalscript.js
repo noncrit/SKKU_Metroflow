@@ -1,25 +1,52 @@
 const svgContainer = document.getElementById("svgContainer");
 const modal = document.getElementById("myModal");
 const stationName = document.getElementById("stationName");
+const lineNumber = document.getElementById("lineNumber");
 const nowTime = document.getElementById("nowtime");
-const congestionLevelUptrack = document.getElementById("congestionLevel_uptrack");
-const congestionLevelDowntrack = document.getElementById("congestionLevel_downtrack");
+const directionType = document.getElementById("directionType")
+const congestionLevel = document.getElementById("congestionLevel");
 const closeModal = document.querySelector(".closeTab");
 
 // 텍스트 클릭 이벤트 리스너 추가
-svgContainer.addEventListener("click", function(event) {
+svgContainer.addEventListener("click", async function(event) {
     const target = event.target;
 
     if (target.tagName === "text") {
-        // 클릭한 텍스트의 내용을 모달에 표시
         const clickedStation = target.textContent; // 클릭한 역 이름
 
-        // 역 이름을 모달에 설정
-        stationName.innerText = clickedStation;
-        // 현재 시간 및 혼잡도 설정 (여기서는 예시로 고정값 사용)
-        nowTime.innerText = new Date().toLocaleTimeString(); // 현재 시간
-        congestionLevelUptrack.innerText = "상선 혼잡도 : 30"; // 예시 값
-        congestionLevelDowntrack.innerText = "하선 혼잡도 : 30"; // 예시 값
+        try {
+            // 서버에서 데이터 가져오기
+            const response = await fetch(`/station-info?stationName=${encodeURIComponent(clickedStation)}`);
+            if (response.ok) {
+                const data = await response.json();
+                // 호선 설정
+                lineNumber.innerText = `${data.station_line}호선`;
+                //역이름 설정
+                stationName.innerText = `${data.station_name}`;
+                // 현재 시간 설정
+                nowTime.innerText = new Date().toLocaleTimeString(); // 현재 시간
+                // 방향 구분
+                directionType.innerText = `${data.direction_type}`;
+                // 혼잡도 정보 설정
+                congestionLevel.innerText = `혼잡도 : ${data.timeValue}`;
+
+
+            } else {
+                // 에러 처리(DB에 없는 역인 경우)
+                lineNumber.innerText = "";
+                stationName.innerText = "혼잡도 데이터가 없는 역입니다.";
+                nowTime.innerText = "";
+                directionType.innerText = "";
+                congestionLevel.innerText = "";
+            }
+        } catch (error) {
+            console.error("Error fetching station info:", error);
+            lineNumber.innerText = "";
+            stationName.innerText = "에러가 발생했습니다.";
+            nowTime.innerText = "";
+            directionType.innerText = "";
+            congestionLevel.innerText = "";
+        }
 
         // 마우스 클릭 위치를 기준으로 모달 위치 계산
         let modalX = event.clientX; // 클릭한 X좌표
