@@ -40,15 +40,27 @@ document.addEventListener("DOMContentLoaded", function() {
                         // use 요소 생성
                         const useElement = document.createElementNS(SVG_NS, "use");
                         useElement.setAttributeNS(XLINK_NS, "href", "#S1");
-                        useElement.setAttributeNS(XLINK_NS, "width", "27");
-                        useElement.setAttributeNS(XLINK_NS, "height", "27");
-                        useElement.setAttributeNS(XLINK_NS, "style", "overflow:visible;");
+                        useElement.setAttributeNS(XLINK_NS, "width", "1");
+                        useElement.setAttributeNS(XLINK_NS, "height", "1");
 
-                        // 셀에 use 요소 추가
+                        // y축 반전 변환 추가
+                        useElement.setAttribute("transform", "scale(1, -1) translate(0, -1)"); // 15는 반전된 원의 높이의 절반
+
+                        // overflow 옵션 ( 크기 넘칠 시 )
+                        // useElement.setAttribute("style", "overflow:visible;");
+
+                        // SVG 태그 생성
+                        const svgWrapper = document.createElementNS(SVG_NS, "svg");
+                        svgWrapper.setAttribute("viewBox", "0 0 30 30"); // 예시: (x, y, width, height)
+                        svgWrapper.setAttribute("style", "overflow:visible; width: 10px; height: 10px;"); // 크기를 조절
+                        svgWrapper.appendChild(useElement); // SVG 요소를 래퍼에 추가
+
+                        // 셀에 SVG 추가
                         const cellWithSvg = document.createElement("td");
-                        cellWithSvg.appendChild(useElement); // SVG 요소를 셀에 추가
+                        cellWithSvg.appendChild(svgWrapper); // SVG 래퍼를 셀에 추가
 
                         row.appendChild(cellWithSvg); // 행에 셀 추가
+
                         row.innerHTML += `
                             <td>${stationInfo.direction_type}</td>
                             <td>혼잡도: ${stationInfo.timeValue} %</td>
