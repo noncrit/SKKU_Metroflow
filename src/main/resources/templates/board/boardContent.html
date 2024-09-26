@@ -43,20 +43,20 @@
         <img src="/images/thumbsup.png" alt="좋아요 아이콘" class="icon">
       </div>
       <span class="label">좋아요</span>
-      <span class="count" id="thumbsUpCount" th:text="${board.thumbsUp}">15,082</span>
+      <input type="text" readonly="readonly" class="count" id="thumbsUpCount" th:value="${board.thumbsUp}">
     </div>
     <div th:class="action-item">
       <div class="thumbsDownContainer" id="thumbsDownContainer">
         <img src="/images/thumbsdown.png" alt="싫어요 아이콘" class="icon">
       </div>
         <span class="label">싫어요</span>
-        <span class="count" id="thumbsDownCount" th:text="${board.thumbsDown}">1,023</span>
+        <input type="text" readonly="readonly" class="count" id="thumbsDownCount" th:value="${board.thumbsDown}">
     </div>
   </div>
 <!--  <input type="hidden" id="thumbsUp" th:name="${userRec.isThumbsUp()}" th:value="${userRec.isThumbsUp()}">-->
 <!--  <input type="hidden" id="thumbsDown" th:name="${userRec.isThumbsDown()}" th:value="${userRec.isThumbsDown()}">-->
-  <input id="thumbsUp" value=false>
-  <input id="thumbsDown" value=false>
+  <input type="hidden" id="thumbsUp" th:value="${userRec.isThumbsUp()}">
+  <input type="hidden" id="thumbsDown" th:value="${userRec.isThumbsDown()}">
   <!-- 하단 수정/삭제 버튼 -->
   <div class="footer-buttons">
     <div class="footer-right">
@@ -76,20 +76,23 @@
 <script>
 
    document.addEventListener('DOMContentLoaded', function () {
-     let thumbsUp = document.getElementById("thumbsUp").value;
-     let thumbsDown = document.getElementById("thumbsDown").value;
+     let thumbsUp = document.getElementById("thumbsUp").value.toLowerCase() === "true";
+     let thumbsDown = document.getElementById("thumbsDown").value.toLowerCase() === "true";
        console.log(thumbsUp);
        console.log(thumbsDown);
 
-     let hiddenUp = document.getElementById('thumbsUp').value;
-     let hiddenDown = document.getElementById('thumbsDown').value;
+     let hiddenUp = document.getElementById('thumbsUp').value.toLowerCase() === "true";
+     let hiddenDown = document.getElementById('thumbsDown').value.toLowerCase() === "true";
      const thumbsUpContainer = document.getElementById('thumbsUpContainer');
-     const thumbsUpCount = document.getElementById('thumbsUpCount');
      const thumbsDownContainer = document.getElementById('thumbsDownContainer');
-     const thumbsDownCount = document.getElementById('thumbsDownCount');
-     console.log(thumbsUpCount.value);
+     let thumbsUpCount = document.getElementById('thumbsUpCount');
+     let thumbsDownCount = document.getElementById('thumbsDownCount');
+     console.log("thumbsUpCount value : " + thumbsUpCount.value);
+
      thumbsUpContainer.addEventListener('click', function () {
+       console.log("true false1 :" + typeof (thumbsUp));
        thumbsUp = !thumbsUp;
+       console.log('true false2 : ' + thumbsUp)
        if (thumbsUp === true && thumbsDown === true) {
          console.log(thumbsUpCount.value)
          thumbsDown = false;
@@ -102,7 +105,9 @@
          console.log(thumbsUpCount)
          console.log('좋아요')
        } else if (thumbsUp === true) {
-         console.log(thumbsUpCount)
+         console.log('thumbsUpCount type : ' + typeof(thumbsUpCount));
+         console.dir(thumbsUpCount.value);
+         console.log('text2 ' + parseInt(thumbsUpCount.textContent));
          thumbsUpContainer.classList.add('thumbsUpActive'); // 강조 효과
          thumbsUpCount.text = String(parseInt(thumbsUpCount.text) + 1); // 카운트 증가
          thumbsUpCount.value = String(parseInt(thumbsUpCount.value) + 1); // 카운트 증가
@@ -114,8 +119,8 @@
          thumbsUpCount.value = String(parseInt(thumbsUpCount.value) - 1); // 카운트 감소
          console.log('좋아요')
        }
-       hiddenUp.value = thumbsUp;
-       hiddenDown.value = thumbsDown;
+       hiddenUp = thumbsUp;
+       hiddenDown = thumbsDown;
      })
 
      thumbsDownContainer.addEventListener('click', function () {
@@ -135,70 +140,13 @@
        } else {
          thumbsDownContainer.classList.remove('thumbsDownActive'); // 강조 효과
          thumbsDownCount.text = String(parseInt(thumbsDownCount.text) - 1); // 카운트 감소
-         thumbsDownCount.value = String(parseInt(thumbsDownCount.text) - 1); // 카운트 감소
+         thumbsDownCount.value = String(parseInt(thumbsDownCount.value) - 1); // 카운트 감소
        }
-       hiddenUp.value = thumbsUp;
-       hiddenDown.value = thumbsDown;
+       hiddenUp = thumbsUp;
+       hiddenDown = thumbsDown;
        }
      )
    })
-  // document.addEventListener('DOMContentLoaded', function () {
-  //   console.log('몰라요')
-  //   let thumbsUp = Boolean([[${userRec.thumbsUp}]]);
-  //   let thumbsDown = Boolean([[${userRec.thumbsDown}]]);
-  //
-  //   let hiddenUp = document.getElementById('thumbsUp');
-  //   let hiddenDown = document.getElementById('thumbsDown');
-  //   const thumbsUpContainer = document.getElementById('thumbsUpContainer');
-  //   const thumbsUpCount = document.getElementById('thumbsUpCount');
-  //   const thumbsDownContainer = document.getElementById('thumbsDownContainer');
-  //   const thumbsDownCount = document.getElementById('thumbsDownCount');
-  //
-  //   thumbsUpContainer.addEventListener('click', function (event) {
-  //     event.stopPropagation(); // 이벤트 버블링 방지
-  //     thumbsUp = !thumbsUp;
-  //     if (thumbsUp && thumbsDown) {
-  //       thumbsDown = false;
-  //       thumbsUpContainer.classList.add('thumbsUpActive');
-  //       thumbsUpCount.text = String(parseInt(thumbsUpCount.text) + 1);
-  //       thumbsDownContainer.classList.remove('thumbsDownActive');
-  //       thumbsDownCount.text = String(parseInt(thumbsDownCount.text) - 1);
-  //       console.log('좋아요')
-  //     } else if (thumbsUp) {
-  //       thumbsUpContainer.classList.add('thumbsUpActive');
-  //       thumbsUpCount.text = String(parseInt(thumbsUpCount.text) + 1);
-  //       console.log('좋아요')
-  //     } else {
-  //       thumbsUpContainer.classList.remove('thumbsUpActive');
-  //       thumbsUpCount.text = String(parseInt(thumbsUpCount.text) - 1);
-  //       console.log('좋아요')
-  //     }
-  //     console.log('좋아요')
-  //     hiddenUp.value = thumbsUp;
-  //     hiddenDown.value = thumbsDown;
-  //   });
-  //
-  //   thumbsDownContainer.addEventListener('click', function (event) {
-  //     event.stopPropagation(); // 이벤트 버블링 방지
-  //     thumbsDown = !thumbsDown;
-  //     if (thumbsDown && thumbsUp) {
-  //       thumbsUp = false;
-  //       thumbsUpContainer.classList.remove('thumbsUpActive');
-  //       thumbsUpCount.text = String(parseInt(thumbsUpCount.text) - 1);
-  //       thumbsDownContainer.classList.add('thumbsDownActive');
-  //       thumbsDownCount.text = String(parseInt(thumbsDownCount.text) + 1);
-  //     } else if (thumbsDown) {
-  //       thumbsDownContainer.classList.add('thumbsDownActive');
-  //       thumbsDownCount.text = String(parseInt(thumbsDownCount.text) + 1);
-  //     } else {
-  //       thumbsDownContainer.classList.remove('thumbsDownActive');
-  //       thumbsDownCount.text = String(parseInt(thumbsDownCount.text) - 1);
-  //     }
-  //     console.log('싫어요')
-  //     hiddenUp.value = thumbsUp;
-  //     hiddenDown.value = thumbsDown;
-  //   });
-  // });
 </script>
 </body>
 </html>
