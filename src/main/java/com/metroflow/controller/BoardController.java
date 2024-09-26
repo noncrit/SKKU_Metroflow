@@ -62,8 +62,7 @@ public class BoardController {
     @PostMapping("/board/write")
     public String write(@ModelAttribute Board board, Model model) {
         BOARDDAO.writeBoard(board);
-        model.addAttribute("sessionUser", USERSERVICE.getUserObject());
-        return "home";
+        return "redirect:/board";
     }
 
     @GetMapping("/board/content")
@@ -92,9 +91,8 @@ public class BoardController {
     }
 
     @GetMapping("/board/delete")
-    public String goDelete(@RequestParam("no") Long no, Model model) {
+    public String delete(@RequestParam("no") Long no, Model model) {
         BOARDREPOSITORY.deleteById(no);
-        model.addAttribute("sessionUser", USERSERVICE.getUserObject());
-        return "home";
+        return "redirect:/board";
     }
 }
