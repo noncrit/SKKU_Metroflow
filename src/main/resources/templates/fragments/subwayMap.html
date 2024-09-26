@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>SubwayMap</title>
     <link rel="stylesheet" href="/css/subwaymap.css"> <!-- CSS 파일 추가 -->
-    <script src="/js/modalscript.js" defer></script> <!-- 스크립트 파일을 defer로 로드 -->
+    <script src="/js/modalscript3.js" defer></script> <!-- 스크립트 파일을 defer로 로드 -->
     <script src="/js/zoom.js" defer></script> <!-- 스크립트 파일을 defer로 로드 -->
 </head>
 <body>
@@ -1486,29 +1486,18 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
+                <h3 id="stationName"></h3> <!-- 역 이름을 헤더로 이동 -->
                 <span class="closeTab">&times;</span> <!-- 닫기 버튼 -->
             </div>
+            <span class="nowTime"></span>
             <div class="modal-body">
-                <table>
-                    <tr>
-                        <td id="lineNumber">호선</td> <!-- 호선 - 추후 DB에서 가져올 것 -->
-                    </tr>
-                    <tr>
-                        <td id="stationName">역이름</td> <!-- 역 이름 - 추후 DB에서 가져올 것 -->
-                    </tr>
-                    <tr>
-                        <td id="nowtime"></td>
-                    </tr>
-                    <tr>
-                        <td id="directionType">30</td> <!-- 상/하선 외/내선 구분 - 추후 DB에서 가져올 것 -->
-                    </tr>
-                    <tr>
-                        <td id="congestionLevel"></td> <!-- 혼잡도 - 추후 DB에서 가져올 것 -->
-                    </tr>
+                <table id="modal_table">
                 </table>
             </div>
         </div>
     </div>
+
+
 
 
 

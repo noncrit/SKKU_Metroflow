@@ -1,5 +1,6 @@
 const svgContainer = document.getElementById("svgContainer");
 const modal = document.getElementById("myModal");
+const modalcontent = modal.querySelector(".modal-content")
 const stationName = document.getElementById("stationName");
 const lineNumber = document.getElementById("lineNumber");
 const nowTime = document.getElementById("nowtime");
@@ -13,6 +14,7 @@ svgContainer.addEventListener("click", async function(event) {
 
     if (target.tagName === "text") {
         const clickedStation = target.textContent; // 클릭한 역 이름
+
 
         try {
             // 서버에서 데이터 가져오기
@@ -50,7 +52,7 @@ svgContainer.addEventListener("click", async function(event) {
 
         // 마우스 클릭 위치를 기준으로 모달 위치 계산
         let modalX = event.clientX; // 클릭한 X좌표
-        let modalY = event.clientY - modal.offsetHeight; // 클릭한 Y좌표에서 모달 높이만큼 위로 이동
+        let modalY = event.clientY; // 클릭한 Y좌표에서 모달 높이만큼 위로 이동
 
         // 화면의 오른쪽 경계를 고려하여 모달 위치 조정
         const windowWidth = window.innerWidth;
@@ -65,6 +67,7 @@ svgContainer.addEventListener("click", async function(event) {
         // 모달 가로 크기 설정
         modal.style.width = "20%";
         modal.style.display = "block"; // 모달 표시
+
     }
 });
 

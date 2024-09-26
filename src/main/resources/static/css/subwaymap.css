@@ -17,8 +17,8 @@ body {
 /* 확대/축소 버튼 css */
 #controls {
     position: fixed; /* 고정 위치 설정 */
-    top: 50px; /* 상단에서의 거리 */
-    right: 20px; /* 우측에서의 거리 */
+    top: 350px; /* 상단에서의 거리 */
+    right: 30px; /* 우측에서의 거리 */
     background: rgba(255, 255, 255, 0.8); /* 배경색 추가로 가독성 향상 */
     padding: 10px; /* 내부 여백 */
     border-radius: 5px; /* 모서리 둥글게 */
@@ -26,17 +26,24 @@ body {
 }
 
  /*모달 스타일*/
+/*modal의 width는 스크립트에서 조절함*/
 .modal {
     display: none; /* 기본적으로 숨김 */
     position: fixed;
     z-index: 1000; /* 가장 위에 표시 */
-    /*left: 0;*/
-    /*top: 0;*/
-    width: 300px;
-    /*max-width: 500px;*/
-    /*height:auto;*/
     overflow: auto; /* 스크롤 가능 */
     background-color: rgba(0, 0, 0, 0); /* 배경 */
+}
+
+#modal_table {
+    width: 100%; /* 테이블 너비를 100%로 설정 */
+    border-collapse: collapse; /* 테두리 간의 간격 없애기 */
+}
+
+#modal_table td {
+    padding: 10px; /* 셀 내부 패딩 */
+    border: 1px solid #ddd; /* 셀 테두리 색상 */
+    text-align: left; /* 텍스트 정렬 */
 }
 
 .modal-content {
@@ -48,6 +55,12 @@ body {
     border-radius: 5px; /* 모서리 둥글게 */
 }
 
+.modal-content #stationName {
+    margin: 0; /* 헤더 마진 제거 */
+    font-size: 1.5em; /* 헤더 글꼴 크기 */
+    text-align: left; /* 중앙 정렬 */
+}
+
 .modal-header {
     display: flex;
     justify-content: space-between; /* 양쪽 끝으로 배치 */
@@ -55,12 +68,6 @@ body {
     padding: 10px; /* 패딩 추가 */
 }
 
-/*.closeTab {*/
-/*    color: #aaa;*/
-/*    float: right; !* 우측 정렬 *!*/
-/*    font-size: 10px;*/
-/*    font-weight: bold;*/
-/*}*/
 
 .closeTab {
     cursor: pointer; /* 마우스 커서가 포인터로 바뀌도록 */

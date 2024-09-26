@@ -48,7 +48,7 @@ public class SubwayMapService {
     private String getCurrentDayType(){
         LocalDate now = LocalDate.now();
         String result = isHolidaysService.classifyDate(now);
-        System.out.println("subwayMapService getCurrentDayType : " + result);
+//        System.out.println("subwayMapService getCurrentDayType : " + result);
         return result;
     }
 
