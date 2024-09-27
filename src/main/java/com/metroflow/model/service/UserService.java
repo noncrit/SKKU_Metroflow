@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -40,10 +42,19 @@ public class UserService {
     // 현재 세션의 유저 객체 model에 저장하는 메소드
     public User getUserObject() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = new User();
+        User user = null;
+
+        System.out.println("auth : " + auth);
         if (auth != null) {
             String userId = auth.getName(); // 로그인한 사용자 id
-            user = USERREPOSITORY.findByUserId(userId).get();
+            Optional<User> optionalUser = USERREPOSITORY.findByUserId(userId);
+
+            if (optionalUser.isPresent()) {
+                user = optionalUser.get(); // 사용자가 존재할 경우 User 객체 가져오기
+            } else {
+                // 사용자가 존재하지 않을 경우 처리 (예: null 반환 또는 예외 발생)
+                System.out.println("User not found for userId: " + userId);
+            }
         }
         return user;
     }
