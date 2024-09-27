@@ -86,6 +86,8 @@ public class BoardService {
         board.setUser(user);
         return board;
     }
+
+    // 세션 유저의 해당 보드에 대한 추천 테이블 객체 얻어오기
     public Recommendation getMyRecommendation(Long no) {
         User user = USERSERVICE.getUserObject();
         Recommendation rec = RECOMMENDATIONREPOSITORY.findRecommendationByUserAndBoard(user.getUserId(), no).get();
@@ -93,4 +95,5 @@ public class BoardService {
         rec.setUser(user);
         return rec;
     }
+
 }

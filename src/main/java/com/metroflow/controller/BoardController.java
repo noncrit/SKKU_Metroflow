@@ -3,9 +3,11 @@ package com.metroflow.controller;
 import com.metroflow.model.dao.BoardDAO;
 import com.metroflow.model.dto.Board;
 import com.metroflow.model.dto.BoardDTO;
+import com.metroflow.model.dto.Recommendation;
 import com.metroflow.model.service.BoardService;
 import com.metroflow.model.service.UserService;
 import com.metroflow.repository.BoardRepository;
+import com.metroflow.repository.RecommendationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ public class BoardController {
     private final UserService USERSERVICE;
     private final BoardDAO BOARDDAO;
     private final BoardRepository BOARDREPOSITORY;
+    private final RecommendationRepository RECOMMENDATIONREPOSITORY;
 
     // /board?page=1
     @GetMapping("/board")
@@ -73,7 +76,6 @@ public class BoardController {
         BOARDREPOSITORY.plusView(no);
         BOARDDAO.insertRecommendation(no);
         model.addAttribute("userRec", BOARDSERVICE.getMyRecommendation(no));
-        System.out.println(BOARDSERVICE.getMyRecommendation(no).isThumbsUp());
         return "board/boardContent";
     }
 
@@ -91,6 +93,7 @@ public class BoardController {
         BOARDREPOSITORY.updateBoard(board.getBoardText(), board.getStationLine(), board.getStationName(), board.getTitle(), board.getBoardNo());
         model.addAttribute("board", BOARDSERVICE.getInfo(board.getBoardNo()));
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
+        model.addAttribute("userRec", BOARDSERVICE.getMyRecommendation(board.getBoardNo()));
         return "board/boardContent";
     }
 
@@ -99,5 +102,23 @@ public class BoardController {
         BOARDREPOSITORY.deleteById(no);
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
         return "home";
+    }
+
+    @GetMapping("/board/recommendation")
+    public String recommendation(@RequestParam("url") String url,
+                                 @RequestParam("boardNo") Long no,
+                                 @RequestParam("isThumbsUp") boolean up,
+                                 @RequestParam("isThumbsDown") boolean down,
+                                 @RequestParam("priorThumbsUp") boolean priorUp,
+                                 @RequestParam("priorThumbsDown") boolean priorDown) {
+        System.out.println("priorUp : " + priorUp);
+        System.out.println("priorDown : " + priorDown);
+        System.out.println("up : " + up);
+        System.out.println("down : " + down);
+        BOARDDAO.updateRecommendation(no, up, down, priorUp, priorDown);
+        if (url.equals("/board/updateBoard")) {
+            return "redirect:" + url + "?no=" + no;
+        }
+        return "redirect:" + url;
     }
 }

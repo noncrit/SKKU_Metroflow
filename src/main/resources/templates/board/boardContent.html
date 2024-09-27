@@ -57,6 +57,8 @@
 <!--  <input type="hidden" id="thumbsDown" th:name="${userRec.isThumbsDown()}" th:value="${userRec.isThumbsDown()}">-->
   <input type="hidden" id="thumbsUp" th:value="${userRec.isThumbsUp()}">
   <input type="hidden" id="thumbsDown" th:value="${userRec.isThumbsDown()}">
+  <input type="hidden" id="priorThumbsUp" th:value="${userRec.isThumbsUp()}">
+  <input type="hidden" id="priorThumbsDown" th:value="${userRec.isThumbsDown()}">
   <!-- 하단 수정/삭제 버튼 -->
   <div class="footer-buttons">
     <div class="footer-right">
@@ -67,19 +69,16 @@
         <button type=submit class="btn btn-edit" th:if="${board.user.userId} == ${sessionUser.userId}">글수정</button>
       </form>
       <form th:action="@{/board/delete}">
-          <input type="hidden" name="no" th:value="${board.boardNo}"/>
+          <input type="hidden" name="no" th:value="${board.boardNo}" id="boardNo"/>
         <button class="btn btn-delete" th:if="${board.user.userId} == ${sessionUser.userId}">삭제</button>
       </form>
     </div>
   </div>
 </div>
 <script>
-
    document.addEventListener('DOMContentLoaded', function () {
      let thumbsUp = document.getElementById("thumbsUp").value.toLowerCase() === "true";
      let thumbsDown = document.getElementById("thumbsDown").value.toLowerCase() === "true";
-       console.log(thumbsUp);
-       console.log(thumbsDown);
 
      let hiddenUp = document.getElementById('thumbsUp').value.toLowerCase() === "true";
      let hiddenDown = document.getElementById('thumbsDown').value.toLowerCase() === "true";
@@ -87,14 +86,18 @@
      const thumbsDownContainer = document.getElementById('thumbsDownContainer');
      let thumbsUpCount = document.getElementById('thumbsUpCount');
      let thumbsDownCount = document.getElementById('thumbsDownCount');
-     console.log("thumbsUpCount value : " + thumbsUpCount.value);
-
+     // console.log("thumbsUpCount value : " + thumbsUpCount.value);
+     if (thumbsUp === true) {
+       thumbsUpContainer.classList.add('thumbsUpActive');
+     } else if (thumbsDown === true) {
+       thumbsDownContainer.classList.add('thumbsDownActive')
+     }
      thumbsUpContainer.addEventListener('click', function () {
-       console.log("true false1 :" + typeof (thumbsUp));
+       // console.log("true false1 :" + typeof (thumbsUp));
        thumbsUp = !thumbsUp;
-       console.log('true false2 : ' + thumbsUp)
+       // console.log('true false2 : ' + thumbsUp)
        if (thumbsUp === true && thumbsDown === true) {
-         console.log(thumbsUpCount.value)
+         // console.log(thumbsUpCount.value)
          thumbsDown = false;
          thumbsUpContainer.classList.add('thumbsUpActive'); // 강조 효과
          thumbsUpCount.text = String(parseInt(thumbsUpCount.text) + 1); // 카운트 증가
@@ -102,22 +105,22 @@
          thumbsDownContainer.classList.remove('thumbsDownActive');
          thumbsDownCount.text = String(parseInt(thumbsDownCount.text) - 1); // 카운트 감소
          thumbsDownCount.value = String(parseInt(thumbsDownCount.value) - 1); // 카운트 감소
-         console.log(thumbsUpCount)
-         console.log('좋아요')
+         // console.log(thumbsUpCount)
+         // console.log('좋아요')
        } else if (thumbsUp === true) {
-         console.log('thumbsUpCount type : ' + typeof(thumbsUpCount));
-         console.dir(thumbsUpCount.value);
-         console.log('text2 ' + parseInt(thumbsUpCount.textContent));
+         // console.log('thumbsUpCount type : ' + typeof(thumbsUpCount));
+         // console.dir(thumbsUpCount.value);
+         // console.log('text2 ' + parseInt(thumbsUpCount.textContent));
          thumbsUpContainer.classList.add('thumbsUpActive'); // 강조 효과
          thumbsUpCount.text = String(parseInt(thumbsUpCount.text) + 1); // 카운트 증가
          thumbsUpCount.value = String(parseInt(thumbsUpCount.value) + 1); // 카운트 증가
-         console.log('좋아요')
-         console.log(thumbsUpCount)
+         // console.log('좋아요')
+         // console.log(thumbsUpCount)
        } else {
          thumbsUpContainer.classList.remove('thumbsUpActive'); // 강조 효과
          thumbsUpCount.text = String(parseInt(thumbsUpCount.text) - 1); // 카운트 감소
          thumbsUpCount.value = String(parseInt(thumbsUpCount.value) - 1); // 카운트 감소
-         console.log('좋아요')
+         // console.log('좋아요')
        }
        hiddenUp = thumbsUp;
        hiddenDown = thumbsDown;
@@ -146,6 +149,25 @@
        hiddenDown = thumbsDown;
        }
      )
+     const aLink = document.querySelectorAll('a');
+     const boardNo = document.getElementById('boardNo').value;
+     const priorThumbsUp = document.getElementById('priorThumbsUp').value.toLowerCase() === "true";
+     const priorThumbsDown = document.getElementById('priorThumbsDown').value.toLowerCase() === "true";
+     aLink.forEach(link => {
+       link.addEventListener('click', function (e) {
+         e.preventDefault();
+         location.href="/board/recommendation?url=" + link.href.substring(21) + "&boardNo=" + boardNo + "&isThumbsUp="
+                 + hiddenUp + "&isThumbsDown=" + hiddenDown + "&priorThumbsUp=" + priorThumbsUp + "&priorThumbsDown=" + priorThumbsDown;
+       });
+     });
+     const buttonLink = document.querySelectorAll('button');
+     buttonLink.forEach(link => {
+       link.addEventListener('click', function (e) {
+         e.preventDefault();
+         location.href="/board/recommendation?url=" + link.form.action.substring(21) + "&boardNo=" + boardNo + "&isThumbsUp="
+                 + hiddenUp + "&isThumbsDown=" + hiddenDown + "&priorThumbsUp=" + priorThumbsUp + "&priorThumbsDown=" + priorThumbsDown;
+       });
+     });
    })
 </script>
 </body>

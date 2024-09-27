@@ -50,9 +50,25 @@ public class BoardDAO {
         }
     }
 
-    public void updateRecommendation(Long no) {
-
+    public void updateRecommendation(Long no, boolean up, boolean down, boolean priorUp, boolean priorDown) {
+        String userId = USERSERVICE.getUserObject().getUserId();
+        RECOMMENDATIONREPOSITORY.updateRecommendationByUserAndBoard(up, down, userId, no);
+        if (up && priorUp) {
+            return;
+        } else if (up && priorDown) {
+            BOARDREPOSITORY.updateThumbs(1, -1, no);
+        } else if (down && priorDown) {
+            return;
+        } else if (down && priorUp) {
+            BOARDREPOSITORY.updateThumbs(-1, 1, no);
+        } else if (up) {
+            BOARDREPOSITORY.updateThumbs(1, 0, no);
+        } else if (down) {
+            BOARDREPOSITORY.updateThumbs(0, 1, no);
+        } else if (up == false && priorUp) {
+            BOARDREPOSITORY.updateThumbs(-1, 0, no);
+        } else if (down == false && priorDown) {
+            BOARDREPOSITORY.updateThumbs(0, -1, no);
+        }
     }
-
-
 }
