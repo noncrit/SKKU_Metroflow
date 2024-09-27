@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     const data = await response.json();
 
                     // 역 이름 설정
-                    const stationName = data[0].station_name; // 첫 번째 데이터에서 역 이름 추출
-                    modalContent.querySelector("#stationName").innerText = stationName; // 헤더에 역 이름 설정
+                    // 첫 번째 데이터에서 역 이름 추출
+                    modalContent.querySelector("#stationName").innerText = data[0].station_name; // 헤더에 역 이름 설정
 
                     // 현재 시간 설정
                     modalContent.querySelector(".nowTime").innerText =
