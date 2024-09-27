@@ -90,7 +90,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 // 불러올 데이터가 없는 역 예외처리
                 } else {
                     modalContent.querySelector("#stationName").innerText = clickedStation;
-                    const row = document.createElement("tr");
                     // modal 테이블 내용물 초기화
                     clearModal(modalBody);
                     // 혼잡도 정보가 없는 역에 대한 메시지 추가
@@ -101,7 +100,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             } catch (error) {
                 modalContent.querySelector("#stationName").innerText = clickedStation;
-                const row = document.createElement("tr");
                 // modal 테이블 내용물 초기화
                 clearModal(modalBody);
                 // 혼잡도 정보가 없는 역에 대한 메시지 추가
