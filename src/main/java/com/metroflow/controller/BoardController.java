@@ -30,11 +30,12 @@ public class BoardController {
     private final RecommendationRepository RECOMMENDATIONREPOSITORY;
 
     // /board?page=1
+    // 보드 페이징 처리 컨트롤러
     @GetMapping("/board")
     public String goBoard(@PageableDefault(page = 1) Pageable pageable, Model model) {
-        Page<BoardDTO> boardList = BOARDSERVICE.paging(pageable); // 페이지 값을 가져오기 위해서
+        Page<BoardDTO> boardList = BOARDSERVICE.paging(pageable); // 페이징 처리된 보드들 리스트
 
-        int blockLimit = 5;
+        int blockLimit = 5; // 한번에 보일 페이지 갯수 제한
         int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
         int endPage = Math.min((startPage + blockLimit - 1), boardList.getTotalPages());
         // page 갯수 20개
@@ -49,59 +50,66 @@ public class BoardController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
-        return "board/board";
+        return "board/board"; // 보드
     }
 
+    // 보드 작성 공간으로 이동해주는 컨트롤러
     @GetMapping("/board/writeBoard")
     public String goWrite(Model model, Board board) {
         Map<String, List<String>> stationMap =  BOARDSERVICE.getStationNames();
-        model.addAttribute("station", stationMap);
+        model.addAttribute("station", stationMap); // 작성란 위의 옵션들에 값을 채워넣기 위함(호선 당 역)
         board.setUser(USERSERVICE.getUserObject());
         model.addAttribute("board", board);
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
-        return "board/boardToWrite";
+        return "board/boardToWrite"; // 보드 작성 공간
     }
 
+    // 보드 작성란에서 작성 후 글쓰기 누를 시 아래 컨트롤러 작동
     @PostMapping("/board/write")
     public String write(@ModelAttribute Board board, Model model) {
-        BOARDDAO.writeBoard(board);
-        return "redirect:/board";
+        BOARDDAO.writeBoard(board); // insert해주는 DAO
+        return "redirect:/board"; // "/board"를 GET방식으로 받는 컨트롤러(goBoard)로 감
     }
 
+    // 보드 제목 클릭 시 해당 보드의 내용으로 가게 해주는 컨트롤러
     @GetMapping("/board/content")
     public String viewContent(@RequestParam("boardNo") Long no, Model model) {
         model.addAttribute("board", BOARDSERVICE.getInfo(no));
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
-        BOARDREPOSITORY.plusView(no);
-        BOARDDAO.insertRecommendation(no);
+        BOARDREPOSITORY.plusView(no); // 조회수 추가 메소드
+        BOARDDAO.insertRecommendation(no); // 추천 테이블속 유저에게 해당하는 테이블 없을 시 생성, 있다면 void 반환
         model.addAttribute("userRec", BOARDSERVICE.getMyRecommendation(no));
-        return "board/boardContent";
+        return "board/boardContent"; // 보드 내용
     }
 
+    // 자신의 글을 수정할 때 글 수정버튼 누르면 아래 컨트롤러 작동
     @GetMapping("/board/updateBoard")
     public String goUpdate(@RequestParam("no") Long no, Model model) {
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
         model.addAttribute("board", BOARDSERVICE.getInfo(no));
         Map<String, List<String>> stationMap =  BOARDSERVICE.getStationNames();
         model.addAttribute("station", stationMap);
-        return "board/boardToWrite";
+        return "board/boardToWrite"; // 작성 화면
     }
 
+    // 글 수정버튼 누를 때 아래 컨트롤러 작동
     @PostMapping("/board/update")
     public String update(@ModelAttribute("board") Board board, Model model) {
         BOARDREPOSITORY.updateBoard(board.getBoardText(), board.getStationLine(), board.getStationName(), board.getTitle(), board.getBoardNo());
         model.addAttribute("board", BOARDSERVICE.getInfo(board.getBoardNo()));
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
         model.addAttribute("userRec", BOARDSERVICE.getMyRecommendation(board.getBoardNo()));
-        return "board/boardContent";
+        return "board/boardContent"; // 보드 수정이 완료된 내용 화면
     }
 
+    // 글 삭제버튼 누르면 아래 컨트롤러 작동
     @GetMapping("/board/delete")
     public String delete(@RequestParam("no") Long no, Model model) {
-        BOARDREPOSITORY.deleteById(no);
-        return "redirect:/board";
+        BOARDREPOSITORY.deleteById(no); // 보드 번호에 맞는 해당 글 삭제
+        return "redirect:/board"; // 보드 화면으로 redirect
     }
 
+    // 글 추천
     @GetMapping("/board/recommendation")
     public String recommendation(@RequestParam("url") String url,
                                  @RequestParam("boardNo") Long no,

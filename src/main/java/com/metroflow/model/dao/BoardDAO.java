@@ -29,9 +29,9 @@ public class BoardDAO {
 //        System.out.println("writeBoard 호출됨");
         board.setUser(USERREPOSITORY.findByUserId(board.getUser().getUserId()).get());
         board.setCreatedTime(LocalDateTime.now()); // 현재 시간 설정
-        board.setThumbsUp(0L);
-        board.setThumbsDown(0L);
-        board.setView(0L);
+        board.setThumbsUp(0L); // 보드의 좋아요 수
+        board.setThumbsDown(0L); // 보드의 싫어요 수
+        board.setView(0L); // 조회수
         BOARDREPOSITORY.save(board);
     }
 
