@@ -30,18 +30,24 @@ document.addEventListener("DOMContentLoaded", function() {
                     modalContent.querySelector(".nowTime").innerText = new Date().toLocaleTimeString();
 
                     // 기존 내용 초기화 (테이블 헤더 제외)
-                    const existingRows = modalBody.querySelectorAll("tr:not(:first-child)"); // 첫 번째 행을 제외하고 제거
+                    // const existingRows = modalBody.querySelectorAll("tr:not(:first-child)"); // 첫 번째 행을 제외하고 제거
+                    const existingRows = modalBody.querySelectorAll("tr"); // 테이블 row 초기화
                     existingRows.forEach(row => row.remove()); // 기존 행 제거
 
                     // 데이터 항목 추가
                     data.forEach(stationInfo => {
                         const row = document.createElement("tr");
 
+                        // 호선 -> svg 객체로 바꾸기 위한 변수 처리
+                        const station_line = stationInfo.station_line;
+                        // 받아온 station_line을 #S1, #S2 이런 형태의 String으로 변환
+                        const station_line_svg = "#S"+station_line;
+                        // console.log("check : ", station_line_svg);
+
                         // use 요소 생성
                         const useElement = document.createElementNS(SVG_NS, "use");
-                        useElement.setAttributeNS(XLINK_NS, "href", "#S1");
-                        useElement.setAttributeNS(XLINK_NS, "width", "1");
-                        useElement.setAttributeNS(XLINK_NS, "height", "1");
+                        // <use xlink="http://www.w3.org/1999/xlink"> 태그에 href="S1" 같은 속성을 추가하는 스크립트
+                        useElement.setAttributeNS(XLINK_NS, "href", `${station_line_svg}`);
 
                         // y축 반전 변환 추가
                         useElement.setAttribute("transform", "scale(1, -1) translate(0, -1)"); // 15는 반전된 원의 높이의 절반
@@ -51,8 +57,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         // SVG 태그 생성
                         const svgWrapper = document.createElementNS(SVG_NS, "svg");
-                        svgWrapper.setAttribute("viewBox", "0 0 30 30"); // 예시: (x, y, width, height)
-                        svgWrapper.setAttribute("style", "overflow:visible; width: 10px; height: 10px;"); // 크기를 조절
+                        svgWrapper.setAttribute("viewBox", "-30 -30 30 30"); // 예시: (x, y, width, height)
+                        svgWrapper.setAttribute("style", "overflow:visible; width: 40px; height: 40px;"); // 크기를 조절
                         svgWrapper.appendChild(useElement); // SVG 요소를 래퍼에 추가
 
                         // 셀에 SVG 추가
@@ -62,19 +68,29 @@ document.addEventListener("DOMContentLoaded", function() {
                         row.appendChild(cellWithSvg); // 행에 셀 추가
 
                         row.innerHTML += `
-                            <td>${stationInfo.direction_type}</td>
-                            <td>혼잡도: ${stationInfo.timeValue} %</td>
+                            <td id="td_direction_type">${stationInfo.direction_type}</td>
+                            <td id="td_congestion">혼잡도: ${stationInfo.congestion} %</td>
                         `;
+
+                        // style 조정을 위한 접근
+                        const svgCell = row.children[0]; // 역마크 svg
+                        const directionCell = row.children[1]; // 방향
+                        const congestionCell = row.children[2]; // 혼잡도
+
+                        // style 조정
+                        svgCell.style.width = "40px";
+
                         modalBody.appendChild(row); // 모달 테이블에 행 추가
                     });
 
-                    // 화면 중앙에 모달 위치 설정
+                    // 화면 중앙 좌표 받아오기
                     const windowWidth = window.innerWidth;
                     const windowHeight = window.innerHeight;
                     const modalWidth = 750; // 모달의 너비
-
-                    modal.style.left = `${(windowWidth - modalWidth) / 2}px`; // 중앙 정렬
-                    modal.style.top = `${(windowHeight - modal.offsetHeight) / 2}px`; // 중앙 정렬
+                    
+                    // 모달 위치 보정
+                    modal.style.left = `${((windowWidth - modalWidth) / 2) - 350}px`; // x 위치
+                    modal.style.top = `${((windowHeight - modal.offsetHeight) / 2) - 350}px`; // y 위치
 
                     // 모달 표시
                     modal.style.width = `${modalWidth}px`;

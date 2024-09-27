@@ -12,6 +12,6 @@ public class SubwayMapInfo {
     private String station_name;
     private String station_line;
     private String direction_type;
-    private String timeValue; // 동적으로 가져오는 시간 정보
+    private String congestion; // 동적으로 가져오는 시간 정보
     // Getters and Setters
 }

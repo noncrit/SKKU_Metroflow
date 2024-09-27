@@ -32,7 +32,7 @@ svgContainer.addEventListener("click", async function(event) {
                         <td>${stationInfo.station_line}호선</td>
                         <td>${new Date().toLocaleTimeString()}</td>
                         <td>${stationInfo.direction_type}</td>
-                        <td>혼잡도: ${stationInfo.timeValue}</td>
+                        <td>혼잡도: ${stationInfo.congestion}</td>
                     `;
                     modalBody.appendChild(row);
                 });

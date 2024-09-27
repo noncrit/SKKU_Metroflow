@@ -30,7 +30,7 @@ svgContainer.addEventListener("click", async function(event) {
                 // 방향 구분
                 directionType.innerText = `${data.direction_type}`;
                 // 혼잡도 정보 설정
-                congestionLevel.innerText = `혼잡도 : ${data.timeValue}`;
+                congestionLevel.innerText = `혼잡도 : ${data.congestion}`;
 
 
             } else {
