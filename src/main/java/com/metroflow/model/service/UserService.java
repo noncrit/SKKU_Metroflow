@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 @Service
 public class UserService {
     private final UserRepository USERREPOSITORY;
+    private final UserRepository userRepository;
 
     // ID 중복 체크
     public void idDuplicationCheck(UserRegisterForm user, BindingResult result) {
@@ -46,5 +47,7 @@ public class UserService {
         }
         return user;
     }
+
+
 
 }
