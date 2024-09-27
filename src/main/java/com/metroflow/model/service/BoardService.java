@@ -31,6 +31,7 @@ public class BoardService {
     private final UserService USERSERVICE;
     private final RecommendationRepository RECOMMENDATIONREPOSITORY;
 
+    // 호선에 따른 역 이름을 리스트에 담아서 그 리스트를 맵에 담아서 리턴해주는 메소드
     public Map<String, List<String>> getStationNames() {
         List<String> lineOne =  SUBWAYSTATIONREPOSITORY.findByStationName("1");
         List<String> lineTwo =  SUBWAYSTATIONREPOSITORY.findByStationName("2");
@@ -65,14 +66,14 @@ public class BoardService {
         Page<Board> boards =
                 BOARDREPOSITORY.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "boardNo")));
 
-        System.out.println("boards.getContent() = " + boards.getContent()); // 요청 페이지에 해당하는 글
-        System.out.println("boards.getTotalElements() = " + boards.getTotalElements()); // 전체 글갯수
-        System.out.println("boards.getNumber() = " + boards.getNumber()); // DB로 요청한 페이지 번호
-        System.out.println("boards.getTotalPages() = " + boards.getTotalPages()); // 전체 페이지 갯수
-        System.out.println("boards.getSize() = " + boards.getSize()); // 한 페이지에 보여지는 글 갯수
-        System.out.println("boards.hasPrevious() = " + boards.hasPrevious()); // 이전 페이지 존재 여부
-        System.out.println("boards.isFirst() = " + boards.isFirst()); // 첫 페이지 여부
-        System.out.println("boards.isLast() = " + boards.isLast()); // 마지막 페이지 여부
+//        System.out.println("boards.getContent() = " + boards.getContent()); // 요청 페이지에 해당하는 글
+//        System.out.println("boards.getTotalElements() = " + boards.getTotalElements()); // 전체 글갯수
+//        System.out.println("boards.getNumber() = " + boards.getNumber()); // DB로 요청한 페이지 번호
+//        System.out.println("boards.getTotalPages() = " + boards.getTotalPages()); // 전체 페이지 갯수
+//        System.out.println("boards.getSize() = " + boards.getSize()); // 한 페이지에 보여지는 글 갯수
+//        System.out.println("boards.hasPrevious() = " + boards.hasPrevious()); // 이전 페이지 존재 여부
+//        System.out.println("boards.isFirst() = " + boards.isFirst()); // 첫 페이지 여부
+//        System.out.println("boards.isLast() = " + boards.isLast()); // 마지막 페이지 여부
 
         // 목록 : No, userId, title, createdTime
         // 엔티티 객체를 DTO 객체로 옮겨담음

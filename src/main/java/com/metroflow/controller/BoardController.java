@@ -3,7 +3,6 @@ package com.metroflow.controller;
 import com.metroflow.model.dao.BoardDAO;
 import com.metroflow.model.dto.Board;
 import com.metroflow.model.dto.BoardDTO;
-import com.metroflow.model.dto.Recommendation;
 import com.metroflow.model.service.BoardService;
 import com.metroflow.model.service.UserService;
 import com.metroflow.repository.BoardRepository;
@@ -38,13 +37,6 @@ public class BoardController {
         int blockLimit = 5; // 한번에 보일 페이지 갯수 제한
         int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
         int endPage = Math.min((startPage + blockLimit - 1), boardList.getTotalPages());
-        // page 갯수 20개
-        // 현재 사용자가 3페이지
-        // 1 2 3 
-        // 현재 사용자가
-        // 7 8 9 
-        // 보여지는 페이지 갯수 8개
-        // 총 페이지 갯수 8개
 
         model.addAttribute("boardList", boardList);
         model.addAttribute("startPage", startPage);
@@ -65,6 +57,7 @@ public class BoardController {
     }
 
     // 보드 작성란에서 작성 후 글쓰기 누를 시 아래 컨트롤러 작동
+    // 글쓰기 컨트롤러
     @PostMapping("/board/write")
     public String write(@ModelAttribute Board board, Model model) {
         BOARDDAO.writeBoard(board); // insert해주는 DAO
@@ -83,6 +76,7 @@ public class BoardController {
     }
 
     // 자신의 글을 수정할 때 글 수정버튼 누르면 아래 컨트롤러 작동
+    // 해당 글의 boardNo를 파라미터로 받아와 수정준비를 하는 컨트롤러
     @GetMapping("/board/updateBoard")
     public String goUpdate(@RequestParam("no") Long no, Model model) {
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
@@ -93,6 +87,7 @@ public class BoardController {
     }
 
     // 글 수정버튼 누를 때 아래 컨트롤러 작동
+    // 글 수정 컨트롤러
     @PostMapping("/board/update")
     public String update(@ModelAttribute("board") Board board, Model model) {
         BOARDREPOSITORY.updateBoard(board.getBoardText(), board.getStationLine(), board.getStationName(), board.getTitle(), board.getBoardNo());
@@ -103,13 +98,15 @@ public class BoardController {
     }
 
     // 글 삭제버튼 누르면 아래 컨트롤러 작동
+    // 글 삭제 컨트롤러
     @GetMapping("/board/delete")
     public String delete(@RequestParam("no") Long no, Model model) {
         BOARDREPOSITORY.deleteById(no); // 보드 번호에 맞는 해당 글 삭제
         return "redirect:/board"; // 보드 화면으로 redirect
     }
 
-    // 글 추천
+    // 보드 화면에서 다른 버튼이나 a태그 클릭시 경유하는 컨트롤러
+    // 좋아요 수 관련 로직 컨트롤러
     @GetMapping("/board/recommendation")
     public String recommendation(@RequestParam("url") String url,
                                  @RequestParam("boardNo") Long no,
@@ -117,14 +114,10 @@ public class BoardController {
                                  @RequestParam("isThumbsDown") boolean down,
                                  @RequestParam("priorThumbsUp") boolean priorUp,
                                  @RequestParam("priorThumbsDown") boolean priorDown) {
-        System.out.println("priorUp : " + priorUp);
-        System.out.println("priorDown : " + priorDown);
-        System.out.println("up : " + up);
-        System.out.println("down : " + down);
-        BOARDDAO.updateRecommendation(no, up, down, priorUp, priorDown);
-        if (url.equals("/board/updateBoard") || url.equals("/board/delete")) {
+        BOARDDAO.updateRecommendation(no, up, down, priorUp, priorDown); // 좋아요나 싫어요를 누른 결과에 따라 DB에 좋아요, 싫어요 수 반영
+        if (url.equals("/board/updateBoard") || url.equals("/board/delete")) { // goUpdate컨트롤러나 delete 컨트롤러는 파라미터로 no를 필요로 하기 때문에 따로 빼줌
             return "redirect:" + url + "?no=" + no;
         }
-        return "redirect:" + url;
+        return "redirect:" + url; // boardContent.html에서 받은 url을 따라 다음 컨트롤러로 이동시켜줌
     }
 }
