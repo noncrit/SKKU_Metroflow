@@ -116,7 +116,7 @@ public class BoardController {
         System.out.println("up : " + up);
         System.out.println("down : " + down);
         BOARDDAO.updateRecommendation(no, up, down, priorUp, priorDown);
-        if (url.equals("/board/updateBoard")) {
+        if (url.equals("/board/updateBoard") || url.equals("/board/delete")) {
             return "redirect:" + url + "?no=" + no;
         }
         return "redirect:" + url;
