@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         // SVG 태그 생성
                         const svgWrapper = document.createElementNS(SVG_NS, "svg");
-                        svgWrapper.setAttribute("viewBox", "-30 -30 30 30"); // 예시: (x, y, width, height)
+                        svgWrapper.setAttribute("viewBox", "0 -30 30 30"); // 예시: (x, y, width, height)
                         svgWrapper.setAttribute("style", "overflow:visible; width: 40px; height: 40px;"); // 크기를 조절
                         svgWrapper.appendChild(useElement); // SVG 요소를 래퍼에 추가
 
@@ -78,7 +78,13 @@ document.addEventListener("DOMContentLoaded", function() {
                         const congestionCell = row.children[2]; // 혼잡도
 
                         // style 조정
-                        svgCell.style.width = "40px";
+                        svgCell.style.width = "20%";
+
+                        directionCell.style.width = "20%";
+                        directionCell.style.textAlign = "left";
+
+                        congestionCell.style.width = "60%";
+                        congestionCell.style.textAlign = "left";
 
                         modalBody.appendChild(row); // 모달 테이블에 행 추가
                     });
@@ -89,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     const modalWidth = 750; // 모달의 너비
                     
                     // 모달 위치 보정
-                    modal.style.left = `${((windowWidth - modalWidth) / 2) - 350}px`; // x 위치
+                    modal.style.left = `${((windowWidth - modalWidth) / 2) - 280}px`; // x 위치
                     modal.style.top = `${((windowHeight - modal.offsetHeight) / 2) - 350}px`; // y 위치
 
                     // 모달 표시
