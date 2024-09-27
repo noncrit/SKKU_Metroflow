@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>SubwayMap</title>
     <link rel="stylesheet" href="/css/subwaymap.css"> <!-- CSS 파일 추가 -->
-    <script src="/js/modalscript3.js" defer></script> <!-- 스크립트 파일을 defer로 로드 -->
+    <script src="/js/subwayMap/modalscript3.js" defer></script> <!-- 스크립트 파일을 defer로 로드 -->
     <script src="/js/zoom.js" defer></script> <!-- 스크립트 파일을 defer로 로드 -->
 </head>
 <body>
@@ -1492,9 +1493,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="stationName"></h3> <!-- 역 이름을 헤더로 이동 -->
+                <!-- 로그인 상태 확인 -->
+                <span sec:authorize="isAuthenticated()" class="favorite" id="favorite"></span> <!-- 즐겨찾기 버튼 -->
                 <span class="closeTab">&times;</span> <!-- 닫기 버튼 -->
             </div>
-            <span class="nowTime"></span>
+            <div class="time-container">
+                <span class="nowTime"></span>
+            </div>
             <div class="modal-body">
                 <table id="modal_table">
                 </table>

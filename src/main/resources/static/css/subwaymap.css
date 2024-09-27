@@ -36,7 +36,7 @@ body {
 }
 
 #modal_table {
-    width: 50%; /* 테이블 너비를 100%로 설정 */
+    width: 100%; /* 테이블 너비를 100%로 설정 */
     border-collapse: collapse; /* 테두리 간의 간격 없애기 */
 }
 
@@ -97,7 +97,66 @@ body {
     height: 40px; /* 버튼 높이 */
 }
 
+.nowTime {
+    font-family: 'Arial', sans-serif;  /* 글꼴 설정 */
+    font-size: 20px;                   /* 글자 크기 설정 */
+    /*color: #ff6600;                    !* 글자 색상 설정 *!*/
+    background-color: rgba(255, 255, 255, 0.8); /* 배경색 설정 */
+    padding: 10px;                     /* 안쪽 여백 설정 */
+    /*border: 2px solid #ff6600;        !* 테두리 설정 *!*/
+    /*border-radius: 5px;                !* 둥근 모서리 *!*/
+    /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); !* 그림자 효과 *!*/
+    display: inline-block;              /* 인라인 블록으로 설정 */
+    /*transition: transform 0.3s ease;   !* 변환 효과 설정 *!*/
+}
+
+
 button:hover {
     background-color: #0056b3; /* 호버 시 배경색 변화 */
 }
+
+#mySVG text:hover {
+    cursor: pointer;
+}
+
+/*즐겨찾기 span*/
+.time-container {
+    display: flex; /* Flexbox로 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: relative; /* 부모 요소에 상대 위치 설정 */
+}
+
+.nowTime {
+    font-size: 20px; /* 시간 텍스트 크기 */
+    margin-right: 5px; /* 별과의 간격 */
+}
+
+.favorite {
+    width: 20px;
+    height: 20px;
+    background-color: gold; /* 별 색상 */
+    clip-path: polygon(
+            50% 0%,
+            63% 35%,
+            98% 35%,
+            72% 57%,
+            82% 91%,
+            50% 70%,
+            18% 91%,
+            28% 57%,
+            2% 35%,
+            37% 35%
+    );
+    cursor: pointer; /* 커서를 손 모양으로 변경 */
+    display: inline-block; /* 인라인 블록으로 설정 */
+    transition: transform 0.2s; /* 클릭 시 애니메이션 효과 */
+    /* 위치 조정 */
+    margin-left: 20px; /* 원하는 만큼의 왼쪽 여백 조정 */
+    margin-top: 0; /* 필요에 따라 세로 위치 조정 */
+}
+
+.favorite:hover {
+    transform: scale(1.1); /* 마우스 오버 시 확대 */
+}
+
 

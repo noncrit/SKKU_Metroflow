@@ -27,22 +27,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     modalContent.querySelector("#stationName").innerText = stationName; // 헤더에 역 이름 설정
 
                     // 현재 시간 설정
-                    modalContent.querySelector(".nowTime").innerText = new Date().toLocaleTimeString();
+                    modalContent.querySelector(".nowTime").innerText =
+                        new Date().toLocaleTimeString([], { hour: 'numeric', minute: 'numeric', hour12: true });
 
-                    // 기존 내용 초기화 (테이블 헤더 제외)
-                    // const existingRows = modalBody.querySelectorAll("tr:not(:first-child)"); // 첫 번째 행을 제외하고 제거
-                    const existingRows = modalBody.querySelectorAll("tr"); // 테이블 row 초기화
-                    existingRows.forEach(row => row.remove()); // 기존 행 제거
+                    // modal 내용물 초기화
+                    clearModal(modalBody);
 
                     // 데이터 항목 추가
                     data.forEach(stationInfo => {
                         const row = document.createElement("tr");
 
-                        // 호선 -> svg 객체로 바꾸기 위한 변수 처리
-                        const station_line = stationInfo.station_line;
-                        // 받아온 station_line을 #S1, #S2 이런 형태의 String으로 변환
-                        const station_line_svg = "#S"+station_line;
-                        // console.log("check : ", station_line_svg);
+                        // 받아온 호선 -> #S1, #S2 형태로 포맷팅하는 함수
+                        const station_line_svg = getStationLineSVG(stationInfo.station_line);
 
                         // use 요소 생성
                         const useElement = document.createElementNS(SVG_NS, "use");
@@ -57,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         // SVG 태그 생성
                         const svgWrapper = document.createElementNS(SVG_NS, "svg");
-                        svgWrapper.setAttribute("viewBox", "0 -30 30 30"); // 예시: (x, y, width, height)
+                        svgWrapper.setAttribute("viewBox", "0 -30 30 30"); // 파라미터: (min-x, min-y, width, height)
                         svgWrapper.setAttribute("style", "overflow:visible; width: 40px; height: 40px;"); // 크기를 조절
                         svgWrapper.appendChild(useElement); // SVG 요소를 래퍼에 추가
 
@@ -69,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         row.innerHTML += `
                             <td id="td_direction_type">${stationInfo.direction_type}</td>
-                            <td id="td_congestion">혼잡도: ${stationInfo.congestion} %</td>
+                            <td id="td_congestion">혼잡도 : ${stationInfo.congestion} %</td>
                         `;
 
                         // style 조정을 위한 접근
@@ -89,24 +85,30 @@ document.addEventListener("DOMContentLoaded", function() {
                         modalBody.appendChild(row); // 모달 테이블에 행 추가
                     });
 
-                    // 화면 중앙 좌표 받아오기
-                    const windowWidth = window.innerWidth;
-                    const windowHeight = window.innerHeight;
-                    const modalWidth = 750; // 모달의 너비
-                    
-                    // 모달 위치 보정
-                    modal.style.left = `${((windowWidth - modalWidth) / 2) - 280}px`; // x 위치
-                    modal.style.top = `${((windowHeight - modal.offsetHeight) / 2) - 350}px`; // y 위치
+                    showModal(modal,550);
 
-                    // 모달 표시
-                    modal.style.width = `${modalWidth}px`;
-                    modal.style.display = "block";
-
+                // 불러올 데이터가 없는 역 예외처리
                 } else {
-                    console.error("Error fetching station info: ", response.statusText);
+                    modalContent.querySelector("#stationName").innerText = clickedStation;
+                    const row = document.createElement("tr");
+                    // modal 테이블 내용물 초기화
+                    clearModal(modalBody);
+                    // 혼잡도 정보가 없는 역에 대한 메시지 추가
+                    addNoInfoMessage(modalBody,"혼잡도 정보가 없는 역입니다.")
+                    // 모달 보이도록 좌표, 표시 속성 설정
+                    showModal(modal,550);
+                    console.error("Station has no information: ", response.statusText);
                 }
             } catch (error) {
-                console.error("Error fetching station info:", error);
+                modalContent.querySelector("#stationName").innerText = clickedStation;
+                const row = document.createElement("tr");
+                // modal 테이블 내용물 초기화
+                clearModal(modalBody);
+                // 혼잡도 정보가 없는 역에 대한 메시지 추가
+                addNoInfoMessage(modalBody,"혼잡도 정보가 없는 역입니다.")
+                // 모달 보이도록 좌표, 표시 속성 설정
+                showModal(modal,750);
+                console.error("Station has no information: ", response.statusText);
             }
         }
     });
@@ -130,3 +132,42 @@ window.addEventListener("keydown", function(event) {
         modal.style.display = "none"; // 모달 숨김
     }
 });
+
+// 호선 정보를 받아서 String으로 포맷팅해서 반환
+function getStationLineSVG(station_line) {
+    return `#S${station_line}`;
+}
+
+//모달창 테이블 초기화 함수
+function clearModal(modalBody){
+    // 기존 내용 초기화 (테이블 헤더 제외)
+    const existingRows = modalBody.querySelectorAll("tr"); // 테이블 row 초기화
+    existingRows.forEach(row => row.remove()); // 기존 행 제거
+}
+
+// 모달창 표시 함수
+function showModal(modal, modalWidth) {
+    // 화면 중앙 좌표 받아오기
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // 모달 위치 보정
+    modal.style.left = `${((windowWidth - modalWidth) / 2) - 280}px`; // x 위치
+    modal.style.top = `${((windowHeight - modal.offsetHeight) / 2) - 350}px`; // y 위치
+
+    // 모달 표시
+    modal.style.width = `${modalWidth}px`;
+    modal.style.display = "block";
+}
+
+// 정보가 없는 역 접근시 메시지 설정용 함수
+function addNoInfoMessage(modalBody, message) {
+    const row = document.createElement("tr"); // 새로운 행 생성
+    const msgCell = document.createElement("td"); // 새로운 셀 생성
+    msgCell.id = "td_noInfo"; // ID 설정
+    msgCell.innerText = message; // 텍스트 설정
+
+    row.appendChild(msgCell); // 셀을 행에 추가
+    modalBody.appendChild(row); // 행을 모달 본문에 추가
+}   
+
