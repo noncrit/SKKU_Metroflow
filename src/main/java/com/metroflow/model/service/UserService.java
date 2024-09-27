@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 
 import java.util.Optional;
 
-
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -44,7 +43,7 @@ public class UserService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
 
-//        System.out.println("auth : " + auth);
+        System.out.println("auth : " + auth);
         if (auth != null) {
             String userId = auth.getName(); // 로그인한 사용자 id
             Optional<User> optionalUser = USERREPOSITORY.findByUserId(userId);

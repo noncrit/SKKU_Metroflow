@@ -25,15 +25,6 @@ window.addEventListener('load', function () {
     });
 });
 
-// window.onload = () => {
-//     Array.from(inputFields).forEach(input => {
-//         input.addEventListener('keydown', disableSpacebar);
-//         input.addEventListener('keypress', disableKorean);
-//     });
-//     // Array.from(inputFields).forEach(input => {
-//     // });
-// };
-
 
 let selectedImage = null;
 let selectedImageSrc = null;

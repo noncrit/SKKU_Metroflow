@@ -236,3 +236,31 @@ body {
     display: block;
     margin-bottom: 5px;
 }
+
+.thumbsUpContainer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 40px; /* 원하는 크기로 설정 */
+    height: 40px; /* 원하는 크기로 설정 */
+    transition: background-color 0.3s; /* 색 변경 애니메이션 */
+}
+
+.thumbsDownContainer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 40px; /* 원하는 크기로 설정 */
+    height: 40px; /* 원하는 크기로 설정 */
+    transition: background-color 0.3s; /* 색 변경 애니메이션 */
+}
+
+.thumbsUpActive {
+    background-color: #00a9e0;
+}
+
+.thumbsDownActive {
+    background-color: #fc4c02;
+}
