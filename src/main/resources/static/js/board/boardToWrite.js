@@ -44,3 +44,97 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+// List 형태의 String 을 List 형태로
+function toList(listString) {
+    return listString.replace(/[\[\]\s]/g, '').split(',');
+}
+
+// 자바스크립트를 사용해 폼이 제출될 때 호선 선택 확인 알람
+document.getElementById('post-form').addEventListener('submit', function (event) {
+    const lineSelect = document.getElementById('line-select');
+    const stationSelect = document.getElementById('station-select');
+
+    if (lineSelect.value === 'default') {
+        event.preventDefault();
+        alert('호선을 선택해주세요.');
+    } else if (stationSelect.value === 'default') {
+        event.preventDefault();
+        alert('역을 선택해주세요.');
+    }
+});
+document.getElementById('update-form').addEventListener('submit', function () {
+    // 수정 버튼 클릭 시 첫 번째 form의 값을 업데이트
+    document.getElementById('hidden-station-line').value = document.getElementById('line-select').value;
+    document.getElementById('hidden-station-name').value = document.getElementById('station-select').value;
+    document.getElementById('hidden-title').value = document.getElementById('title').value;
+    document.getElementById('hidden-board-text').value = document.getElementById('text').value;
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    // console.log("list value : " + document.getElementById("lineOne").value);
+    // console.log("list type : " + typeof(document.getElementById("lineOne").value));
+    const lineSelect = document.getElementById('line-select');
+    const stationSelect = document.getElementById('station-select');
+
+    // 초기 selectedLine 값 설정 (예: 1호선)
+    const initialLine = lineSelect.value;
+    updateStations(initialLine);
+
+    lineSelect.addEventListener('change', function () {
+        const selectedLine = this.value;
+        updateStations(selectedLine);
+    });
+
+    function updateStations(selectedLine) {
+        stationSelect.innerHTML = '';
+
+        const lineColors = {
+            '1호선': '#0032a0',
+            '2호선': '#00b140',
+            '3호선': '#fc4c02',
+            '4호선': '#00a9e0',
+            '5호선': '#a05eb5',
+            '6호선': '#a9431e',
+            '7호선': '#67823a',
+            '8호선': '#e31c79',
+            '9호선': '#8c8279',
+            'default': 'white' // 기본값
+        };
+
+        // 선택한 호선에 따라 배경색 변경
+        if (selectedLine !== 'default') {
+            lineSelect.style.backgroundColor = lineColors[selectedLine];
+            lineSelect.style.color = '#fff'; // 텍스트 색상도 변경
+        } else {
+            lineSelect.style.backgroundColor = lineColors['default'];
+            lineSelect.style.color = '#000'; // 기본 텍스트 색상
+        }
+
+        if (selectedLine !== 'default') {
+            const stations = {
+                '1호선': toList(document.getElementById("lineOne").value),
+                '2호선': toList(document.getElementById("lineTwo").value),
+                '3호선': toList(document.getElementById("lineThree").value),
+                '4호선': toList(document.getElementById("lineFour").value),
+                '5호선': toList(document.getElementById("lineFive").value),
+                '6호선': toList(document.getElementById("lineSix").value),
+                '7호선': toList(document.getElementById("lineSeven").value),
+                '8호선': toList(document.getElementById("lineEight").value),
+                '9호선': toList(document.getElementById("lineNine").value)
+            };
+
+            stations[selectedLine].forEach(function (station) {
+                const option = document.createElement('option');
+                option.value = station;
+                option.textContent = station;
+                stationSelect.appendChild(option);
+            });
+        } else {
+            const defaultOption = document.createElement('option');
+            defaultOption.value = 'default';
+            defaultOption.textContent = '역 선택';
+            stationSelect.appendChild(defaultOption);
+        }
+    }
+});
