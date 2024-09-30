@@ -138,8 +138,8 @@
          thumbsDownCount.value = String(parseInt(thumbsDownCount.value) + 1); // 카운트 증가
        } else if (thumbsDown === true) {
          thumbsDownContainer.classList.add('thumbsDownActive'); // 강조 효과
-         thumbsDownCount.text = String(parseInt(thumbsUpCount.text) + 1); // 카운트 증가
-         thumbsDownCount.value = String(parseInt(thumbsUpCount.value) + 1); // 카운트 증가
+         thumbsDownCount.text = String(parseInt(thumbsDownCount.text) + 1); // 카운트 증가
+         thumbsDownCount.value = String(parseInt(thumbsDownCount.value) + 1); // 카운트 증가
        } else {
          thumbsDownContainer.classList.remove('thumbsDownActive'); // 강조 효과
          thumbsDownCount.text = String(parseInt(thumbsDownCount.text) - 1); // 카운트 감소
