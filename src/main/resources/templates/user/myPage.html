@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 정보 수정</title>
-    <link rel="stylesheet" href="/css/mypage/mypage.css">
+    <link rel="stylesheet" href="../../static/css/myPage.css">
+    <script src="../../static/js/myPage.js"></script>
 </head>
 <body>
 <!-- 회원 프로필 DB 가져와야댐 -->
@@ -15,7 +16,7 @@
         <button onclick="changeProfilePic()">프로필 사진 변경</button>
     </div>
     <!-- disabled 이용해서 수정 못하는 칸을 막았습니다 -->
-    <form th:action="@{/mypage}" id="profileForm" method="post">
+    <form th:action="@{/myPage}" th:object="@{/user}" method="post" id="profileForm">
         <label for="nickname">닉네임</label>
         <input type="text" id="nickname" name="nickname" placeholder="이름" disabled>
 
@@ -43,6 +44,6 @@
 </div>
 
 <!-- 자바스크립트 파일 연결 -->
-<script src="/js/mypage/mypage.js"></script>
+<script src="/js/myPage.js"></script>
 </body>
 </html>

@@ -4,10 +4,10 @@ import com.metroflow.model.dto.User;
 import com.metroflow.model.dto.UserRegisterForm;
 import com.metroflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import java.util.Optional;
@@ -15,8 +15,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+
     private final UserRepository USERREPOSITORY;
-    private final UserRepository userRepository;
 
     // ID 중복 체크
     public void idDuplicationCheck(UserRegisterForm user, BindingResult result) {
@@ -58,6 +58,14 @@ public class UserService {
         }
         return user;
     }
+
+
+
+    public User getUserById(String userId) {
+        return USERREPOSITORY.findByUserId(userId).orElse(null);
+    }
+
+
 
 
 

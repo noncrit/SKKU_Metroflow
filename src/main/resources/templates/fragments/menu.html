@@ -47,7 +47,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     <div sec:authorize="isAuthenticated()" class="member">
                         <img th:src="${sessionUser.userImgPath}">
                         <a href="/logout">로그아웃</a>
-                        <a href="/mypage">내 정보</a>
+                        <a href="/user/myPage">내 정보</a>
                     </div>
                 </div>
             </div>
