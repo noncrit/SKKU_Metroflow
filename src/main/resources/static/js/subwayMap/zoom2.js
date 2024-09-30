@@ -1,6 +1,9 @@
 let lastClickX = 0; // 최근 클릭 X 좌표
 let lastClickY = 0; // 최근 클릭 Y 좌표
 let nowZoom = 1; // 현재 비율 (1 = 100%)
+let isDragging = false; // 드래그 상태
+let startX, startY; // 드래그 시작 좌표
+let scrollLeft, scrollTop; // 스크롤 위치
 
 // 확대 버튼 클릭
 function zoomIn() {
@@ -50,12 +53,9 @@ svgContainer.addEventListener("click", setLastClickCoordinates);
 
 // 드래그 시작
 function startDrag(e) {
-    console.log("drag on")
     isDragging = true;
-    startX = e.pageX - svgContainer.offsetLeft;
-    startY = e.pageY - svgContainer.offsetTop;
-    scrollLeft = svgContainer.scrollLeft;
-    scrollTop = svgContainer.scrollTop;
+    startX = e.pageX; // 드래그 시작 X 좌표
+    startY = e.pageY; // 드래그 시작 Y 좌표
 }
 
 // 드래그 중
@@ -63,19 +63,20 @@ function drag(e) {
     if (!isDragging) return;
     e.preventDefault(); // 기본 동작 방지
 
-    const x = e.pageX - svgContainer.offsetLeft;
-    const y = e.pageY - svgContainer.offsetTop;
+    const walkX = (e.pageX - startX); // 드래그 거리
+    const walkY = (e.pageY - startY);
 
-    const walkX = (x - startX) * nowZoom; // 드래그 거리
-    const walkY = (y - startY) * nowZoom;
+    translateX += walkX; // 이동 거리 업데이트
+    translateY += walkY;
 
-    svgContainer.scrollLeft = scrollLeft - walkX; // 스크롤 위치 업데이트
-    svgContainer.scrollTop = scrollTop - walkY;
+    svgContainer.style.transform = `scale(${nowZoom}) translate(${translateX}px, ${translateY}px)`; // SVG 이동
+
+    startX = e.pageX; // 시작 좌표 업데이트
+    startY = e.pageY; // 시작 좌표 업데이트
 }
 
 // 드래그 종료
 function endDrag() {
-    console.log("drag off")
     isDragging = false;
 }
 
@@ -84,4 +85,3 @@ svgContainer.addEventListener("mousedown", startDrag);
 svgContainer.addEventListener("mousemove", drag);
 svgContainer.addEventListener("mouseup", endDrag);
 svgContainer.addEventListener("mouseleave", endDrag);
-
