@@ -4,7 +4,6 @@ import com.metroflow.model.dto.User;
 import com.metroflow.model.dto.UserRegisterForm;
 import com.metroflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -59,11 +58,6 @@ public class UserService {
         return user;
     }
 
-
-
-    public User getUserById(String userId) {
-        return USERREPOSITORY.findByUserId(userId).orElse(null);
-    }
 
 
 
