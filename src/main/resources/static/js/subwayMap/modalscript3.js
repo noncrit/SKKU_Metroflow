@@ -11,6 +11,8 @@ const XLINK_NS = "http://www.w3.org/1999/xlink";
 document.addEventListener("DOMContentLoaded", function() {
     // 텍스트 클릭 이벤트 리스너 추가
     svgContainer.addEventListener("click", async function (event) {
+        // 모달창 중복 표시를 막기 위해 클릭시 기존 모달창 모두 숨김 처리
+        hideModal(modal);
         const target = event.target;
 
         if (target.tagName === "text") {
@@ -156,6 +158,11 @@ function showModal(modal, modalWidth) {
     // 모달 표시
     modal.style.width = `${modalWidth}px`;
     modal.style.display = "block";
+}
+
+// 모달창 숨기기 함수
+function hideModal(modal){
+    modal.style.display="none"
 }
 
 // 정보가 없는 역 접근시 메시지 설정용 함수
