@@ -1,26 +1,126 @@
-#custom-navbar {
-    background-color: #001f3f !important;
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
 }
 
-.navbar-nav .nav-item .nav-link {
-    color: white;
-}
-
-.container-fluid {
-    background-color: #002f5f;
+.logo-container {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #001f3f;
+    height: 30px;
+    width: 100%;
 }
 
 .logo {
-    width: 100px;
+    width: 150px;
     height: auto;
 }
 
-.d-flex {
-    color: white !important;
-    margin-left: 10px;
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 2rem;
+    background-color: #002f5f;
+    border-bottom: 1px solid #ddd;
+    height: 50px;
+    width: auto;
 }
 
-.navbar-nav .nav-item {
-    margin-left: 50px;
-    margin-right: 50px;
+.nav-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 25rem;
+    align-items: center;
+}
+
+.nav-items li {
+    display: inline;
+}
+
+.nav-items a {
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.member {
+    display: flex;
+    align-items: center; /* 이미지와 텍스트를 수직으로 가운데 정렬 */
+    gap: 10px; /* 이미지와 링크 사이의 간격을 설정 */
+}
+
+.memberImg {
+    height: 20px;
+    width: auto;
+}
+
+.member a {
+    text-decoration: none;
+    color: #001f3f;
+    font-weight: bold;
+}
+
+.btn, .btn-outline {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: white;
+    color: #001f3f;
+    border: 2px solid #001f3f;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-outline {
+    background-color: white;
+}
+
+.btn {
+    background-color: white;
+    color: #001f3f;
+}
+
+.btn:hover, .btn-outline:hover {
+    background-color: #e9ecef;
+}
+
+/* 반응형 미디어 쿼리 */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .auth-buttons .btn-outline, .auth-buttons .btn-primary {
+        margin-top: 10px;
+    }
+
+    .member {
+        flex-direction: column; /* 작은 화면에서 세로 정렬 */
+        align-items: center;
+    }
+
+    .member a {
+        margin-top: 10px;
+    }
+
 }

@@ -13,4 +13,6 @@ public interface SubwayStationRepository extends JpaRepository<SubwayStation, Lo
             " from SubwayStation station" +
             " where station.stationLine = :line")
     List<String> findByStationName(String line);
+
+    List<SubwayStation> findByStationNameContainingIgnoreCase(String search);
 }
