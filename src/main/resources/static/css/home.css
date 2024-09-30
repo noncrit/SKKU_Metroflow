@@ -1,0 +1,132 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn-outline {
+    background-color: white;
+}
+
+.btn {
+    background-color: white;
+    color: #001f3f;
+}
+
+.btn:hover, .btn-outline:hover {
+    background-color: #e9ecef;
+}
+
+/* 콘텐츠 레이아웃 설정 */
+.content-wrapper {
+    display: flex;
+    padding: 1rem;
+}
+
+.sidebar {
+    flex: 1;
+    padding-right: 2rem;
+}
+
+/* 긴급 사안 카드 */
+.alert-card {
+    border: 1px solid red;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    width: 300px; /* 긴급 사안 카드의 너비 */
+}
+
+.alert-header {
+    background-color: #ffcccc;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.alert-title {
+    color: red;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.alert-item {
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    padding: 5px;
+    margin-top: 8px;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* 최근 검색 */
+.recent-searches {
+    padding: 1rem;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 285px;
+    position: relative;
+}
+
+.recent-searches h6 {
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.search-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* 메인 콘텐츠 설정 */
+.main-content {
+    flex: 5;
+}
+
+.map-wrapper {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+}
+
+.map-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 반응형 미디어 쿼리 */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .auth-buttons .btn-outline, .auth-buttons .btn-primary {
+        margin-top: 10px;
+    }
+
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    .map-wrapper {
+        padding: 1rem;
+    }
+}
