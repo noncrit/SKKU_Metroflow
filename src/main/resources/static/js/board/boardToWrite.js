@@ -72,8 +72,6 @@ document.getElementById('update-form').addEventListener('submit', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    // console.log("list value : " + document.getElementById("lineOne").value);
-    // console.log("list type : " + typeof(document.getElementById("lineOne").value));
     const lineSelect = document.getElementById('line-select');
     const stationSelect = document.getElementById('station-select');
 
@@ -81,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const initialLine = lineSelect.value;
     updateStations(initialLine);
 
-    lineSelect.addEventListener('change', function () {
-        const selectedLine = this.value;
+    lineSelect.addEventListener('change', function () { // 라인 바꿀 시
+        const selectedLine = this.value; // 호선 값 호선 변경에따라 반영
         updateStations(selectedLine);
     });
 
@@ -112,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (selectedLine !== 'default') {
-            const stations = {
+            const stations = { // 타임리프로 받아온 호선당 역 이름들
                 '1호선': toList(document.getElementById("lineOne").value),
                 '2호선': toList(document.getElementById("lineTwo").value),
                 '3호선': toList(document.getElementById("lineThree").value),
@@ -125,16 +123,16 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             stations[selectedLine].forEach(function (station) {
-                const option = document.createElement('option');
-                option.value = station;
-                option.textContent = station;
-                stationSelect.appendChild(option);
+                const option = document.createElement('option'); // option 속성 생성
+                option.value = station; // 역 명 옵션 값
+                option.textContent = station; // 역 명 옵션 텍스트
+                stationSelect.appendChild(option); // stationSelect에 option 노드 추가
             });
         } else {
-            const defaultOption = document.createElement('option');
-            defaultOption.value = 'default';
-            defaultOption.textContent = '역 선택';
-            stationSelect.appendChild(defaultOption);
+            const defaultOption = document.createElement('option'); // option 속성 생성
+            defaultOption.value = 'default'; // 기본 옵션 값
+            defaultOption.textContent = '역 선택'; // 기본 옵션 텍스트
+            stationSelect.appendChild(defaultOption); // 기본 옵션 추가
         }
     }
 });

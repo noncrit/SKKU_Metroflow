@@ -2,7 +2,8 @@ package com.metroflow.controller;
 
 import com.metroflow.model.dao.BoardDAO;
 import com.metroflow.model.dto.Board;
-import com.metroflow.model.dto.BoardDTO;
+import com.metroflow.model.dto.BoardForm;
+import com.metroflow.model.dto.RecommendationRequestForm;
 import com.metroflow.model.service.BoardService;
 import com.metroflow.model.service.UserService;
 import com.metroflow.repository.BoardRepository;
@@ -11,10 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -26,13 +31,12 @@ public class BoardController {
     private final UserService USERSERVICE;
     private final BoardDAO BOARDDAO;
     private final BoardRepository BOARDREPOSITORY;
-    private final RecommendationRepository RECOMMENDATIONREPOSITORY;
 
     // /board?page=1
     // 보드 페이징 처리 컨트롤러
     @GetMapping("/board")
     public String goBoard(@PageableDefault(page = 1) Pageable pageable, Model model) {
-        Page<BoardDTO> boardList = BOARDSERVICE.paging(pageable); // 페이징 처리된 보드들 리스트
+        Page<BoardForm> boardList = BOARDSERVICE.paging(pageable); // 페이징 처리된 보드들 리스트
 
         int blockLimit = 5; // 한번에 보일 페이지 갯수 제한
         int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
@@ -107,17 +111,17 @@ public class BoardController {
 
     // 보드 화면에서 다른 버튼이나 a태그 클릭시 경유하는 컨트롤러
     // 좋아요 수 관련 로직 컨트롤러
-    @GetMapping("/board/recommendation")
-    public String recommendation(@RequestParam("url") String url,
-                                 @RequestParam("boardNo") Long no,
-                                 @RequestParam("isThumbsUp") boolean up,
-                                 @RequestParam("isThumbsDown") boolean down,
-                                 @RequestParam("priorThumbsUp") boolean priorUp,
-                                 @RequestParam("priorThumbsDown") boolean priorDown) {
-        BOARDDAO.updateRecommendation(no, up, down, priorUp, priorDown); // 좋아요나 싫어요를 누른 결과에 따라 DB에 좋아요, 싫어요 수 반영
-        if (url.equals("/board/updateBoard") || url.equals("/board/delete")) { // goUpdate컨트롤러나 delete 컨트롤러는 파라미터로 no를 필요로 하기 때문에 따로 빼줌
-            return "redirect:" + url + "?no=" + no;
+    @PostMapping("/board/recommendation")
+    public ResponseEntity<String> recommendation(@RequestBody RecommendationRequestForm rec) {
+        String url = rec.getUrl(); // 이동할 url
+        Long boardNo = rec.getBoardNo(); // 해당 보드의 숫자
+        BOARDDAO.updateRecommendation(boardNo, rec.isThumbsUp(), rec.isThumbsDown(), rec.isPriorThumbsUp(), rec.isPriorThumbsDown()); // 좋아요나 싫어요를 누른 결과에 따라 DB에 좋아요, 싫어요 수 반영
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(url));
+        if (url.equals("/board/updateBoard") || url.equals("/board/delete")) { // goUpdate 컨트롤러나 delete 컨트롤러는 파라미터로 no를 필요로 하기 때문에 따로 빼줌
+            headers.setLocation(URI.create(url + "?no=" + boardNo)); // url
+            return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X
         }
-        return "redirect:" + url; // boardContent.html에서 받은 url을 따라 다음 컨트롤러로 이동시켜줌
+        return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X, js에서 다뤄줘야 함(response.redirected)
     }
 }

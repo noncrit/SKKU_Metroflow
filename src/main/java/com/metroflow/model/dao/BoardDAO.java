@@ -38,15 +38,15 @@ public class BoardDAO {
     // Recommendation 인스턴스를 추가하는 메소드(Insert)
     public void insertRecommendation(Long no) {
         Board board = BOARDSERVICE.getInfo(no); // 해당 게시물의 보드 정보
-        User user = USERSERVICE.getUserObject(); //
+        User user = USERSERVICE.getUserObject(); // 현재 세션 유저 객체
         if (RECOMMENDATIONREPOSITORY.findRecommendationByUserAndBoard(user.getUserId(), no).isPresent()) { // userId와 boardNo를 통해 해당 Recommendation 객체가 있으면 true, 없으면 false
             return;
         } else { // 없다면 객체 만들기
             Recommendation rec = new Recommendation();
-            rec.setUser(user);
-            rec.setBoard(board);
-            rec.setThumbsUp(false);
-            rec.setThumbsDown(false);
+            rec.setUser(user); // 유저 객체
+            rec.setBoard(board); // 보드 객체
+            rec.setThumbsUp(false); // 유저의 해당 보드에 대한 좋아요 여부
+            rec.setThumbsDown(false); // 유저의 해당 보드에 대한 싫어요 여부
             RECOMMENDATIONREPOSITORY.save(rec);
         }
     }

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/> <!-- csrf 토큰 -->
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/> <!-- csrf 토큰 header 이름 -->
     <title>게시글</title>
     <link rel="stylesheet" href="/css/board/boardContent.css">
     <script src="/js/board/boardContent.js"></script>
@@ -32,28 +34,29 @@
         </div>
     </div>
 
-    <!-- 게시글 내용 DB에서 불러 올 수 있게 기능 추가 필요 -->
     <div class="post-content">
         <p th:text="${board.boardText}"><!-- 게시글 내용 -->
         </p>
     </div>
 
-    <!-- 좋아요/싫어요 나중에 카운팅 되게 끔 기능 추가 필요 -->
+    <!-- 게시글 좋아요 -->
     <div class="post-actions">
         <div class="action-item">
             <div class="thumbsUpContainer" id="thumbsUpContainer">
                 <img src="/images/thumbsup.png" alt="좋아요 아이콘" class="icon">
             </div>
             <span class="label">좋아요</span>
-            <label for="thumbsUpCount"></label><input type="text" readonly="readonly" class="count" id="thumbsUpCount" th:value="${board.thumbsUp}">
-            <!-- 게시글 좋아요 수 -->
+            <label for="thumbsUpCount"></label><input type="text" readonly="readonly" class="count" id="thumbsUpCount"
+                                                      th:value="${board.thumbsUp}">
+            <!-- 게시글 싫어요 -->
         </div>
         <div th:class="action-item">
             <div class="thumbsDownContainer" id="thumbsDownContainer">
                 <img src="/images/thumbsdown.png" alt="싫어요 아이콘" class="icon">
             </div>
             <span class="label">싫어요</span>
-            <label for="thumbsDownCount"></label><input type="text" readonly="readonly" class="count" id="thumbsDownCount" th:value="${board.thumbsDown}">
+            <label for="thumbsDownCount"></label><input type="text" readonly="readonly" class="count"
+                                                        id="thumbsDownCount" th:value="${board.thumbsDown}">
             <!-- 게시글 싫어요 수 -->
         </div>
     </div>
@@ -65,7 +68,7 @@
                 <button type=submit class="btn btn-edit" th:if="${board.user.userId} == ${sessionUser.userId}">글수정
                 </button>
             </form>
-            <form th:action="@{/board/delete}"><!-- 버튼 클릭 시 게시글 삭제 -->
+            <form th:action="@{/board/delete}" id="button_delete"><!-- 버튼 클릭 시 게시글 삭제 -->
                 <input type="hidden" name="no" th:value="${board.boardNo}" id="boardNo"/>
                 <button class="btn btn-delete" th:if="${board.user.userId} == ${sessionUser.userId}">삭제</button>
             </form>

@@ -17,7 +17,7 @@
     <table class="board-table">
         <thead>
         <tr>
-            <th>번호</th><!-- 새로 올라올 때마다 번호 매길 수 있는 기능 구현 시도 -->
+            <th>번호</th> <!-- 새로 올라올 때마다 번호 매길 수 있는 기능 구현 시도 -->
             <th>태그</th> <!-- 태그 열 추가 -->
             <th>제목</th> <!-- 제목이 보이도록 기능 수정 -->
             <th>글쓴이</th> <!-- 닉네임이 보이도록 기능 수정 -->
@@ -27,24 +27,25 @@
         </tr>
         </thead>
         <tbody>
-            <tr th:each="boardL: ${boardList}"> <!-- 보드컨트롤러에서 받아온 페이징된 보드 객체들 -->
-                <td th:text="${boardL.boardNo}"></td> <!-- 보드 시퀀스 -->
-                <td th:text="${boardL.stationLine}" th:class="${boardL.stationLine}" ></td> <!-- 보드 역 명 -->
-                <td><a th:href="@{|/board/content|(boardNo=${boardL.boardNo})}" th:text="${boardL.title}"></a></td> <!-- 보드 title, 클릭 시 해당 보드의 내용 페이지로 넘어감 -->
-                <td th:text="${boardL.user.userId}"></td> <!-- 보드 글쓴이 -->
-                <td th:text="*{#temporals.format(boardL.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- 보드 게시 날짜 -->
-                <td th:text="${boardL.view}"></td> <!-- 보드 조회수 -->
-                <td th:text="${boardL.thumbsUp}"></td> <!-- 보드 좋아요 수 -->
-            </tr>
+        <tr th:each="boardL: ${boardList}"> <!-- 보드컨트롤러에서 받아온 페이징된 보드 객체들 -->
+            <td th:text="${boardL.boardNo}"></td> <!-- 보드 시퀀스 -->
+            <td th:text="${boardL.stationLine}" th:class="${boardL.stationLine}"></td> <!-- 보드 역 명 -->
+            <td><a th:href="@{|/board/content|(boardNo=${boardL.boardNo})}" th:text="${boardL.title}"></a></td>
+            <!-- 보드 title, 클릭 시 해당 보드의 내용 페이지로 넘어감 -->
+            <td th:text="${boardL.user.userId}"></td> <!-- 보드 글쓴이 -->
+            <td th:text="*{#temporals.format(boardL.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- 보드 게시 날짜 -->
+            <td th:text="${boardL.view}"></td> <!-- 보드 조회수 -->
+            <td th:text="${boardL.thumbsUp}"></td> <!-- 보드 좋아요 수 -->
+        </tr>
         </tbody>
-        </table>
+    </table>
 
-        <!-- 각 넘어가는 경로 필요 -->
+    <!-- 각 넘어가는 경로 필요 -->
     <div class="pagination">
-<!--        /board?page=1-->
+        <!--        /board?page=1-->
         <a th:href="@{/board(page=1)}">첫 페이지 </a>
         <!-- 이전 링크 활성화 비활성화 -->
-<!--        boardList.getNumber 사용자:2페이지 getNumber()=1-->
+        <!--        boardList.getNumber 사용자:2페이지 getNumber()=1-->
         <a th:href="${boardList.first} ? '#' : @{/board(page=${boardList.number})}"> 이전 </a>
 
         <!-- 페이지 번호 링크(현재 페이지는 숫자만)

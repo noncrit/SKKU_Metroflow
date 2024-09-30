@@ -20,17 +20,19 @@
     <form id="post-form" method="post" th:action="@{/board/write}">
         <div class="form-group">
             <!-- 호선 선택 부분 -->
-            <label for="line-select"></label><select id="line-select" th:field="${board.stationLine}" required>
-            <option value="default">호선 선택</option>
-            <option th:each="num : ${#numbers.sequence(1,9)}" th:value="${numStat.count + '호선'}"
-                    th:text="${numStat.count} + '호선'" th:class="${'line-' + numStat.count}"></option>
-        </select>
+            <label for="line-select"></label>
+            <select id="line-select" th:field="${board.stationLine}" required><!-- 모든 속성이 호선-->
+                <option value="default">호선 선택</option>
+                <option th:each="num : ${#numbers.sequence(1,9)}" th:value="${numStat.count + '호선'}"
+                        th:text="${numStat.count} + '호선'" th:class="${'line-' + numStat.count}"></option>
+            </select>
 
             <!-- 역 선택 부분 -->
-            <label for="station-select"></label><select id="station-select" th:field="${board.stationName}" required>
-            <option th:value="default">역 선택</option>
-            <!-- 추후 DB 에서 가져온 역 정보를 이곳에 넣을 예정 -->
-        </select>
+            <label for="station-select"></label>
+            <select id="station-select" th:field="${board.stationName}" required>
+                <option th:value="default">역 선택</option>
+                <!-- 추후 DB 에서 가져온 역 정보를 이곳에 넣을 예정 -->
+            </select>
 
             <!-- 로그인 후 글쓰려고 들어갔을 때 아이디를 볼 수 있도록 하는 기능 추가 -->
             <span class="user-id" th:field="${board.user.userId}" th:text="${board.user.nickname}"></span>
