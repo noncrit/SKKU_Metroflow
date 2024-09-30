@@ -237,6 +237,7 @@ body {
     margin-bottom: 5px;
 }
 
+/*좋아요 이벤트 발생하는 장소*/
 .thumbsUpContainer {
     display: inline-flex;
     align-items: center;
@@ -257,10 +258,12 @@ body {
     transition: background-color 0.3s; /* 색 변경 애니메이션 */
 }
 
+/*좋아요 누를 시 작동*/
 .thumbsUpActive {
     background-color: #00a9e0;
 }
 
+/*싫어요 누를 시 작동*/
 .thumbsDownActive {
     background-color: #fc4c02;
 }

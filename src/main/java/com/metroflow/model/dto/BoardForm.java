@@ -1,14 +1,13 @@
 package com.metroflow.model.dto;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
-import java.util.Date;
+
+// 페이징용 보드DTO
 @Getter
 @Setter
-public class BoardDTO {
+public class BoardForm {
     private long boardNo;
     private User user;
     private String boardText;
@@ -20,7 +19,7 @@ public class BoardDTO {
     private Long thumbsDown;
     private Long view;
 
-    public BoardDTO(long boardNo, User user, String stationLine, String title, LocalDateTime createdTime, Long thumbsUp, Long view) {
+    public BoardForm(long boardNo, User user, String stationLine, String title, LocalDateTime createdTime, Long thumbsUp, Long view) {
         this.boardNo = boardNo;
         this.user = user;
         this.stationLine = stationLine;
