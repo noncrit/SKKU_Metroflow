@@ -19,7 +19,7 @@ body {
     position: fixed; /* 고정 위치 설정 */
     top: 350px; /* 상단에서의 거리 */
     right: 30px; /* 우측에서의 거리 */
-    background: rgba(255, 255, 255, 0.8); /* 배경색 추가로 가독성 향상 */
+    background: none;
     padding: 10px; /* 내부 여백 */
     border-radius: 5px; /* 모서리 둥글게 */
     z-index: 10; /* SVG 위에 표시 */
@@ -84,7 +84,7 @@ body {
 }
 
 .zoomButton {
-    padding: 10px 20px;
+    padding: 7px 13px;
     cursor: pointer;
     border: none;
     border-radius: 50px; /* 둥근 버튼 모양 */
@@ -95,7 +95,7 @@ body {
     align-items: center; /* 텍스트와 아이콘을 세로 가운데 정렬 */
     justify-content: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin: 15px 0; /* 위아래 간격 추가 */
+    margin: 20px 0; /* 위아래 간격 추가 */
 }
 
 .zoomButton:hover {
@@ -103,8 +103,8 @@ body {
 }
 
 .icon {
-    width: 25px; /* 아이콘 크기 */
-    height: 25px;
+    width: 27px; /* 아이콘 크기 */
+    height: 27px;
     vertical-align: middle; /* 아이콘이 텍스트와 정렬 */
 }
 
