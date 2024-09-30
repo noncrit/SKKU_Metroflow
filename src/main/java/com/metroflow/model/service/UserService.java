@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import java.util.Optional;
@@ -47,7 +46,6 @@ public class UserService {
         if (auth != null) {
             String userId = auth.getName(); // 로그인한 사용자 id
             Optional<User> optionalUser = USERREPOSITORY.findByUserId(userId);
-
             if (optionalUser.isPresent()) {
                 user = optionalUser.get(); // 사용자가 존재할 경우 User 객체 가져오기
             } else {
