@@ -47,7 +47,6 @@ public class UserService {
         if (auth != null) {
             String userId = auth.getName(); // 로그인한 사용자 id
             Optional<User> optionalUser = USERREPOSITORY.findByUserId(userId);
-
             if (optionalUser.isPresent()) {
                 user = optionalUser.get(); // 사용자가 존재할 경우 User 객체 가져오기
             } else {
