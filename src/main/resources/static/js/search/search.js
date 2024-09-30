@@ -51,3 +51,22 @@ $('#stationList').on('click', 'li', function() {
 //       }
 // });
 
+
+document.querySelector('.search-btn').addEventListener('click', function (event) {
+    // 기본 동작 방지 (페이지 리로드 또는 이동 방지)
+    event.preventDefault();
+
+    let stationName = document.getElementById('searchInput').value;
+    let ampm = document.getElementById('ampm').value;
+    let hour = document.getElementById('hour').value;
+    let minute = document.getElementById('min').value;
+
+    if (!stationName || !ampm || !hour || !minute) {
+        alert('모든 값을 입력해주세요!');
+        return;
+    }
+
+    let url = `/goSearch/result?station=${encodeURIComponent(stationName)}&ampm=${ampm}&hour=${hour}&minute=${minute}`;
+
+    window.location.href = url;
+});

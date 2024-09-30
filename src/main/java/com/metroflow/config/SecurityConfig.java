@@ -23,8 +23,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
 //                        필요할 시 아래 경로 바꿀 것
                                 .requestMatchers("/","/favicon.ico","/css/**", "/images/**","/js/**","/test", "/home", "/login", "/register", "/goRegister", "/goLogin"
-                                ,"/board", "/goSearch", "/search", "/goSearch/stations").permitAll()
-                                ,"/board", "/station-info").permitAll()
+                                ,"/board", "/goSearch", "/search", "/goSearch/stations","/board", "/station-info", "/goSearch/result").permitAll()
                                 .requestMatchers("/logout").hasAuthority("user")
 //                        .requestMatchers("/user/**").hasRole("user")
                                 .anyRequest().authenticated()
