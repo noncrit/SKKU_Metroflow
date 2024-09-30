@@ -90,21 +90,12 @@ body {
     font-size: 1.1rem;
 }
 
-/* 메인 콘텐츠 설정 */
-.main-content {
-    flex: 5;
-}
-
-.map-wrapper {
-    background-color: white;
-    border: 1px solid #ddd;
+/* 얘 없으면 메인화면 노선도 형식 깨짐*/
+.middleArea {
+    flex: 3;
     padding: 20px;
-    text-align: center;
-}
-
-.map-image {
-    max-width: 100%;
-    height: auto;
+    justify-items: center;
+    align-items: center;
 }
 
 /* 반응형 미디어 쿼리 */

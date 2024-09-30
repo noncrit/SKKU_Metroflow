@@ -18,7 +18,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String goHome(Model model) {
-        model.addAttribute("user", USERSERVICE.getUserObject());
+        model.addAttribute("sessionUser", USERSERVICE.getUserObject());
         return "home";
     }
 

@@ -189,12 +189,12 @@ public class IsHolidaysService {
         holidays.add(LocalDate.of(2034, 12, 25)); // 크리스마스
     }
 
-    private boolean isWeekend(LocalDate date) {
+    public boolean isWeekend(LocalDate date) {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
     }
 
-    private boolean isHolidays(LocalDate date) {
+    public boolean isHolidays(LocalDate date) {
         return holidays.contains(date);
     }
 

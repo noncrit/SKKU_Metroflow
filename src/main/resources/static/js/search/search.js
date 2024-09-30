@@ -53,7 +53,6 @@ $('#stationList').on('click', 'li', function() {
 
 
 document.querySelector('.search-btn').addEventListener('click', function (event) {
-    // 기본 동작 방지 (페이지 리로드 또는 이동 방지)
     event.preventDefault();
 
     let stationName = document.getElementById('searchInput').value;
