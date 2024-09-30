@@ -1506,13 +1506,28 @@
     <div id="controls">
         <table>
             <tr>
-                <td><button id="zoomInButton"  class="zoomButton" onclick="zoomIn(event.clientX, event.clientY)">확대</button></td>
+                <td>
+                    <!-- 확대 버튼에 아이콘 추가 -->
+                    <button id="zoomInButton" class="zoomButton" onclick="zoomIn(event.clientX, event.clientY)">
+                        <img src="/images/zoomin.png" alt="확대" class="icon">
+                    </button>
+                </td>
             </tr>
             <tr>
-                <td><button id="zoomOutButton" class="zoomButton" onclick="zoomOut(event.clientX, event.clientY)" >축소</button></td>
+                <td>
+                    <!-- 축소 버튼에 아이콘 추가 -->
+                    <button id="zoomOutButton" class="zoomButton" onclick="zoomOut(event.clientX, event.clientY)">
+                        <img src="/images/zoomout.png" alt="축소" class="icon">
+                    </button>
+                </td>
             </tr>
             <tr>
-                <td><button class="zoomButton" onclick="zoomReset()">리셋</button></td>
+                <td>
+                    <!-- 리셋 버튼에 아이콘 추가 -->
+                    <button class="zoomButton" onclick="zoomReset()">
+                        <img src="/images/reset.png" alt="리셋" class="icon">
+                    </button>
+                </td>
             </tr>
             <tr>
                 <td>
