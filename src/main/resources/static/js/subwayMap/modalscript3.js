@@ -4,11 +4,20 @@ const modalContent = modal.querySelector(".modal-content");
 const modalBody = modalContent.querySelector(".modal-body table"); // 테이블을 직접 참조
 const closeModal = document.querySelector(".closeTab");
 
+
+// 즐겨찾기 모달
+const favoriteModal = document.querySelector("#favoriteModal");
+const favoriteCloseModal = document.querySelector(".favoriteCloseTab");
+
 // SVG 네임스페이스 정의
 const SVG_NS = "http://www.w3.org/2000/svg";
 const XLINK_NS = "http://www.w3.org/1999/xlink";
 
 document.addEventListener("DOMContentLoaded", function() {
+
+    // 즐겨찾기 중복 검사를 위한 set
+    let previousLines = new Set();
+
     // 텍스트 클릭 이벤트 리스너 추가
     svgContainer.addEventListener("click", async function (event) {
         // 모달창 중복 표시를 막기 위해 클릭시 기존 모달창 모두 숨김 처리
@@ -34,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     // modal 내용물 초기화
                     clearModal(modalBody);
+                    // 즐겨찾기 모달 내용물 초기화
+                    clearModal(favoriteModal);
 
                     // 데이터 항목 추가
                     data.forEach(stationInfo => {
@@ -85,8 +96,30 @@ document.addEventListener("DOMContentLoaded", function() {
                         congestionCell.style.textAlign = "left";
 
                         modalBody.appendChild(row); // 모달 테이블에 행 추가
-                    });
 
+                        // 즐겨찾기 모달 데이터 처리
+                        const favoriteRow = document.createElement("tr");
+                        const favoriteCell = document.createElement("td");
+
+                        // 중복 검사
+                        if (!previousLines.has(stationInfo.station_line)) {
+                            favoriteCell.innerHTML = `${stationInfo.station_line}호선`; // 호선 정보 추가
+                            favoriteRow.appendChild(favoriteCell);
+                            previousLines.add(stationInfo.station_line); // 이전 호선 정보 업데이트
+
+                            // 즐겨찾기 모달에 추가
+                            const favoriteModalBody = favoriteModal.querySelector("table");
+                            favoriteModalBody.appendChild(favoriteRow); // 즐겨찾기 모달 테이블에 행 추가
+                        }
+
+                        // 즐겨찾기 모달에 추가
+                        // favoriteModal의 테이블 선택
+                        const favoriteModalBody = favoriteModal.querySelector("table");
+                        favoriteModalBody.appendChild(favoriteRow); // 즐겨찾기 모달 테이블에 행 추가
+
+                    });
+                    // 중복검사용 변수 내용 초기화
+                    previousLines =new Set();
                     showModal(modal,550);
 
                 // 불러올 데이터가 없는 역 예외처리
@@ -112,6 +145,16 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     });
+
+    // 즐겨찾기 로직 구현
+    const favoriteButton = document.getElementById("favorite");
+
+    // 즐겨찾기 버튼 클릭 이벤트 리스너 추가
+    favoriteButton.addEventListener("click", function () {
+        showFavoriteModal(favoriteModal,400);
+    });
+
+
 });
 
 // 모달 닫기 기능
@@ -119,10 +162,16 @@ closeModal.addEventListener("click", function() {
     modal.style.display = "none"; // 모달 숨김
 });
 
+// 즐겨찾기 모달 닫기 기능
+favoriteCloseModal.addEventListener("click", function(){
+   favoriteModal.style.display= "none";
+});
+
 // 모달 외부 클릭 시 닫기
 window.addEventListener("click", function(event) {
     if (event.target === modal) {
         modal.style.display = "none"; // 모달 숨김
+        favoriteModal.style.display= "none";
     }
 });
 
@@ -130,6 +179,7 @@ window.addEventListener("click", function(event) {
 window.addEventListener("keydown", function(event) {
     if (event.key === "Escape" && modal.style.display === "block") {
         modal.style.display = "none"; // 모달 숨김
+        favoriteModal.style.display = "none";
     }
 });
 
@@ -174,5 +224,20 @@ function addNoInfoMessage(modalBody, message) {
 
     row.appendChild(msgCell); // 셀을 행에 추가
     modalBody.appendChild(row); // 행을 모달 본문에 추가
-}   
+}
+
+// 즐겨찾기 모달창 표시 함수
+function showFavoriteModal(modal, modalWidth) {
+    // 화면 중앙 좌표 받아오기
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // 모달 위치 보정
+    modal.style.left = `${((windowWidth - modalWidth) / 2) - 280 +550}px`; // x 위치
+    modal.style.top = `${((windowHeight - modal.offsetHeight) / 2) - 300}px`; // y 위치
+
+    // 모달 표시
+    modal.style.width = `${modalWidth}px`;
+    modal.style.display = "block";
+}
 

@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>SubwayMap</title>
-    <link rel="stylesheet" href="/css/subwaymap.css"> <!-- CSS 파일 추가 -->
+    <link rel="stylesheet" href="/css/subwayMap/subwaymap.css"> <!-- CSS 파일 추가 -->
+    <link rel="stylesheet" href="/css/subwayMap/favorite.css">
 <!--    <script src="/js/subwayMap/modalscript3.js" defer></script> &lt;!&ndash; 스크립트 파일을 defer로 로드 &ndash;&gt;-->
 <!--    <script src="/js/zoom.js" defer></script> &lt;!&ndash; 스크립트 파일을 defer로 로드 &ndash;&gt;-->
 </head>
@@ -1542,6 +1543,23 @@
             </div>
         </div>
     </div>
+
+    <!-- 즐겨찾기 모달 -->
+    <div sec:authorize="isAuthenticated()" id="favoriteModal">
+        <div id="favoriteModal-content">
+            <div id="favoriteModal-header">
+                <span class="favoriteCloseTab">&times;</span> <!-- 닫기 버튼 -->
+            </div>
+            <div id="favoriteModal-body">
+                <table id="favoriteModal_table">
+                    <tr>
+                        <td>테스트용</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <svg>
         <symbol id="S1" viewBox="-13.5 -13.5 27 27">
             <circle class="P1" cx="0" cy="0" r="13.5"/>
