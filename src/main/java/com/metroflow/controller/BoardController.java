@@ -7,7 +7,6 @@ import com.metroflow.model.dto.RecommendationRequestForm;
 import com.metroflow.model.service.BoardService;
 import com.metroflow.model.service.UserService;
 import com.metroflow.repository.BoardRepository;
-import com.metroflow.repository.RecommendationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -104,7 +103,7 @@ public class BoardController {
     // 글 삭제버튼 누르면 아래 컨트롤러 작동
     // 글 삭제 컨트롤러
     @GetMapping("/board/delete")
-    public String delete(@RequestParam("no") Long no, Model model) {
+    public String delete(@RequestParam("no") Long no) {
         BOARDREPOSITORY.deleteById(no); // 보드 번호에 맞는 해당 글 삭제
         return "redirect:/board"; // 보드 화면으로 redirect
     }
