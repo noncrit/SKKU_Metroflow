@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,12 +16,18 @@
 
     <!-- 메뉴 바 - 각 메뉴에 경로 필요 -->
     <nav class="navbar">
-        <ul class="nav-items">
-            <li><a href="/goSearch">역 검색</a></li>
-            <li><a href="#">즐겨찾기</a></li>
-            <li><a href="#">내 주변</a></li>
-            <li><a href="#">방명록</a></li>
-        </ul>
+        <div class="nav-items">
+            <ul class="nav-items" sec:authorize="hasAuthority('user')">
+                <li><a href="/goSearch">역 검색</a></li>
+                <li><a href="#">즐겨찾기</a></li>
+                <li><a href="#">내 주변</a></li>
+                <li><a href="/board">방명록</a></li>
+            </ul>
+            <ul class="nav-items" sec:authorize="hasAuthority('admin')">
+                <li><a href="#">유저 리스트</a></li>
+                <li><a href="/board">방명록 관리</a></li>
+            </ul>
+        </div>
 
         <div class="guestMember">
             <div sec:authorize="!isAuthenticated()" class="guest">
