@@ -8,6 +8,10 @@ h2 {
   margin-top: -10px;
 }
 
+h5 {
+  font-size: 16px;
+}
+
 .form-container {
   display: flex;
   justify-content: center;
@@ -87,6 +91,7 @@ h2 {
   border-radius: 8px;
   width: 300px;
   text-align: center;
+  transform: translate(775px, 255px);
 }
 
 .modal-header {
@@ -94,6 +99,22 @@ h2 {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e9ecef;
+  margin: 0;
+  padding: 0.2rem 0 0.5rem 0;
+}
+
+.modal-header h5 {
+  margin: 0;
+  padding-top: 0;
+}
+
+.modal-body {
+  padding-top: 0.5rem;
+  margin: 0;
+}
+
+.modal-content p {
+  margin-top: 0.5rem;
 }
 
 .close-btn {

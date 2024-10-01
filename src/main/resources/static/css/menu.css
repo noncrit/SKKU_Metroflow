@@ -8,7 +8,7 @@ body {
 .logo-container {
     text-align: center;
     padding: 1rem 0;
-    background-color: #0f4c81;
+    background-color: #181f31;
     height: 30px;
     width: 100%;
 }
@@ -24,7 +24,7 @@ body {
     align-items: center;
     padding: 0.4rem 2rem;
     padding-left: 13rem;
-    background-color: #0f4c81;
+    background-color: #181f31;
     border-bottom: 1px solid #ddd;
     height: 50px;
     width: auto;
@@ -47,7 +47,7 @@ body {
     text-decoration: none;
     font-weight: bold;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 .auth-buttons {
