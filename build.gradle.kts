@@ -39,6 +39,10 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    implementation("org.springframework.boot:spring-boot-dependencies:3.3.4")
+    testImplementation("org.assertj:assertj-core")
+
 
 
 }
