@@ -130,11 +130,11 @@ button:hover {
     font-size: 20px; /* 시간 텍스트 크기 */
     margin-right: 5px; /* 별과의 간격 */
 }
-
+/* 즐겨찾기 별 모양 구현*/
 .favorite {
     width: 20px;
     height: 20px;
-    background-color: gold; /* 별 색상 */
+    background-color: white; /* 별 색상 */
     clip-path: polygon(
             50% 0%,
             63% 35%,
