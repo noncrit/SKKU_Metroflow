@@ -6,7 +6,9 @@
     <title>SubwayMap</title>
     <link rel="stylesheet" href="/css/subwayMap/subwaymap.css"> <!-- CSS 파일 추가 -->
     <link rel="stylesheet" href="/css/subwayMap/favorite.css">
-<!--    <script src="/js/subwayMap/modalscript3.js" defer></script> &lt;!&ndash; 스크립트 파일을 defer로 로드 &ndash;&gt;-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+
+    <!--    <script src="/js/subwayMap/modalscript3.js" defer></script> &lt;!&ndash; 스크립트 파일을 defer로 로드 &ndash;&gt;-->
 <!--    <script src="/js/zoom.js" defer></script> &lt;!&ndash; 스크립트 파일을 defer로 로드 &ndash;&gt;-->
 </head>
 <body>
@@ -1545,9 +1547,10 @@
     </div>
 
     <!-- 즐겨찾기 모달 -->
-    <div sec:authorize="isAuthenticated()" id="favoriteModal">
+    <div id="favoriteModal">
         <div id="favoriteModal-content">
             <div id="favoriteModal-header">
+                <span class="favorite-header">즐겨찾기 호선 선택</span>
                 <span class="favoriteCloseTab">&times;</span> <!-- 닫기 버튼 -->
             </div>
             <div id="favoriteModal-body">

@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     svgContainer.addEventListener("click", async function (event) {
         // 모달창 중복 표시를 막기 위해 클릭시 기존 모달창 모두 숨김 처리
         hideModal(modal);
+        hideModal(favoriteModal);
         const target = event.target;
 
         if (target.tagName === "text") {
@@ -118,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         favoriteModalBody.appendChild(favoriteRow); // 즐겨찾기 모달 테이블에 행 추가
 
                     });
-                    // 중복검사용 변수 내용 초기화
+                    // 즐겨찾기 모달용 중복검사 변수 내용 초기화
                     previousLines =new Set();
                     showModal(modal,550);
 
@@ -203,7 +204,7 @@ function showModal(modal, modalWidth) {
 
     // 모달 위치 보정
     modal.style.left = `${((windowWidth - modalWidth) / 2) - 280}px`; // x 위치
-    modal.style.top = `${((windowHeight - modal.offsetHeight) / 2) - 350}px`; // y 위치
+    modal.style.top = `${((windowHeight - modal.offsetHeight) / 2) - 300}px`; // y 위치
 
     // 모달 표시
     modal.style.width = `${modalWidth}px`;
@@ -233,11 +234,11 @@ function showFavoriteModal(modal, modalWidth) {
     const windowHeight = window.innerHeight;
 
     // 모달 위치 보정
-    modal.style.left = `${((windowWidth - modalWidth) / 2) - 280 +550}px`; // x 위치
+    modal.style.left = `${((windowWidth - modalWidth) / 2) - 280 + 500}px`; // x 위치
     modal.style.top = `${((windowHeight - modal.offsetHeight) / 2) - 300}px`; // y 위치
 
     // 모달 표시
     modal.style.width = `${modalWidth}px`;
-    modal.style.display = "block";
+    modal.style.display = "flex";
 }
 

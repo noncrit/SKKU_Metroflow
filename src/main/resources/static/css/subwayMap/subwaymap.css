@@ -49,7 +49,7 @@ body {
 
 .modal-content {
     background-color: white;
-    margin: 10% auto; /* 위쪽 여백과 가운데 정렬 */
+    /*margin: 10% auto; !* 위쪽 여백과 가운데 정렬 *!*/
     padding: 10px;
     border: 1px solid #888;
     width: 90%; /* 원하는 너비로 설정 */
