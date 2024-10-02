@@ -1,30 +1,41 @@
 package com.metroflow.controller;
 
-import com.metroflow.model.dto.User;
+import com.metroflow.model.dto.NoticeBoard;
+import com.metroflow.model.service.NoticeBoardService;
 import com.metroflow.model.service.UserService;
-import com.metroflow.repository.UserRepository;
+import com.metroflow.repository.NoticeBoardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
 
     private final UserService USERSERVICE;
+    private final NoticeBoardRepository NOTICEBOARDREPOSITORY;
+    private final NoticeBoardService NOTICEBOARDSERVICE;
 
     @GetMapping("/")
     public String goHome(Model model) {
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
+        List<NoticeBoard> notices = NOTICEBOARDREPOSITORY.findAll(Sort.by(Sort.Direction.ASC, "boardNo"));
+        for (NoticeBoard notice : notices) {
+            String contents = NOTICEBOARDSERVICE.modifyBoardText(notice.getBoardNo());
+            notice.getBoard().setBoardText(contents);
+        }
+        model.addAttribute("notices", notices);
         return "home";
     }
 
     @GetMapping("/home")
     public String home(Model model) {
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
+        List<NoticeBoard> notices = NOTICEBOARDREPOSITORY.findAll(Sort.by(Sort.Direction.ASC, "boardNo"));
+        model.addAttribute("notices", notices);
         return "home";
     }
 }

@@ -19,18 +19,14 @@
             <div class="alert-header">
                 <h5 class="alert-title">⚠️ 긴급 사안</h5>
             </div>
-            <div class="alert-item">
-                <h6>Title</h6>
-                <p>Description</p>
-            </div>
-            <div class="alert-item">
-                <h6>Title</h6>
-                <p>Description</p>
-            </div>
-            <div class="alert-item">
-                <h6>Title</h6>
-                <p>Description</p>
-            </div>
+            <ul th:each="notice, stat: ${notices}">
+                <li>
+                   <div class="alert-item">
+                       <a th:href="'/board/content?boardNo=' + ${notice.boardNo}" th:text="${notice.board.title}"></a>
+                       <p th:text="${notice.board.boardText}"></p>
+                   </div>
+                </li>
+            </ul>
         </div>
 
         <!-- 최근 검색 -->
