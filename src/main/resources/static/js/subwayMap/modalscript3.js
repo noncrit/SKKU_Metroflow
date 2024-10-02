@@ -5,6 +5,7 @@ const modalBody = modalContent.querySelector(".modal-body table"); // 테이블�
 const closeModal = document.querySelector(".closeTab");
 
 
+
 // 즐겨찾기 모달
 const favoriteModal = document.querySelector("#favoriteModal");
 const favoriteCloseModal = document.querySelector(".favoriteCloseTab");
@@ -32,11 +33,35 @@ document.addEventListener("DOMContentLoaded", function() {
                 // 서버에서 데이터 가져오기
                 const response = await fetch(`/station-info?stationName=${encodeURIComponent(clickedStation)}`);
                 if (response.ok) {
-                    const data = await response.json();
 
+                    const data = await response.json();
+                    const stationInfoList = data.stationInfoList; // 리스트 정보
+                    const isFavorite = data.isFavorite; // 즐겨찾기 여부
+
+                    // 즐겨찾기 별모양 버튼
+                    const favoriteStarButton = document.querySelector("#favorite");
+                    favoriteStarButton.style="transparent";
+                    
+                    // 즐겨찾기 등록 여부 판단 로직
+                    if (typeof isFavorite !== 'undefined') {
+                        if (isFavorite) {
+                            console.log("true boolean : "+isFavorite);
+                            favoriteStarButton.style.color = "gold";
+                        } else {
+                            console.log("false boolean : "+isFavorite);
+                            favoriteStarButton.style.color = "gray";
+                        }
+                    } else {
+                        console.log("isFavorite 변수가 정의되지 않았습니다.");
+                    }
+
+
+
+
+                    // 혼잡도 정보 표시 로직
                     // 역 이름 설정
                     // 첫 번째 데이터에서 역 이름 추출
-                    modalContent.querySelector("#stationName").innerText = data[0].station_name; // 헤더에 역 이름 설정
+                    modalContent.querySelector("#stationName").innerText = stationInfoList[0].station_name; // 헤더에 역 이름 설정
 
                     // 현재 시간 설정
                     modalContent.querySelector(".nowTime").innerText =
@@ -48,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     clearModal(favoriteModal);
 
                     // 데이터 항목 추가
-                    data.forEach(stationInfo => {
+                    stationInfoList.forEach(stationInfo => {
                         const row = document.createElement("tr");
 
                         // 받아온 호선 -> #S1, #S2 형태로 포맷팅하는 함수
@@ -152,8 +177,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 즐겨찾기 버튼 클릭 이벤트 리스너 추가
     favoriteButton.addEventListener("click", function () {
+        hideModal(favoriteModal);
         showFavoriteModal(favoriteModal,400);
     });
+
+
+
 
 
 });
@@ -241,4 +270,6 @@ function showFavoriteModal(modal, modalWidth) {
     modal.style.width = `${modalWidth}px`;
     modal.style.display = "flex";
 }
+
+
 

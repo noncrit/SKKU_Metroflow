@@ -7,13 +7,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class favoriteDAO {
+public class favoriteListDAO {
 
     private final FavoriteListRepository favoriteListRepository;
 
     @Autowired
-    public favoriteDAO(FavoriteListRepository favoriteListRepository) {
+    public favoriteListDAO(FavoriteListRepository favoriteListRepository) {
         this.favoriteListRepository = favoriteListRepository;
     }
+
+
 
 }

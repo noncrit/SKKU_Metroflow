@@ -1,43 +1,60 @@
 package com.metroflow.controller;
 
+import com.metroflow.model.dto.StationInfoResponse;
 import com.metroflow.model.dto.SubwayMapInfo;
+import com.metroflow.model.dto.User;
+import com.metroflow.model.service.FavoriteListService;
 import com.metroflow.model.service.SubwayMapService;
+import com.metroflow.model.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class StationInfoController {
 
     @Autowired
     private SubwayMapService subwayMapService;
 
-    private static final Logger logger = LoggerFactory.getLogger(StationInfoController.class);
+    private final UserService USERSERVICE;
 
-//    @GetMapping("/station-info")
-//    public ResponseEntity<SubwayMapInfo> getStationInfo(@RequestParam String stationName) {
-//        List<SubwayMapInfo> stationInfoList = subwayMapService.getSubwayMapInfo(stationName);
-//        logger.info("stationInfoList: {}", stationInfoList);
-//        if (!stationInfoList.isEmpty()) {
-//            SubwayMapInfo info = stationInfoList.get(0); // 예시로 첫 번째 데이터 사용
-//            return ResponseEntity.ok(info); // SubwayMapInfo 객체를 직접 반환
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
+    private final FavoriteListService FavoriteListService;
+
+    private static final Logger logger = LoggerFactory.getLogger(StationInfoController.class);
+    @Autowired
+    private UserService userService;
+
 
     @GetMapping("/station-info")
-    public ResponseEntity<List<SubwayMapInfo>> getStationInfo(@RequestParam String stationName) {
+    public ResponseEntity<StationInfoResponse> getStationInfo(@RequestParam String stationName, Model model) {
         List<SubwayMapInfo> stationInfoList = subwayMapService.getSubwayMapInfo(stationName);
         logger.info("stationInfoList: {}", stationInfoList);
 
+        User user = USERSERVICE.getUserObject();
+        boolean isFavorite = false;
+
+        // 즐겨찾기 등록 유무 판단을 위한 변수
+        if( user != null ){
+//            System.out.println("유저 객체 정보 : " + user.getUserId());
+            model.addAttribute("sessionUser", user);
+            isFavorite = FavoriteListService.isFavorite(user.getUserId(), stationName);
+            System.out.println("boolean value : " + isFavorite);
+        }
+
+        // StationInfoResponse 객체 생성
+        StationInfoResponse response = new StationInfoResponse(stationInfoList, isFavorite);
+
         if (!stationInfoList.isEmpty()) {
-            return ResponseEntity.ok(stationInfoList); // 전체 리스트를 JSON 형태로 반환
+            return ResponseEntity.ok(response); // 전체 리스트를 JSON 형태로 반환
         }
         return ResponseEntity.notFound().build();
     }
