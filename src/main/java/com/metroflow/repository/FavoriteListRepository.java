@@ -21,5 +21,4 @@ public interface FavoriteListRepository extends JpaRepository<FavoriteList, Long
     @Query("SELECT f FROM FavoriteList f WHERE f.user.userId = :userId")
     List<FavoriteList> findAllByUserId(@Param("userId") String userId);
 
-
 }
