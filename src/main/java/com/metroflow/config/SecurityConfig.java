@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
 //                        필요할 시 아래 경로 바꿀 것
                                 .requestMatchers("/","/favicon.ico","/css/**", "/images/**","/js/**","/test", "/home", "/login", "/register", "/goRegister", "/goLogin"
-                                ,"/board", "/goSearch", "/search", "/goSearch/stations","/board", "/station-info", "/goSearch/**").permitAll()
+                                ,"/board", "/goSearch", "/search", "/goSearch/stations","/board", "/station-info", "/goSearch/**", "/goSearch/stationLines**", "/goSearch/result").permitAll()
                                 .requestMatchers("/logout").hasAuthority("user")
 //                        .requestMatchers("/user/**").hasRole("user")
                                 .anyRequest().authenticated()
@@ -36,6 +36,9 @@ public class SecurityConfig {
 //                        .loginProcessingUrl("/")
                                 .defaultSuccessUrl("/home", true)
                 )
+
+//                .csrf().disable()
+
                 .logout(logout -> logout
                         .permitAll()
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

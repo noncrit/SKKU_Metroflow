@@ -15,4 +15,9 @@ public interface SubwayStationRepository extends JpaRepository<SubwayStation, Lo
     List<String> findByStationName(String line);
 
     List<SubwayStation> findByStationNameContainingIgnoreCase(String search);
-}
+
+    @Query(value = "select station" +
+            " from SubwayStation station" +
+            " where station.stationName = :stationName")
+    List<SubwayStation> findStationLineByStationName(@Param("stationName") String stationName);
+} // 얘 뭔가 안됨
