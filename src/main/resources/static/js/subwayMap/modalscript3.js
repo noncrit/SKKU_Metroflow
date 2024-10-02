@@ -24,6 +24,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // 모달창 중복 표시를 막기 위해 클릭시 기존 모달창 모두 숨김 처리
         hideModal(modal);
         hideModal(favoriteModal);
+
+        // 즐겨찾기 별모양 버튼
+        const favoriteStarButton = document.querySelector("#favorite");
+        favoriteStarButton.style="gray";
+
         const target = event.target;
 
         if (target.tagName === "text") {
@@ -37,26 +42,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     const data = await response.json();
                     const stationInfoList = data.stationInfoList; // 리스트 정보
                     const isFavorite = data.isFavorite; // 즐겨찾기 여부
-
-                    // 즐겨찾기 별모양 버튼
-                    const favoriteStarButton = document.querySelector("#favorite");
-                    favoriteStarButton.style="transparent";
-                    
-                    // 즐겨찾기 등록 여부 판단 로직
-                    if (typeof isFavorite !== 'undefined') {
-                        if (isFavorite) {
-                            console.log("true boolean : "+isFavorite);
-                            favoriteStarButton.style.color = "gold";
-                        } else {
-                            console.log("false boolean : "+isFavorite);
-                            favoriteStarButton.style.color = "gray";
-                        }
-                    } else {
-                        console.log("isFavorite 변수가 정의되지 않았습니다.");
-                    }
-
-
-
+                    // 즐겨찾기 등록 검증 & 별 색깔 바꾸는 함수
+                    isFavoriteAndChangeStar(isFavorite,favoriteStarButton);
 
                     // 혼잡도 정보 표시 로직
                     // 역 이름 설정
@@ -269,6 +256,22 @@ function showFavoriteModal(modal, modalWidth) {
     // 모달 표시
     modal.style.width = `${modalWidth}px`;
     modal.style.display = "flex";
+}
+
+// 즐겨찾기 별 모양 색 변환 함수
+function isFavoriteAndChangeStar(booleanValue, button){
+    // 즐겨찾기 등록 여부 판단 로직
+    if (typeof booleanValue !== 'undefined') {
+        if (booleanValue) {
+            console.log("true boolean : "+booleanValue);
+            button.style.color = "gold";
+        } else {
+            console.log("false boolean : "+booleanValue);
+            button.style.color = "gray";
+        }
+    } else {
+        console.log("Boolean 변수가 정의되지 않았습니다.");
+    }
 }
 
 
