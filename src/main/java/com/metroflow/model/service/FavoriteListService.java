@@ -29,6 +29,11 @@ public class FavoriteListService {
         return favoriteListRepository.isFavorite(userId, stationName) > 0;
     }
 
+    // user_id, stationName 기반으로 즐겨찾기에 등록된 역들의 id 반환(List<Long> 반환)
+    public List<Long> getFavoriteListStationIds(String userId, String stationName){
+        return favoriteListRepository.getFavoriteListStationIds(userId, stationName);
+    }
+
     // 모든 즐겨찾기 리스트 가져오기
     public List<FavoriteList> getAllFavoritesByUser(String userId) {
         return favoriteListRepository.findAllByUserId(userId);
@@ -48,7 +53,7 @@ public class FavoriteListService {
             SubwayStation station = stationOptional.get();
             // 이미 즐겨찾기에 있는지 확인
             // isempty가 true여야 실행됨
-            if (favoriteListRepository.findByUserIdAndStationId(user.getUserId(), station.getStationId()).isEmpty()) {
+            if (favoriteListRepository.checkisDuplicateFavoriteList(user.getUserId(), station.getStationId()).isEmpty()) {
                 // 즐겨찾기에 추가
                 FavoriteList favoriteList = new FavoriteList();
                 favoriteList.setUser(user);
@@ -58,5 +63,25 @@ public class FavoriteListService {
         }
 
     }
+
+    @Transactional
+    public void deleteFromFavorites(String userId, Long stationId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        Optional<SubwayStation> stationOptional = subwayStationRepository.findById(stationId);
+        List<FavoriteList> favorites = favoriteListRepository.findByUser_UserIdAndStation_StationId(userId, stationId);
+
+        System.out.println("User ID: " + userId);
+        System.out.println("Station ID: " + stationId);
+        System.out.println("Favorites: " + favorites);
+
+        if (userOptional.isPresent() && stationOptional.isPresent()) {
+            // user와 station이 존재하는 경우
+            if (!favorites.isEmpty()) { // favorites가 비어있지 않을 경우 삭제
+                favoriteListRepository.deleteAll(favorites);
+            }
+        }
+    }
+
+
 
 }

@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,17 +42,19 @@ public class StationInfoController {
 
         User user = USERSERVICE.getUserObject();
         boolean isFavorite = false;
+        List<Long> favoriteStationIdList = new ArrayList<>();
 
         // 즐겨찾기 등록 유무 판단을 위한 변수
         if( user != null ){
             System.out.println("유저 객체 정보 : " + user.getUserId());
             model.addAttribute("sessionUser", user);
             isFavorite = FavoriteListService.isFavorite(user.getUserId(), stationName);
+            favoriteStationIdList = FavoriteListService.getFavoriteListStationIds(user.getUserId(), stationName);
             System.out.println("boolean value : " + isFavorite);
         }
 
         // StationInfoResponse 객체 생성
-        StationInfoResponse response = new StationInfoResponse(stationInfoList, isFavorite);
+        StationInfoResponse response = new StationInfoResponse(stationInfoList, isFavorite, favoriteStationIdList);
 
         if (!stationInfoList.isEmpty()) {
             return ResponseEntity.ok(response); // 전체 리스트를 JSON 형태로 반환

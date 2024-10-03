@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
@@ -19,10 +20,13 @@ public class StationInfoResponse {
     @JsonProperty("isFavorite")
     private boolean isFavorite;
 
+    private List<Long> favoriteStationIdList;
+
     // 생성자
-    public StationInfoResponse(List<SubwayMapInfo> stationInfoList, boolean isFavorite) {
+    public StationInfoResponse(List<SubwayMapInfo> stationInfoList, boolean isFavorite, List<Long> favoriteStationIdList) {
         this.stationInfoList = stationInfoList;
         this.isFavorite = isFavorite;
+        this.favoriteStationIdList = favoriteStationIdList;
     }
 
 }

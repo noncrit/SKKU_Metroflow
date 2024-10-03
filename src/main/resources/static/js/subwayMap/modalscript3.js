@@ -43,13 +43,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     const data = await response.json();
                     const stationInfoList = data.stationInfoList; // 리스트 정보
-                    const isFavorite = data.isFavorite; // 즐겨찾기 여부
+                    let isFavorite = data.isFavorite; // 즐겨찾기 등록 여부(Boolean값)
+                    const favoriteStationIdList = data.favoriteStationIdList;
                     // 로그인하지 않은 유저의 경우 버튼 생성 X -> 예외처리 필요
                     if (favoriteStarButton) {
                         // 즐겨찾기 등록 검증 & 별 색깔 바꾸는 함수
                         isFavoriteAndChangeStar(isFavorite,favoriteStarButton);
+                        
+                        // 즐겨찾기 등록한 상태이면 별을 눌렀을 때 즐겨찾기 삭제가 동작해야함
                     }
-
 
                     // 혼잡도 정보 표시 로직
                     // 역 이름 설정
@@ -64,6 +66,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     clearModal(modalBody);
                     // 즐겨찾기 모달 내용물 초기화
                     clearModal(favoriteModal);
+
+                    const favoriteListIds = new Set();
+
+                    // 즐겨찾기에 이미 등록한 호선인지 판단하기 위해 set에 즐겨찾기 station_id 정보를 담기
+                    favoriteStationIdList.forEach(stationId =>{
+                        favoriteListIds.add(stationId);
+                    });
 
                     // 데이터 항목 추가
                     stationInfoList.forEach(stationInfo => {
@@ -121,56 +130,151 @@ document.addEventListener("DOMContentLoaded", function() {
                         const favoriteCell = document.createElement("td");
                         favoriteCell.className = "favoriteCell";
 
-                        // 중복 검사
+                        // 중복 검사 - 같은 호선이 모달창에 중복으로 나타나지 않도록 검사
+                        // previousLines set에 이미 존재하는 데이터이면 추가하지 않음
                         if (!previousLines.has(stationInfo.station_line)) {
                             favoriteCell.innerHTML = `${stationInfo.station_line}호선`; // 호선 정보 추가
-                            favoriteRow.appendChild(favoriteCell);
-                            previousLines.add(stationInfo.station_line); // 이전 호선 정보 업데이트
+                            // 여기 원래 행 추가 있었음 (tr)
+                            previousLines.add(stationInfo.station_line); 
 
-                            // 즐겨찾기 모달에 추가
+                            // 추가할 대상 즐겨찾기 모달
                             const favoriteModalBody = favoriteModal.querySelector("table");
-                            favoriteModalBody.appendChild(favoriteRow); // 즐겨찾기 모달 테이블에 행 추가
-                            
-                            // 즐겨찾기 td 클릭시 post 요청 보내는 이벤트
+
+                            // 즐겨찾기 데이터 목록과 같은 station_id가 있다면 이미 즐겨찾기로 등록한 호선임
+                            // favoriteListIds.has(stationInfo.station_id) 가 false 인 경우
                             // td 클릭으로 ajax 요청 보낼 이벤트 추가
-                            // 이벤트 리스너 추가
-                            favoriteCell.addEventListener("click", async function() {
-                                console.log("stationName : " + favoriteCell.textContent);
-                                console.log("station_id : " + stationInfo.station_id);
+                            // 즐겨찾기 등록 호출 AJAX 요청
+                            // 즐겨찾기 td 클릭시 post 요청 보내는 이벤트
 
-                                // POST 요청을 위한 데이터
-                                const postData = {
-                                    station_id: stationInfo.station_id
-                                };
+                            // favoriteListIds.has(stationInfo.station_id) 가 true 인 경우
+                            // td 클릭으로 ajax 요청 보낼 이벤트 추가
+                            // 즐겨찾기 삭제 AJAX 요청
 
-                                try {
-                                    //csrf 토큰 -> 포함 안하면 POST 요청을 SpringSecurity에서 걸러버림
-                                    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
-                                    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
-                                    console.log("Token : "+ csrfToken);
-                                    console.log("csrfHeader : " + csrfHeader);
-                                    // fetch를 이용한 POST 요청
-                                    const FavoriteResponse = await fetch('/addToFavorite', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            [csrfHeader]: csrfToken
-                                        },
-                                        body: JSON.stringify(postData) // 데이터 JSON 문자열로 변환
-                                    });
+                            // 이벤트 핸들러를 다르게 추가해야함!!
 
-                                    // 응답 상태에 따라 다르게 처리
-                                    if (FavoriteResponse.ok) {
-                                        const FavoriteResponseData = await FavoriteResponse.json(); // 성공적인 응답이면 JSON으로 변환
-                                        console.log('Success:', FavoriteResponseData); // 성공적으로 응답을 받았을 때 처리
-                                    } else {
-                                        // 오류 처리: 상태 코드에 따라 다른 메시지 출력 가능
-                                        console.error('Error:', FavoriteResponse.status, FavoriteResponse.statusText);
+                            // 즐겨찾기로 등록된 호선인 경우
+                            // 삭제 이벤트 등록
+                            // td 글자 색상 gold로 변경
+                            if (favoriteListIds.has(stationInfo.station_id)){
+                                // console.log("즐겨찾기 등록된 경우 처리 : "+stationInfo.station_id);
+
+                                // 즐겨찾는 호선 -> 글자 색상 gold로 변경
+                                favoriteCell.style.color="gold";
+
+                                // 즐겨찾기 삭제 이벤트 리스너 등록
+                                favoriteCell.addEventListener("click", async function(){
+                                    console.log("즐겨찾기 삭제 : 이벤트 리스너 정상 동작")
+
+                                    // 확인창 출력
+                                    const userConfirmed = confirm("즐겨찾기를 삭제하시겠습니까?");
+                                    if(userConfirmed){
+                                        // POST 요청을 위한 데이터
+                                        const postData = {
+                                            station_id: stationInfo.station_id
+                                        };
+                                        try {
+                                            //csrf 토큰 -> 포함 안하면 POST 요청을 SpringSecurity에서 걸러버림
+                                            const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+                                            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+                                            console.log("Token : "+ csrfToken);
+                                            console.log("csrfHeader : " + csrfHeader);
+                                            // fetch를 이용한 POST 요청
+                                            const FavoriteResponse = await fetch('/deleteFromFavoriteList', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    [csrfHeader]: csrfToken
+                                                },
+                                                body: JSON.stringify(postData) // 데이터 JSON 문자열로 변환
+                                            });
+
+                                            // 응답 상태에 따라 다르게 처리
+                                            if (FavoriteResponse.ok) {
+                                                hideModal(favoriteModal);
+                                                alert("즐겨찾기 삭제 완료");
+                                                const FavoriteResponseData = await FavoriteResponse.json(); // 성공적인 응답이면 JSON으로 변환
+                                                console.log('Success:', FavoriteResponseData); // 성공적으로 응답을 받았을 때 처리
+                                                window.location.href = '/home';
+                                            } else {
+                                                // 오류 처리: 상태 코드에 따라 다른 메시지 출력 가능
+                                                console.error('Error:', FavoriteResponse.status, FavoriteResponse.statusText);
+                                            }
+                                        } catch (error) {
+                                            console.error('Fetch error:', error); // 오류 처리
+                                        }
+
                                     }
-                                } catch (error) {
-                                    console.error('Fetch error:', error); // 오류 처리
-                                }
-                            });
+                                    else{
+                                        alert("삭제를 취소하셨습니다.");
+                                        window.location.href = '/home';
+                                    }
+                                });
+
+                                // 즐겨찾기 모달 테이블에 행 추가
+                                favoriteRow.appendChild(favoriteCell);
+                                favoriteModalBody.appendChild(favoriteRow);
+                            }
+                            // 즐겨찾기 등록으로 이벤트 리스너 설정
+                            else {
+
+                                // 즐겨찾기 모달 테이블에 행 추가
+                                favoriteRow.appendChild(favoriteCell);
+                                favoriteModalBody.appendChild(favoriteRow);
+
+                                favoriteCell.addEventListener("click", async function() {
+                                    console.log("stationName : " + favoriteCell.textContent);
+                                    console.log("station_id : " + stationInfo.station_id);
+
+                                    const userConfirmed = confirm("즐겨찾기로 등록하시겠습니까?");
+                                    if(userConfirmed){
+                                        // POST 요청을 위한 데이터
+                                        const postData = {
+                                            station_id: stationInfo.station_id
+                                        };
+
+                                        try {
+                                            //csrf 토큰 -> 포함 안하면 POST 요청을 SpringSecurity에서 걸러버림
+                                            const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+                                            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+                                            console.log("Token : "+ csrfToken);
+                                            console.log("csrfHeader : " + csrfHeader);
+                                            // fetch를 이용한 POST 요청
+                                            const FavoriteResponse = await fetch('/addToFavorite', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    [csrfHeader]: csrfToken
+                                                },
+                                                body: JSON.stringify(postData) // 데이터 JSON 문자열로 변환
+                                            });
+
+                                            // 응답 상태에 따라 다르게 처리
+                                            // 즐겨찾기 등록 성공시 바뀌어야 할 상태
+                                            // 별 버튼 색상, 별 버튼 연결된 이벤트 리스너, isFavorite 값
+                                            if (FavoriteResponse.ok) {
+                                                isFavoriteAndChangeStar(true,favoriteStarButton);
+                                                isFavorite=true;
+                                                hideModal(favoriteModal);
+                                                alert("즐겨찾기 등록 완료")
+                                                const FavoriteResponseData = await FavoriteResponse.json(); // 성공적인 응답이면 JSON으로 변환
+                                                console.log('Success:', FavoriteResponseData); // 성공적으로 응답을 받았을 때 처리
+                                                window.location.href = '/home';
+                                            } else {
+                                                // 오류 처리: 상태 코드에 따라 다른 메시지 출력 가능
+                                                console.error('Error:', FavoriteResponse.status, FavoriteResponse.statusText);
+                                            }
+                                        } catch (error) {
+                                            console.error('Fetch error:', error); // 오류 처리
+                                        }
+                                    }
+                                    else{
+                                        alert("즐겨찾기 등록을 취소하셨습니다.")
+                                        window.location.href = '/home';
+                                    }
+
+                                });
+                            }
+
                         }
 
                     });

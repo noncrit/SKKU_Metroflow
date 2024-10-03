@@ -6,12 +6,12 @@ import lombok.Setter;
 // Generic 타입 선언 -> 응답으로 보낼 자료형은 해당 메소드에서 자유롭게 설정 가능
 @Getter
 @Setter
-public class AddToFavoriteApiResponse<T> {
+public class FavoriteApiResponse<T> {
     private String message;
     private T data;
     private boolean success;
 
-    public AddToFavoriteApiResponse(String message, T data, boolean success) {
+    public FavoriteApiResponse(String message, T data, boolean success) {
         this.message = message;
         this.data = data;
         this.success = success;

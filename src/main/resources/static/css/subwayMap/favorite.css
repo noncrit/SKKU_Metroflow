@@ -43,6 +43,11 @@
     border-bottom: none; /* 마지막 행의 아래쪽 외곽선 제거 */
 }
 
+/*즐겨찾기 등록, 삭제 td*/
+#favoriteModal_table td{
+    cursor: pointer;
+    font-size: 20px;
+}
 
 #favoriteModal-header {
     display: flex;
@@ -73,3 +78,4 @@
     text-decoration: none;
     cursor: pointer;
 }
+
