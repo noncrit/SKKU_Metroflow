@@ -119,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         // 즐겨찾기 모달 데이터 처리
                         const favoriteRow = document.createElement("tr");
                         const favoriteCell = document.createElement("td");
+                        favoriteCell.className = "favoriteCell";
 
                         // 중복 검사
                         if (!previousLines.has(stationInfo.station_line)) {
@@ -129,12 +130,48 @@ document.addEventListener("DOMContentLoaded", function() {
                             // 즐겨찾기 모달에 추가
                             const favoriteModalBody = favoriteModal.querySelector("table");
                             favoriteModalBody.appendChild(favoriteRow); // 즐겨찾기 모달 테이블에 행 추가
-                        }
+                            
+                            // 즐겨찾기 td 클릭시 post 요청 보내는 이벤트
+                            // td 클릭으로 ajax 요청 보낼 이벤트 추가
+                            // 이벤트 리스너 추가
+                            favoriteCell.addEventListener("click", async function() {
+                                console.log("stationName : " + favoriteCell.textContent);
+                                console.log("station_id : " + stationInfo.station_id);
 
-                        // 즐겨찾기 모달에 추가
-                        // favoriteModal의 테이블 선택
-                        const favoriteModalBody = favoriteModal.querySelector("table");
-                        favoriteModalBody.appendChild(favoriteRow); // 즐겨찾기 모달 테이블에 행 추가
+                                // POST 요청을 위한 데이터
+                                const postData = {
+                                    station_id: stationInfo.station_id
+                                };
+
+                                try {
+                                    //csrf 토큰 -> 포함 안하면 POST 요청을 SpringSecurity에서 걸러버림
+                                    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+                                    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+                                    console.log("Token : "+ csrfToken);
+                                    console.log("csrfHeader : " + csrfHeader);
+                                    // fetch를 이용한 POST 요청
+                                    const FavoriteResponse = await fetch('/addToFavorite', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            [csrfHeader]: csrfToken
+                                        },
+                                        body: JSON.stringify(postData) // 데이터 JSON 문자열로 변환
+                                    });
+
+                                    // 응답 상태에 따라 다르게 처리
+                                    if (FavoriteResponse.ok) {
+                                        const FavoriteResponseData = await FavoriteResponse.json(); // 성공적인 응답이면 JSON으로 변환
+                                        console.log('Success:', FavoriteResponseData); // 성공적으로 응답을 받았을 때 처리
+                                    } else {
+                                        // 오류 처리: 상태 코드에 따라 다른 메시지 출력 가능
+                                        console.error('Error:', FavoriteResponse.status, FavoriteResponse.statusText);
+                                    }
+                                } catch (error) {
+                                    console.error('Fetch error:', error); // 오류 처리
+                                }
+                            });
+                        }
 
                     });
                     // 즐겨찾기 모달용 중복검사 변수 내용 초기화
@@ -165,9 +202,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // 즐겨찾기 로직 구현
+    // 즐겨찾기 버튼 누르면 모달창 뜨도록 하는 이벤트
     const favoriteButton = document.getElementById("favorite");
-
+    // 로그인 하지 않은 상태에서도 동작하는 스크립트라서 favoriteButton null인 경우가 있음
     if (favoriteButton) {
         // 즐겨찾기 버튼 클릭 이벤트 리스너 추가
         favoriteButton.addEventListener("click", function () {

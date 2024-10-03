@@ -16,7 +16,11 @@ public interface FavoriteListRepository extends JpaRepository<FavoriteList, Long
     @Query("SELECT CASE WHEN COUNT(f) > 0 THEN 1 ELSE 0 END FROM FavoriteList f " +
             "JOIN f.station s WHERE f.user.userId = :userId AND s.stationName = :stationName")
     int isFavorite(@Param("userId") String userId, @Param("stationName") String stationName);
-
+    
+    // 즐겨찾기 등록 전 중복 데이터 체크 쿼리
+    @Query("SELECT f FROM FavoriteList f WHERE f.user.userId = :userId AND f.station.stationId = :stationId")
+    List<FavoriteList> findByUserIdAndStationId(@Param("userId") String userId, @Param("stationId") Long stationId);
+    
     // 유저 id 기준으로 즐겨찾기 데이터를 모두 가져오는 쿼리
     @Query("SELECT f FROM FavoriteList f WHERE f.user.userId = :userId")
     List<FavoriteList> findAllByUserId(@Param("userId") String userId);

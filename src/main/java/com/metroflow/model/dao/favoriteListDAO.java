@@ -16,6 +16,4 @@ public class favoriteListDAO {
         this.favoriteListRepository = favoriteListRepository;
     }
 
-
-
 }
