@@ -44,7 +44,7 @@ public class StationInfoController {
 
         // 즐겨찾기 등록 유무 판단을 위한 변수
         if( user != null ){
-//            System.out.println("유저 객체 정보 : " + user.getUserId());
+            System.out.println("유저 객체 정보 : " + user.getUserId());
             model.addAttribute("sessionUser", user);
             isFavorite = FavoriteListService.isFavorite(user.getUserId(), stationName);
             System.out.println("boolean value : " + isFavorite);

@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // 즐겨찾기 별모양 버튼
         const favoriteStarButton = document.querySelector("#favorite");
-        favoriteStarButton.style="gray";
+        if (favoriteStarButton) {
+            favoriteStarButton.style.color = "gray"; // 스타일 변경
+        }
 
         const target = event.target;
 
@@ -42,8 +44,12 @@ document.addEventListener("DOMContentLoaded", function() {
                     const data = await response.json();
                     const stationInfoList = data.stationInfoList; // 리스트 정보
                     const isFavorite = data.isFavorite; // 즐겨찾기 여부
-                    // 즐겨찾기 등록 검증 & 별 색깔 바꾸는 함수
-                    isFavoriteAndChangeStar(isFavorite,favoriteStarButton);
+                    // 로그인하지 않은 유저의 경우 버튼 생성 X -> 예외처리 필요
+                    if (favoriteStarButton) {
+                        // 즐겨찾기 등록 검증 & 별 색깔 바꾸는 함수
+                        isFavoriteAndChangeStar(isFavorite,favoriteStarButton);
+                    }
+
 
                     // 혼잡도 정보 표시 로직
                     // 역 이름 설정
@@ -154,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 addNoInfoMessage(modalBody,"혼잡도 정보가 없는 역입니다.")
                 // 모달 보이도록 좌표, 표시 속성 설정
                 showModal(modal,750);
-                console.error("Station has no information: ", response.statusText);
+                console.error("Error at script : ",error);
             }
         }
     });
@@ -162,15 +168,13 @@ document.addEventListener("DOMContentLoaded", function() {
     // 즐겨찾기 로직 구현
     const favoriteButton = document.getElementById("favorite");
 
-    // 즐겨찾기 버튼 클릭 이벤트 리스너 추가
-    favoriteButton.addEventListener("click", function () {
-        hideModal(favoriteModal);
-        showFavoriteModal(favoriteModal,400);
-    });
-
-
-
-
+    if (favoriteButton) {
+        // 즐겨찾기 버튼 클릭 이벤트 리스너 추가
+        favoriteButton.addEventListener("click", function () {
+            hideModal(favoriteModal);
+            showFavoriteModal(favoriteModal,400);
+        });
+    }
 
 });
 
