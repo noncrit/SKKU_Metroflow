@@ -1,9 +1,6 @@
 package com.metroflow.controller;
 
 import com.metroflow.model.dao.NoticeBoardDAO;
-import com.metroflow.model.dto.Board;
-import com.metroflow.model.service.NoticeBoardService;
-import com.metroflow.model.service.UserService;
 import com.metroflow.repository.BoardRepository;
 import com.metroflow.repository.NoticeBoardRepository;
 import lombok.RequiredArgsConstructor;

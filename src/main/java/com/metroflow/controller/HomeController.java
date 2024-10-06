@@ -22,7 +22,7 @@ public class HomeController {
     @GetMapping("/")
     public String goHome(Model model) {
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
-        List<NoticeBoard> notices = NOTICEBOARDREPOSITORY.findAll(Sort.by(Sort.Direction.ASC, "boardNo"));
+        List<NoticeBoard> notices = NOTICEBOARDREPOSITORY.findAll(Sort.by(Sort.Direction.DESC, "board.view"));
         for (NoticeBoard notice : notices) {
             String contents = NOTICEBOARDSERVICE.modifyBoardText(notice.getBoardNo());
             notice.getBoard().setBoardText(contents);
@@ -34,7 +34,11 @@ public class HomeController {
     @GetMapping("/home")
     public String home(Model model) {
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
-        List<NoticeBoard> notices = NOTICEBOARDREPOSITORY.findAll(Sort.by(Sort.Direction.ASC, "boardNo"));
+        List<NoticeBoard> notices = NOTICEBOARDREPOSITORY.findAll(Sort.by(Sort.Direction.DESC, "boardNo"));
+        for (NoticeBoard notice : notices) {
+            String contents = NOTICEBOARDSERVICE.modifyBoardText(notice.getBoardNo());
+            notice.getBoard().setBoardText(contents);
+        }
         model.addAttribute("notices", notices);
         return "home";
     }
