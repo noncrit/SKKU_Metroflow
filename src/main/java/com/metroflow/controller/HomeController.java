@@ -20,7 +20,8 @@ public class HomeController {
     private final NoticeBoardService NOTICEBOARDSERVICE;
 
     @GetMapping("/")
-    public String goHome(Model model) {
+    public String goHome(Model model/*, HttpSession session*/) {
+//        session.invalidate();
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
         List<NoticeBoard> notices = NOTICEBOARDREPOSITORY.findAll(Sort.by(Sort.Direction.DESC, "board.view"));
         for (NoticeBoard notice : notices) {
