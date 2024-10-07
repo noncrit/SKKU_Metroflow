@@ -1,11 +1,12 @@
 #stationList {
-    width: 300px;
+    display: none;
+    width: 100%;
     border: 1px solid #ccc;
     max-height: 200px;
     background-color: #ffffff;
     position: absolute;
     z-index: 1000;
-    display: none;
+    overflow-y: auto;
 }
 
 .container {
@@ -203,20 +204,14 @@ select:focus, input:focus {
     margin-top: 1.5rem;
 }
 
-.map-area{
-    flex: 3;
-    padding: 20px;
-    justify-items: center;
-    align-items: center;
-
-    margin-left: 50px;
-    /*스크롤바 구현을 위한 설정*/
-    overflow: auto; /* 스크롤 가능하도록 설정 */
-    max-width: 100%; /* 최대 너비 설정 */
-    max-height: 100%; /* 최대 높이 설정 (필요에 따라 조정) */
-    border: 1px solid #ddd; /* 선택적 경계선 */
+#input-time {
+    text-align: right;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
 }
 
-.map-area::-webkit-scrollbar{
-    display: none;
+#stationLineList {
+    border: none;
+    background-color: transparent;
+    text-align: center;
 }
