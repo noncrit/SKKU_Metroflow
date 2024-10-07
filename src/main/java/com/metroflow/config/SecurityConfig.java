@@ -35,6 +35,7 @@ public class SecurityConfig {
                                 .permitAll()
 //                        .loginProcessingUrl("/")
                                 .defaultSuccessUrl("/home", true)
+                                .failureHandler(new CustomAuthenticationFailureHandler())
                 )
                 .logout(logout -> logout
                         .permitAll()

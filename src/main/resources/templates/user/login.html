@@ -46,6 +46,7 @@
                     <label for="userId" class="form-label">아이디</label>
                     <input th:type="text" class="form-control" id="userId" name="username" placeholder="아이디 입력" maxlength="15" style="text-align: center;">
                 </div>
+                <span class="errorMessage" th:if="${session.errorMessage}" th:text="${session.errorMessage}"></span>
 
                 <div class="loginInput">
                     <label for="password" class="form-label">비밀번호</label>
