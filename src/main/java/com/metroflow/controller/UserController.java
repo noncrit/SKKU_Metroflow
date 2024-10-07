@@ -4,6 +4,8 @@ import com.metroflow.model.dao.UserDAO;
 import com.metroflow.model.dto.UserRegisterForm;
 import com.metroflow.model.service.UserService;
 import com.metroflow.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -41,9 +43,16 @@ public class UserController {
         return "home";
     }
 
-    @GetMapping("/login")
-    public String goLoginPage() {
+    @GetMapping("/goLogin")
+    public String goLoginPage(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "");
         return "user/login";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return"user/login";
     }
 
 
