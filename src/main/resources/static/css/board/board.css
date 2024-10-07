@@ -129,3 +129,7 @@ p {
 .write-btn:hover {
   background-color: #218838;
 }
+
+.activeSelection {
+  background-color: #fc4c02;
+}
