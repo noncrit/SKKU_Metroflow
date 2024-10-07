@@ -132,19 +132,32 @@
         </div>
 
         <div class="favoriteList_area">
-
+            <table>
+                <thead>
+                <tr>
+                    <th>유저 ID</th>
+                    <th>역 ID</th>
+                    <th>역 노선</th>
+                    <th>역 이름</th>
+                    <th>방향</th>
+                    <th>요일 타입</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${favoriteList}">
+                    <td th:text="${item.userId}"></td>
+                    <td th:text="${item.stationId}"></td>
+                    <td th:text="${item.stationLine}"></td>
+                    <td th:text="${item.stationName}"></td>
+                    <td th:text="${item.directionType}"></td>
+                    <td th:text="${item.dayType}"></td>
+                    <td th:text="${item.subwayTime.getH0830() != null ? item.subwayTime[currentTime] : '정보 없음'}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById('hour').oninput = function() {
-        document.getElementById('hourDisplay').textContent = this.value;
-    }
-    document.getElementById('minute').oninput = function() {
-        document.getElementById('minuteDisplay').textContent = this.value;
-    }
-</script>
 
 </body>
 </html>

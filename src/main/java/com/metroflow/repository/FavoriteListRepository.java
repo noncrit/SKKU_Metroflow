@@ -1,6 +1,9 @@
 package com.metroflow.repository;
 
 import com.metroflow.model.dto.FavoriteList;
+import com.metroflow.model.dto.FavoriteListPageDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,5 +35,16 @@ public interface FavoriteListRepository extends JpaRepository<FavoriteList, Long
     // 유저 id 기준으로 즐겨찾기 데이터를 모두 가져오는 쿼리
     @Query("SELECT f FROM FavoriteList f WHERE f.user.userId = :userId")
     List<FavoriteList> findAllByUserId(@Param("userId") String userId);
+
+    // 유저 id 기준으로 페이지에 표시 할 즐겨찾기 데이터를 가져오는 쿼리
+    @Query("SELECT f.user.userId AS userId, f.station.stationId AS stationId, s.stationLine AS stationLine, s.stationName AS stationName, " +
+            "t.directionType AS directionType, t.dayType AS dayType, ti AS subwayTime " +
+            "FROM FavoriteList f " +
+            "JOIN SubwayStation s ON f.station.stationId = s.stationId " +
+            "JOIN SubwayType t ON t.subwayStation.stationId = f.station.stationId " +
+            "JOIN SubwayTime ti ON ti.typeId = t.typeId " +
+            "WHERE f.user.userId = :userId")
+    Page<FavoriteListPageDto> findFavoriteListByUserId(@Param("userId") String userId, Pageable pageable);
+
 
 }
