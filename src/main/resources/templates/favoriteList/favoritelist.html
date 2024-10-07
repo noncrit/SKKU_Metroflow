@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="/css/menu.css" rel="stylesheet">
+    <link href="/css/home.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:insert="~{fragments/menu :: menuBar}"></div>
+
+<div class="content-wrapper">
+    <div class="sidebar">
+        <!-- 긴급 사안 카드 -->
+        <div class="alert-card">
+            <div class="alert-header">
+                <h5 class="alert-title">⚠️ 긴급 사안</h5>
+            </div>
+            <ul th:each="notice, stat: ${notices}">
+                <li>
+                    <div class="alert-item">
+                        <a th:href="'/board/content?boardNo=' + ${notice.boardNo}" th:text="${notice.board.title}"></a>
+                        <p th:text="${notice.board.boardText}"></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 최근 검색 -->
+        <div class="recent-searches">
+            <h6>🕒 최근 검색</h6>
+            <ul class="search-list">
+                <li>#</li>
+                <li>#</li>
+                <li>#</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="middleArea">
+        <div class="time_area">
+            <label for="hour">시:</label>
+            <input type="range" id="hour" min="0" max="23" value="12">
+            <span id="hourDisplay">12</span>시
+
+            <label for="minute">분:</label>
+            <input type="range" id="minute" min="0" max="59" value="30">
+            <span id="minuteDisplay">30</span>분
+
+            <button id="timeSubmitBtn">표기 시간 변경</button>
+        </div>
+
+        <div class="favoriteList_area">
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('hour').oninput = function() {
+        document.getElementById('hourDisplay').textContent = this.value;
+    }
+    document.getElementById('minute').oninput = function() {
+        document.getElementById('minuteDisplay').textContent = this.value;
+    }
+</script>
+
+</body>
+</html>
