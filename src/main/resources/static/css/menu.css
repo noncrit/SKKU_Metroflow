@@ -7,72 +7,159 @@ body {
 
 .logo-container {
     text-align: center;
-    padding: 1rem 0;
-    background-color: #001f3f;
-    height: 30px;
+    padding: 0.5rem 0;
+    background-color: #181f31;
+    height: 55px;
     width: 100%;
+    position: relative;
 }
 
 .logo {
     width: 150px;
     height: auto;
+    display: inline-block;
+}
+
+/* "메뉴" 텍스트 스타일 설정 */
+.menu-label {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    cursor: pointer;
+    background-color: #181f31;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    z-index: 1001;
+    font-weight: bold;
+}
+
+/* 체크박스가 체크된 상태에서도 "메뉴" 텍스트 보이게 설정 */
+.menu-checkbox {
+    display: none; /* 체크박스가 보이지 않도록 설정 */
+}
+
+
+.menu-link {
+    text-decoration: none;
+    color: white;
+    font-size: 1.4rem;
+    display: flex; /* 아이콘과 텍스트를 수평 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    margin-left: -8px; /* 전체를 왼쪽으로 약간 이동 */
+}
+
+.m_icon {
+    width: 25px; /* 기존 너비 */
+    height: 25px; /* 기존 높이 */
+    margin-right: 8px;
+    vertical-align: middle;
+    filter: brightness(0) invert(1); /* 이미지 색상을 흰색으로 유지 */
+    transform: scale(0.8);
 }
 
 .navbar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.4rem 2rem;
-    background-color: #002f5f;
-    border-bottom: 1px solid #ddd;
-    height: 50px;
-    width: auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1rem;
+    background-color: #181f31;
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.menu-checkbox:checked ~ .navbar {
+    left: 0;
+}
+
+/* 닫기 버튼 스타일 - 네모 모양으로 설정 */
+.close-label {
+    cursor: pointer;
+    color: #001f3f; /* 기본 텍스트 색상 설정 */
+    padding: 8px 12px;
+    border: 2px solid #001f3f; /* 기본 테두리 색상 설정 */
+    border-radius: 4px; /* 네모 모양 */
+    font-weight: bold;
+    font-size: 0.9rem; /* 폰트 크기 조정 */
+    background-color: #ffffff; /* 기본 배경색을 흰색으로 설정 */
+    margin-top: 2rem;
+    align-self: flex-start;
+    margin-left: 140px;
+    transition: background-color 0.3s, color 0.3s, border 0.3s; /* 애니메이션 효과 */
+}
+
+.close-label:hover {
+    background-color: #181f31; /* 호버 시 배경을 메뉴 바 배경색과 일치시킴 */
+    color: #ffffff; /* 호버 시 글자색을 흰색으로 변경 */
+    border: 2px solid #ffffff; /* 테두리도 흰색으로 변경 */
+}
+
+
+.close-arrow {
+    font-size: 0.9rem; /* 화살표의 폰트 크기도 함께 조정 */
 }
 
 .nav-items {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 3.7rem 0 0 0;
     display: flex;
-    gap: 25rem;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
 }
 
 .nav-items li {
     display: inline;
 }
 
+/* 메뉴 항목의 기본 스타일 */
 .nav-items a {
-    text-decoration: none;
+    text-decoration: none; /* 기본적으로 밑줄 없음 */
     font-weight: bold;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: color 0.3s, text-decoration 0.3s;
+    margin-left: -10px;
 }
 
-.auth-buttons {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+/* 메뉴 항목에 마우스를 올렸을 때 밑줄 표시 */
+.nav-items a:hover {
+    text-decoration: underline;
+    color: #ffffff; /* 글자색 유지 */
 }
 
-.member {
-    display: flex;
-    align-items: center; /* 이미지와 텍스트를 수직으로 가운데 정렬 */
-    gap: 10px; /* 이미지와 링크 사이의 간격을 설정 */
+/* 활성화된 메뉴 항목 - 마우스를 올린 후에도 밑줄이 유지되도록 */
+.nav-items a.active {
+    text-decoration: underline;
+    color: #ffffff; /* 활성화된 메뉴 항목의 글자색 */
 }
 
-.memberImg {
-    height: 20px;
-    width: auto;
-}
-
-.member a {
+/* 메뉴바가 열렸을 때 기본적으로 밑줄이 보이지 않도록 설정 */
+.menu-checkbox:checked ~ .navbar .nav-items a {
     text-decoration: none;
-    color: #001f3f;
-    font-weight: bold;
 }
 
-.btn, .btn-outline {
+/* 메뉴바가 열렸을 때 호버된 메뉴 항목에만 밑줄 표시 */
+.menu-checkbox:checked ~ .navbar .nav-items a:hover {
+    text-decoration: underline;
+}
+
+/* 로그인 및 회원가입 버튼 스타일 */
+.guestMember {
+    margin-top: 2rem;
+}
+
+.guest .btn,
+.member .btn {
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
@@ -83,45 +170,70 @@ body {
     text-decoration: none;
     display: inline-block;
     text-align: center;
+    margin-top: 0.5rem;
+    margin-left: 10px; /* 버튼을 오른쪽으로 이동 */
 }
 
-.btn-outline {
-    background-color: white;
+
+.guest .btn:hover,
+.member .btn:hover {
+    background-color: #e9ecef;
+    color: #001f3f;
+    border: 2px solid #001f3f;
 }
 
-.btn {
-    background-color: white;
+.guest .btn-outline-light {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.guest .btn-outline-light:hover {
+    background-color: #e9ecef;
     color: #001f3f;
 }
 
-.btn:hover, .btn-outline:hover {
-    background-color: #e9ecef;
+.member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* 반응형 미디어 쿼리 */
+.member img {
+    height: 40px;
+    width: auto;
+    border-radius: 50%;
+}
+
+.member a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.member a:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     .navbar {
+        width: 150px;
+    }
+
+    .nav-items {
+        gap: 1rem;
+    }
+
+    .guestMember {
         flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        margin-top: 1rem;
     }
 
-    .nav-list {
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
+    .guest .btn-outline-light,
+    .member .btn {
+        margin: 0.5rem;
     }
-
-    .auth-buttons .btn-outline, .auth-buttons .btn-primary {
-        margin-top: 10px;
-    }
-
-    .member {
-        flex-direction: column; /* 작은 화면에서 세로 정렬 */
-        align-items: center;
-    }
-
-    .member a {
-        margin-top: 10px;
-    }
-
 }
 
