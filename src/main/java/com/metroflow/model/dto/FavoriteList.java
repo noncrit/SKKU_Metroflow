@@ -21,5 +21,4 @@ public class FavoriteList {
     @OneToOne
     @JoinColumn(name = "stationId", referencedColumnName = "stationId", nullable = false)
     private SubwayStation station;
-
 }

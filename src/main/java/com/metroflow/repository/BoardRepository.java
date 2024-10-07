@@ -41,4 +41,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     void updateThumbs(@Param("resultThumbsUp") int resultThumbsUp,
                       @Param("resultThumbsDown") int resultThumbsDown,
                       @Param("boardNo") Long boardNo);
+
+    @Modifying
+    @Query(value = "update Board board" +
+            " set board.isNoticeBoard = :isNoticeBoard" +
+            " where board.boardNo = :boardNo")
+    void updateBoardByBoardNo(boolean isNoticeBoard, Long boardNo);
 }

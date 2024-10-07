@@ -43,7 +43,10 @@ body {
     margin-bottom: 1rem;
     border-radius: 8px;
     width: 300px; /* 긴급 사안 카드의 너비 */
+    margin-left: 20px; /* 왼쪽 여백 추가 */
+    margin-top: -18px; /* 위쪽 여백을 줄임 */
 }
+
 
 .alert-header {
     background-color: #990011;
@@ -76,6 +79,7 @@ body {
     border: 1px solid #ddd;
     width: 285px;
     position: relative;
+    margin-left: 20px; /* 왼쪽 여백 추가 */
 }
 
 .recent-searches h6 {

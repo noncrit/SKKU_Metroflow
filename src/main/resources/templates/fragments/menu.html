@@ -10,12 +10,23 @@
 
 <div th:fragment="menuBar">
 
+    <!-- 체크박스를 사용하여 메뉴를 제어 -->
+    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+
+    <!-- "메뉴" 텍스트 클릭 시 체크박스를 조작하도록 for 속성 사용 -->
+    <label for="menu-toggle" class="menu-label">
+        <span class="menu-link"><img src="/images/menu.png" alt="Menu Icon" class="m_icon"> 메뉴</span>
+    </label>
+
+    <!-- 로고 영역 - 중앙 정렬 -->
     <div class="logo-container">
-        <a href="/"><img src="" alt="로고" class="logo"></a> <!-- 로고 이미지 경로 추가 -->
+        <a href="/"><img src="" alt="로고" class="logo"></a>
     </div>
 
     <!-- 메뉴 바 - 각 메뉴에 경로 필요 -->
-    <nav class="navbar">
+    <nav class="navbar" id="sidebar">
+
+        <!-- 메뉴 항목들 -->
         <ul class="nav-items">
             <li><a href="/goSearch">역 검색</a></li>
             <li><a href="#">즐겨찾기</a></li>
@@ -23,6 +34,7 @@
             <li><a href="#">방명록</a></li>
         </ul>
 
+        <!-- 로그인 및 회원가입 -->
         <div class="guestMember">
             <div sec:authorize="!isAuthenticated()" class="guest">
                 <a href="/goLogin" class="login btn btn-outline-light" role="button">로그인</a>
@@ -34,6 +46,11 @@
                 <a href="#">내 정보</a>
             </div>
         </div>
+
+        <!-- 메뉴바 안의 닫기 버튼 - 회원가입 버튼 아래에 위치 -->
+        <label for="menu-toggle" class="close-label">
+            <span class="close-arrow">&#8592; 닫기</span>
+        </label>
     </nav>
 </div>
 

@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>SubwayMap</title>
-    <link rel="stylesheet" href="/css/subwaymap.css"> <!-- CSS 파일 추가 -->
-<!--    <script src="/js/subwayMap/modalscript3.js" defer></script> &lt;!&ndash; 스크립트 파일을 defer로 로드 &ndash;&gt;-->
+    <link rel="stylesheet" href="/css/subwayMap/subwaymap.css"> <!-- CSS 파일 추가 -->
+    <link rel="stylesheet" href="/css/subwayMap/favorite.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+
+    <!--    <script src="/js/subwayMap/modalscript3.js" defer></script> &lt;!&ndash; 스크립트 파일을 defer로 로드 &ndash;&gt;-->
 <!--    <script src="/js/zoom.js" defer></script> &lt;!&ndash; 스크립트 파일을 defer로 로드 &ndash;&gt;-->
 </head>
 <body>
@@ -1508,9 +1511,17 @@
         <table>
             <tr>
                 <td>
+                    <!-- 리셋 버튼에 아이콘 추가 -->
+                    <button class="zoomButton" onclick="zoomReset()">
+                        <img src="/images/reset.png" alt="리셋" class="s_icon">
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <!-- 확대 버튼에 아이콘 추가 -->
                     <button id="zoomInButton" class="zoomButton" onclick="zoomIn(event.clientX, event.clientY)">
-                        <img src="/images/zoomin.png" alt="확대" class="icon">
+                        <img src="/images/zoomin.png" alt="확대" class="s_icon">
                     </button>
                 </td>
             </tr>
@@ -1518,15 +1529,7 @@
                 <td>
                     <!-- 축소 버튼에 아이콘 추가 -->
                     <button id="zoomOutButton" class="zoomButton" onclick="zoomOut(event.clientX, event.clientY)">
-                        <img src="/images/zoomout.png" alt="축소" class="icon">
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <!-- 리셋 버튼에 아이콘 추가 -->
-                    <button class="zoomButton" onclick="zoomReset()">
-                        <img src="/images/reset.png" alt="리셋" class="icon">
+                        <img src="/images/zoomout.png" alt="축소" class="s_icon">
                     </button>
                 </td>
             </tr>
@@ -1545,7 +1548,8 @@
             <div class="modal-header">
                 <h3 id="stationName"></h3> <!-- 역 이름을 헤더로 이동 -->
                 <!-- 로그인 상태 확인 -->
-                <span sec:authorize="isAuthenticated()" class="favorite" id="favorite"></span> <!-- 즐겨찾기 버튼 -->
+<!--                <span sec:authorize="isAuthenticated()" class="favorite" id="favorite"></span> &lt;!&ndash; 즐겨찾기 버튼 &ndash;&gt;-->
+                <i sec:authorize="isAuthenticated()" class="fas fa-star favorite" id="favorite"></i>
                 <span class="closeTab">&times;</span> <!-- 닫기 버튼 -->
             </div>
             <div class="time-container">
@@ -1557,6 +1561,22 @@
             </div>
         </div>
     </div>
+
+    <!-- 즐겨찾기 모달 -->
+    <div id="favoriteModal">
+        <div id="favoriteModal-content">
+            <div id="favoriteModal-header">
+                <span class="favorite-header">즐겨찾기 호선 선택</span>
+                <span class="favoriteCloseTab">&times;</span> <!-- 닫기 버튼 -->
+            </div>
+            <div id="favoriteModal-body">
+                <table id="favoriteModal_table">
+
+                </table>
+            </div>
+        </div>
+    </div>
+
     <svg>
         <symbol id="S1" viewBox="-13.5 -13.5 27 27">
             <circle class="P1" cx="0" cy="0" r="13.5"/>
@@ -1598,5 +1618,6 @@
 
 
 </div><!--end of fragment div-->
+
 </body>
 </html>
