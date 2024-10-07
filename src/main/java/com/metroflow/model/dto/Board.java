@@ -35,4 +35,6 @@ public class Board {
     private Long thumbsDown; // 보드 싫어요 수
     @Column(columnDefinition = "bigint")
     private Long view; // 보드 조회수
+    private boolean isNoticeBoard; // 긴급 공지인지 여부
+    // 변경 사항
 }
