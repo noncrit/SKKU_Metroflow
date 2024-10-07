@@ -19,7 +19,7 @@ import java.net.URI;
 
 @Controller
 @RequiredArgsConstructor
-public class Admincontroller {
+public class AdminController {
 
     private final UserService USERSERVICE;
     private final BoardRepository BOARDREPOSITORY;

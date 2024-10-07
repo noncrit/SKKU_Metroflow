@@ -17,7 +17,7 @@
     <!-- 메뉴 바 - 각 메뉴에 경로 필요 -->
     <nav class="navbar">
         <div class="nav-items">
-            <ul class="nav-items" sec:authorize="hasAuthority('user')">
+            <ul class="nav-items" th:if="${sessionUser == null || #sets.contains(sessionUser.userRole, 'user')}">
                 <li><a href="/goSearch">역 검색</a></li>
                 <li><a href="#">즐겨찾기</a></li>
                 <li><a href="#">내 주변</a></li>
