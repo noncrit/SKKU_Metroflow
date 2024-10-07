@@ -30,7 +30,7 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin -> formLogin
                                 .loginPage("/login")
-//                                .usernameParameter("userId")
+//                                .usernameParameter("username")
 //                                .passwordParameter("password")
                                 .permitAll()
 //                        .loginProcessingUrl("/")

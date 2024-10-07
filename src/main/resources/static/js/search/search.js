@@ -43,12 +43,12 @@ $('#stationList').on('click', 'li', function() {
     $('#stationList').hide().empty();
 });
 
-// $(document).click(function(event) {
-//     // 리스트 이외의 다른 곳을 클릭했을때 리스트 사라짐, 나중에 다시
-//     if (!$(event.target).closest('#searchInput, #stationList'.length)) {
-//         $('stationList').hide().empty();
-//       }
-// });
+$(document).click(function(event) {
+    // 리스트 이외의 다른 곳을 클릭했을때 리스트 사라짐, 나중에 다시
+    if (!$(event.target).closest('#searchInput, #stationList'.length)) {
+        $('stationList').hide().empty();
+      }
+});
 
 
 // 역이름을 넣고 역이름 옆의 버튼을 눌렀을 때 (밑에 있는 호선에 대한 데이터가 바뀜)
@@ -131,15 +131,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         success: function (response) {
             // console.log('응답내용: ',response);
 
-            document.getElementById('result').innerHtml = '';
-            $('#result').empty();
-
-            response.forEach(function(result) {
-
-                // html 작성
-                document.getElementById('result').insertAdjacentHTML('beforeend',
-                    `<div>${result.stationName}, ${result.stationLine}, ${result.directionType}, ${result.congestion}</div>`)
-            })
+            displayResults(response);
 
             // 검색후에 값 초기화
             $('#stationLineList').empty();
@@ -154,3 +146,69 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         }
     });
 });
+
+
+// 데이터를 받아서 HTML로 변환하는 함수
+function displayResults(data) {
+    resultContainer.innerHTML = '';  // 기존 결과 초기화
+
+    data.forEach(item => {
+        const statusColor = getStatusColor(item.congestion);
+        const lineColor = lineColors[item.stationLine] || "#000000";
+
+        const resultItem = `
+            <div class="result-item">
+                <div class="left-section">
+                    <span class="line-number" style="background-color: ${lineColor};">${item.stationLine}</span> ${item.stationLine} <span class="station-name">${item.stationName}</span>
+                </div>
+                <div class="status-bar">
+                    <span class="status-time">${item.directionType}</span>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 100%; background-color: ${statusColor};"></div>
+                    </div>
+                    <span class="status-label" style="color: ${statusColor};">${getCongestion(item.congestion)}</span>
+                </div>
+            </div>
+        `;
+
+        resultContainer.innerHTML += resultItem;
+    });
+}
+
+const lineColors = {
+    1: "#0032A0", // 1호선
+    2: "#00B140", // 2호선
+    3: "#FC4C02", // 3호선
+    4: "#00A9E0", // 4호선
+    5: "#A05EB5", // 5호선
+    6: "#A9431E", // 6호선
+    7: "#67823A", // 7호선
+    8: "#E31C79", // 8호선
+    9: "#8C8279", // 9호선
+};
+
+const resultContainer = document.getElementById('result-container');
+
+function getStatusColor(congestion) {
+    if (congestion <= 33) {
+        return "red";    // 혼잡
+    } else if (congestion > 33 && congestion <= 66) {
+        return "orange"; // 보통
+    } else if (congestion > 66) {
+        return "green";  // 여유
+    } else {
+        return "gray";   // 기본값
+    }
+}
+
+function getCongestion(congestion) {
+    if (congestion <= 33) {
+        return "혼잡";    // 혼잡
+    } else if (congestion > 33 && congestion <= 66) {
+        return "보통"; // 보통
+    } else if (congestion > 66) {
+        return "여유";  // 여유
+    } else {
+        return "오류";   // 기본값
+    }
+}
