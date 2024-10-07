@@ -4,7 +4,7 @@ $('#searchInput').on('input', function() {
     console.log(query);
 
     if (query.trim() === '') {
-        $('#stationList').empty();
+        $('#stationList').empty().hide();
         return;
     }
 
@@ -45,8 +45,9 @@ $('#stationList').on('click', 'li', function() {
 
 $(document).click(function(event) {
     // 리스트 이외의 다른 곳을 클릭했을때 리스트 사라짐, 나중에 다시
-    if (!$(event.target).closest('#searchInput, #stationList'.length)) {
-        $('stationList').hide().empty();
+    if (!$(event.target).closest('#searchInput, #stationList').length) {
+        console.log('리스트 숨기기')
+        $('#stationList').hide().empty();
       }
 });
 
@@ -70,6 +71,7 @@ $('.search-btn1').on('click', function() {
         success: function(data) {
             // 기존의 select 박스 비우기
             $('#stationLineList').empty();
+            $('#stationLineList').append('<option value="">' + '호선' + '</option>');
 
             // 중복 제거를 위한 Set 사용
             var seenStationLine = new Set();
@@ -110,6 +112,9 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         return;
     }
 
+    // 결과창에 시간 표시
+    document.getElementById('input-time').textContent = `${ampm} ${hour}시 ${minute}분`
+
     $.ajax( {
         type: 'POST',
         url: `/goSearch/result`,
@@ -135,14 +140,26 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
 
             // 검색후에 값 초기화
             $('#stationLineList').empty();
+            $('#stationLineList').append('<option value="">' + '호선' + '</option>');
             document.getElementById('searchInput').value = '';
             $('#ampm').val('AM');
             $('#hour').val('firstHour');
-            $('#minute').val('firstMinute');
-            
+            $('#minute').val('');
+
         },
         error: function(err) {
             console.log('에러: ', err);
+
+            const messageElement = document.getElementById('result-container');
+            messageElement.textContent = '혼잡도 데이터가 없습니다'
+            messageElement.style.display = 'block';
+
+            $('#stationLineList').empty();
+            $('#stationLineList').append('<option value="">' + '호선' + '</option>');
+            document.getElementById('searchInput').value = '';
+            $('#ampm').val('AM');
+            $('#hour').val('');
+            $('#minute').val('');
         }
     });
 });
@@ -159,7 +176,8 @@ function displayResults(data) {
         const resultItem = `
             <div class="result-item">
                 <div class="left-section">
-                    <span class="line-number" style="background-color: ${lineColor};">${item.stationLine}</span> ${item.stationLine} <span class="station-name">${item.stationName}</span>
+                    <span class="line-number" style="background-color: ${lineColor};">${item.stationLine}</span>
+                    <span class="station-name">${item.stationName}</span>
                 </div>
                 <div class="status-bar">
                     <span class="status-time">${item.directionType}</span>

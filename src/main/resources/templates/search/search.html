@@ -10,6 +10,22 @@
     <link href="/css/search/search.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="/css/subwayMap/subwaymap.css" rel="stylesheet">
+    <style>
+        .map-area{
+            flex: 3;
+            padding: 20px;
+            justify-items: center;
+            align-items: center;
+            margin-left: 50px;
+            overflow: auto;
+            max-width: 100%;
+            max-height: 100%;
+            border: 1px solid #ddd;
+        }
+        .map-area::-webkit-scrollbar{
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
@@ -19,17 +35,17 @@
     <div class="search-area">
         <h3><img src="/images/placeicon.png" alt="내 위치 아이콘" class="icon"> 혼잡도 검색</h3>
         <div class="input-container">
-            <label>
-                <input id="searchInput" type="text" placeholder="지하철역 검색" autocomplete="off">
-                <button class="search-btn1">
-                    <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
-                </button>
-            </label>
+            <input id="searchInput" type="text" placeholder="지하철역 검색" autocomplete="off">
             <ul id="stationList"></ul>
+            <button class="search-btn1">
+                <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
+            </button>
         </div>
 
         <div>
-            <select id="stationLineList"></select>
+            <select id="stationLineList" class="input-container">
+                <option value="">호선</option>
+            </select>
         </div>
 
 
@@ -41,7 +57,7 @@
                 <option value="PM">오후</option>
             </select>
             <select id="hour">
-                <option value="firstHour">시간</option>
+                <option value="">시간</option>
                 <option value="01">01</option>
                 <option value="02">02</option>
                 <option value="03">03</option>
@@ -56,7 +72,7 @@
                 <option value="12">12</option>
             </select>
             <select id="minute">
-                <option value="firstMinute">분</option>
+                <option value="">분</option>
                 <option value="01">01</option>
                 <option value="02">02</option>
                 <option value="03">03</option>
@@ -124,16 +140,19 @@
         <div class="new-box">
             <!-- 기본 메시지 표시 영역 -->
             <div id="default-message">검색 결과</div>
+            <div><span id="input-time"></span></div>
             <div id="result-container">
                 <!-- JavaScript로 데이터를 추가할 예정 -->
             </div>
         </div>
     </div>
 
-    <div class="map-area" th:insert="~{fragments/subwayMap::subwayMap}"></div>
+    <div class="map-area">
+        <div class="subwayMap" th:insert="~{fragments/subwayMap::subwayMap}"></div>
+    </div>
 </div>
 
 </body>
-<script src="/js/zoom.js" defer></script>
+<script src="/js/subwayMap/zoom2.js" defer></script>
 <script type="text/javascript" src="/js/search/search.js"></script>
 </html>
