@@ -322,11 +322,18 @@ document.addEventListener("DOMContentLoaded", function() {
 // 모달 닫기 기능
 closeModal.addEventListener("click", function() {
     modal.style.display = "none"; // 모달 숨김
+    favoriteModal.style.display= "none";
+
+    // modal 내용물 초기화
+    clearModal(modalBody);
+    // 즐겨찾기 모달 내용물 초기화
+    clearModal(favoriteModal);
 });
 
 // 즐겨찾기 모달 닫기 기능
 favoriteCloseModal.addEventListener("click", function(){
    favoriteModal.style.display= "none";
+    clearModal(favoriteModal);
 });
 
 // 모달 외부 클릭 시 닫기
@@ -334,6 +341,11 @@ window.addEventListener("click", function(event) {
     if (event.target === modal) {
         modal.style.display = "none"; // 모달 숨김
         favoriteModal.style.display= "none";
+
+        // modal 내용물 초기화
+        clearModal(modalBody);
+        // 즐겨찾기 모달 내용물 초기화
+        clearModal(favoriteModal);
     }
 });
 
@@ -342,6 +354,11 @@ window.addEventListener("keydown", function(event) {
     if (event.key === "Escape" && modal.style.display === "block") {
         modal.style.display = "none"; // 모달 숨김
         favoriteModal.style.display = "none";
+
+        // modal 내용물 초기화
+        clearModal(modalBody);
+        // 즐겨찾기 모달 내용물 초기화
+        clearModal(favoriteModal);
     }
 });
 
