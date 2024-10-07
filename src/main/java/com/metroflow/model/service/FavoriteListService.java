@@ -1,12 +1,15 @@
 package com.metroflow.model.service;
 
 import com.metroflow.model.dto.FavoriteList;
+import com.metroflow.model.dto.FavoriteListPageDto;
 import com.metroflow.model.dto.SubwayStation;
 import com.metroflow.model.dto.User;
 import com.metroflow.repository.FavoriteListRepository;
 import com.metroflow.repository.SubwayStationRepository;
 import com.metroflow.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,6 +83,10 @@ public class FavoriteListService {
                 favoriteListRepository.deleteAll(favorites);
             }
         }
+    }
+
+    public Page<FavoriteListPageDto> getFavoriteListByUserId(String userId, Pageable pageable){
+        return favoriteListRepository.findFavoriteListByUserId(userId, pageable);
     }
 
 
