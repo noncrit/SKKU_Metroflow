@@ -122,6 +122,12 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
             hour:hour,
             minute: minute
         }),
+        beforeSend: function(xhr) {
+            // CSRF 토큰과 헤더를 설정
+            const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function (response) {
             // console.log('응답내용: ',response);
 
