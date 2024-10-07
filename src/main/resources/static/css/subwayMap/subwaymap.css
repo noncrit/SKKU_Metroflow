@@ -11,7 +11,7 @@ body {
     max-height: 100%; /* 최대 높이 100%로 설정 */
     overflow: auto; /* 스크롤 가능 */
     margin: auto; /* 가운데 정렬 */
-    border: 1px solid #ccc; /* 경계선 추가 (선택사항) */
+    /* border: 1px solid #ccc; /* 경계선 추가 (선택사항) */
 }
 
 /* 확대/축소 버튼 css */
@@ -19,13 +19,13 @@ body {
     position: fixed; /* 고정 위치 설정 */
     top: 350px; /* 상단에서의 거리 */
     right: 30px; /* 우측에서의 거리 */
-    background: rgba(255, 255, 255, 0.8); /* 배경색 추가로 가독성 향상 */
+    background: none;
     padding: 10px; /* 내부 여백 */
     border-radius: 5px; /* 모서리 둥글게 */
     z-index: 10; /* SVG 위에 표시 */
 }
 
- /*모달 스타일*/
+/*모달 스타일*/
 /*modal의 width는 스크립트에서 조절함*/
 .modal {
     display: none; /* 기본적으로 숨김 */
@@ -49,7 +49,6 @@ body {
 
 .modal-content {
     background-color: white;
-    /*margin: 10% auto; !* 위쪽 여백과 가운데 정렬 *!*/
     padding: 10px;
     border: 1px solid #888;
     width: 90%; /* 원하는 너비로 설정 */
@@ -69,7 +68,6 @@ body {
     padding: 10px; /* 패딩 추가 */
 }
 
-
 .closeTab {
     cursor: pointer; /* 마우스 커서가 포인터로 바뀌도록 */
     font-size: 24px; /* 버튼 크기 조정 */
@@ -84,35 +82,42 @@ body {
 }
 
 .zoomButton {
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 10px 10px;
     cursor: pointer;
     border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
-    color: white;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
     transition: background-color 0.3s;
-    /* 고정된 크기 설정 */
-    width: 100px; /* 버튼 너비 */
-    height: 40px; /* 버튼 높이 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 16px 0;
+    position: relative; /* 위치를 상대적으로 설정 */
+    left: 10px;
+}
+
+.zoomButton:hover {
+    background-color: lightgray; /* 호버 시 배경색 변경 */
+}
+
+.s_icon {
+    width: 30px; /* 아이콘 크기 조정 */
+    height: 30px;
+    vertical-align: middle; /* 아이콘이 텍스트와 정렬 */
 }
 
 .nowTime {
     font-family: 'Arial', sans-serif;  /* 글꼴 설정 */
     font-size: 20px;                   /* 글자 크기 설정 */
-    /*color: #ff6600;                    !* 글자 색상 설정 *!*/
     background-color: rgba(255, 255, 255, 0.8); /* 배경색 설정 */
     padding: 10px;                     /* 안쪽 여백 설정 */
-    /*border: 2px solid #ff6600;        !* 테두리 설정 *!*/
-    /*border-radius: 5px;                !* 둥근 모서리 *!*/
-    /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); !* 그림자 효과 *!*/
     display: inline-block;              /* 인라인 블록으로 설정 */
-    /*transition: transform 0.3s ease;   !* 변환 효과 설정 *!*/
 }
 
-
 button:hover {
-    background-color: #0056b3; /* 호버 시 배경색 변화 */
+    background-color: #a49e9e; /* 호버 시 배경색 변화 */
 }
 
 #mySVG text:hover {
@@ -130,5 +135,3 @@ button:hover {
     font-size: 20px; /* 시간 텍스트 크기 */
     margin-right: 5px; /* 별과의 간격 */
 }
-
-
