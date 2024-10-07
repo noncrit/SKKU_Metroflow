@@ -130,10 +130,16 @@
         </div>
     </div>
 
-    <div class="map-area" th:insert="~{fragments/subwayMap::subwayMap}"></div>
+<!--    <div class="map-area" th:insert="~{fragments/subwayMap::subwayMap}"></div>-->
+    <div class="map-area">   <!-- 가운데 노선도 나올 공간, resources-img-img.png 지하철 노선도 사진-->
+        <div th:insert="~{fragments/subwayMap::subwayMap}" class="subwayMap">
+            <!--                <img src="/images/subwayMap.png" alt="지하철 노선도" class="img-fluid">-->
+        </div>
+    </div>
 </div>
 
+
 </body>
-<script src="/js/zoom.js" defer></script>
+<script src="/js/subwayMap/zoom2.js" defer></script>
 <script type="text/javascript" src="/js/search/search.js"></script>
 </html>
