@@ -44,7 +44,7 @@ $('#stationList').on('click', 'li', function() {
 });
 
 // $(document).click(function(event) {
-//     리스트 이외의 다른 곳을 클릭했을때 리스트 사라짐, 나중에 다시
+//     // 리스트 이외의 다른 곳을 클릭했을때 리스트 사라짐, 나중에 다시
 //     if (!$(event.target).closest('#searchInput, #stationList'.length)) {
 //         $('stationList').hide().empty();
 //       }
@@ -123,17 +123,19 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
             minute: minute
         }),
         success: function (response) {
-            console.log('응답내용: ',response);
+            // console.log('응답내용: ',response);
 
             document.getElementById('result').innerHtml = '';
             $('#result').empty();
 
             response.forEach(function(result) {
 
+                // html 작성
                 document.getElementById('result').insertAdjacentHTML('beforeend',
                     `<div>${result.stationName}, ${result.stationLine}, ${result.directionType}, ${result.congestion}</div>`)
             })
 
+            // 검색후에 값 초기화
             $('#stationLineList').empty();
             document.getElementById('searchInput').value = '';
             $('#ampm').val('AM');
