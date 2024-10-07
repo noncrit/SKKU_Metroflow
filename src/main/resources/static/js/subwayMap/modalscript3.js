@@ -322,6 +322,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // 모달 닫기 기능
 closeModal.addEventListener("click", function() {
     modal.style.display = "none"; // 모달 숨김
+    favoriteModal.style.display= "none";
 });
 
 // 즐겨찾기 모달 닫기 기능
