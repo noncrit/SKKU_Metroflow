@@ -71,7 +71,7 @@ $('.search-btn1').on('click', function() {
         success: function(data) {
             // 기존의 select 박스 비우기
             $('#stationLineList').empty();
-            $('#stationLineList').append('<option value="firstStationLine">' + '호선' + '</option>');
+            $('#stationLineList').append('<option value="">' + '호선' + '</option>');
 
             // 중복 제거를 위한 Set 사용
             var seenStationLine = new Set();
@@ -140,7 +140,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
 
             // 검색후에 값 초기화
             $('#stationLineList').empty();
-            $('#stationLineList').append('<option value="firstStationLine">' + '호선' + '</option>');
+            $('#stationLineList').append('<option value="">' + '호선' + '</option>');
             document.getElementById('searchInput').value = '';
             $('#ampm').val('AM');
             $('#hour').val('firstHour');
@@ -155,10 +155,10 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
             messageElement.style.display = 'block';
 
             $('#stationLineList').empty();
-            $('#stationLineList').append('<option value="firstStationLine">' + '호선' + '</option>');
+            $('#stationLineList').append('<option value="">' + '호선' + '</option>');
             document.getElementById('searchInput').value = '';
             $('#ampm').val('AM');
-            $('#hour').val('firstHour');
+            $('#hour').val('');
             $('#minute').val('');
         }
     });
