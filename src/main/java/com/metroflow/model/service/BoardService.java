@@ -80,7 +80,7 @@ public class BoardService {
         return boards.map(board -> new BoardForm(board.getBoardNo(),
                 BOARDREPOSITORY.findById(board.getBoardNo()).get().getUser(),
                 board.getStationLine(), board.getTitle(), board.getCreatedTime(), board.getThumbsUp(),
-                board.getView()));
+                board.getView(), board.isNoticeBoard()));
     }
 
     // 보드 내용 얻어오기

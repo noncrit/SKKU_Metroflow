@@ -29,7 +29,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="boardL, stat: ${boardList}" th:id="${stat.index}"> <!-- 보드컨트롤러에서 받아온 페이징된 보드 객체들 -->
+        <tr th:each="boardL, stat: ${boardList}" th:id="'boardRow_' + ${boardL.boardNo}"> <!-- 보드컨트롤러에서 받아온 페이징된 보드 객체들 -->
                 <td th:text="${boardL.boardNo}"></td> <!-- 보드 시퀀스 -->
                 <td th:text="${boardL.stationLine}" th:class="${boardL.stationLine}"></td> <!-- 보드 역 명 -->
                 <td><a th:href="@{|/board/content|(boardNo=${boardL.boardNo})}" th:text="${boardL.title}"></a></td>
@@ -38,8 +38,13 @@
                 <td th:text="*{#temporals.format(boardL.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- 보드 게시 날짜 -->
                 <td th:text="${boardL.view}"></td> <!-- 보드 조회수 -->
                 <td th:text="${boardL.thumbsUp}"></td> <!-- 보드 좋아요 수 -->
-                <td sec:authorize="hasAuthority('admin')" id="deleteBoard" th:onclick="'deleteBoard(' + ${boardL.boardNo} + ', ' + ${stat.index} + ')'">삭제</td>
-                <td sec:authorize="hasAuthority('admin')" id="insertNotice" onclick="insertNotice()">선택</td>
+                <td sec:authorize="hasAuthority('admin')" id="deleteBoard" th:onclick="'deleteBoard(' + ${boardL.boardNo} + ', ' + 'boardRow_' + ${boardL.boardNo} + ')'">삭제</td>
+                <td sec:authorize="hasAuthority('admin')">
+                    <input type="hidden" th:id="${boardL.boardNo}" th:value="${boardL.isNoticeBoard}">
+                    <div th:id="'noticeSelectionDiv' + ${boardL.boardNo}">
+                        선택
+                    </div>
+                </td>
         </tr>
         </tbody>
     </table>
@@ -71,6 +76,5 @@
         <a href="/board/writeBoard" class="write-btn">글쓰기</a>
     </div>
 </div>
-
 </body>
 </html>

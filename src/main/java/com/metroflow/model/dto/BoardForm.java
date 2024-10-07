@@ -18,8 +18,9 @@ public class BoardForm {
     private Long thumbsUp;
     private Long thumbsDown;
     private Long view;
+    private boolean isNoticeBoard; // 긴급 공지인지 여부
 
-    public BoardForm(long boardNo, User user, String stationLine, String title, LocalDateTime createdTime, Long thumbsUp, Long view) {
+    public BoardForm(long boardNo, User user, String stationLine, String title, LocalDateTime createdTime, Long thumbsUp, Long view, boolean isNoticeBoard) {
         this.boardNo = boardNo;
         this.user = user;
         this.stationLine = stationLine;
@@ -27,5 +28,6 @@ public class BoardForm {
         this.createdTime = createdTime;
         this.thumbsUp = thumbsUp;
         this.view = view;
+        this.isNoticeBoard = isNoticeBoard;
     }
 }

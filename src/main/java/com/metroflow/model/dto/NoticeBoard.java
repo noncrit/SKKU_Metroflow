@@ -9,13 +9,17 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Getter
 @Setter
-@Table(name = "noticeBoard")
+@Table(name = "noticeboard")
 public class NoticeBoard {
 
     @Id
-    @ManyToOne
+    @Column(name = "boardNo")
+    private Long boardNo;
+
+    @OneToOne(cascade = CascadeType.MERGE)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "boardNo", referencedColumnName = "boardNo")
+    @PrimaryKeyJoinColumn
+    @MapsId
     private Board board;
 
 }
