@@ -143,7 +143,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
             $('#stationLineList').append('<option value="">' + '호선' + '</option>');
             document.getElementById('searchInput').value = '';
             $('#ampm').val('AM');
-            $('#hour').val('firstHour');
+            $('#hour').val('');
             $('#minute').val('');
 
         },
