@@ -31,8 +31,6 @@ public class StationInfoController {
     private final FavoriteListService FavoriteListService;
 
     private static final Logger logger = LoggerFactory.getLogger(StationInfoController.class);
-    @Autowired
-    private UserService userService;
 
 
     @GetMapping("/station-info")

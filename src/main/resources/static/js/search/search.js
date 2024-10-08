@@ -1,3 +1,4 @@
+// 역 이름 자동완성
 $('#searchInput').on('input', function() {
     var query = $('#searchInput').val();
 
@@ -97,7 +98,7 @@ $('.search-btn1').on('click', function() {
     });
 });
 
-
+// 역이름 호선 시간 데이터가 모두 들어가있으면 혼잡도 결과 보여주기
 document.querySelector('.search-btn2').addEventListener('click', function (event) {
     event.preventDefault();
 
@@ -121,8 +122,8 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         // dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify({
-            stationName: stationName,
-            stationLine: stationLine,
+            stationName:stationName,
+            stationLine:stationLine,
             ampm: ampm,
             hour:hour,
             minute: minute
@@ -135,9 +136,12 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         },
         success: function (response) {
             // console.log('응답내용: ',response);
-
+            let station = {
+                stationName: stationName,
+                stationLine: stationLine
+            }
             displayResults(response);
-
+            insertToLocalStorage(station);
             // 검색후에 값 초기화
             $('#stationLineList').empty();
             $('#stationLineList').append('<option value="">' + '호선' + '</option>');
@@ -230,3 +234,52 @@ function getCongestion(congestion) {
         return "오류";   // 기본값
     }
 }
+
+// GET방식으로 넘어온 파라미터 가져오기
+function getQueryParam(params) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(params);
+}
+
+// 최근검색에서 가져온 데이터를 기반으로 칸 채우기
+function setRecentSearch() {
+    const stationName = getQueryParam('stationName');
+    const stationLine = getQueryParam('stationLine');
+
+    if (stationName) {
+        $('#searchInput').val(stationName);
+    } else {
+        a
+    }
+
+    if (stationLine) {
+        $('#stationLineList').append('<option value="' + station.stationLine + '">' + station.stationLine + '호선' + '</option>');
+        $('#stationList').val(stationLine)
+    } else {
+        a
+    }
+}
+
+function insertToLocalStorage(station) {
+    let storageCount = window.localStorage.length;
+    let storage = window.localStorage;
+    let JSONStation = JSON.stringify(station);
+    if (storageCount === 0) {
+        storage.setItem(1, JSONStation);
+    } else if (storageCount === 1) {
+        storage.setItem(2, storage.getItem(1));
+        storage.removeItem(1);
+        storage.setItem(1, JSONStation);
+    } else if (storageCount === 2 || storageCount === 3) {
+        storage.setItem(3, storage.getItem(2));
+        console.log('2번 객체' + storage.getItem(2));
+        storage.removeItem(2);
+        storage.setItem(2, storage.getItem(1));
+        storage.removeItem(1);
+        storage.setItem(1, JSONStation);
+    }
+
+}
+
+
+
