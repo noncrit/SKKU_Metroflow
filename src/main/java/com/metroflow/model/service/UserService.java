@@ -1,12 +1,16 @@
 package com.metroflow.model.service;
 
-import com.metroflow.model.dto.User;
-import com.metroflow.model.dto.UserRegisterForm;
+import com.metroflow.model.dto.*;
 import com.metroflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import java.util.Optional;
@@ -14,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-
     private final UserRepository USERREPOSITORY;
 
     // ID 중복 체크
@@ -55,6 +58,19 @@ public class UserService {
             }
         }
         return user;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserForm> paging(Pageable pageable) {
+        int page = pageable.getPageNumber() - 1; // 인덱스 값이라 보일 값보다 -1 해줘야함
+        int pageLimit = 8; // 한 페이지에 보여줄 글 갯수
+        // 한 페이지당 8개씩 글을 보여주고 정렬 기준은 userId 기준으로 내림차순 정렬
+        // page 위치에 있는 값은 0부터 시작
+        // 모든 보드들을 페이징 처리
+        Page<User> users =
+                USERREPOSITORY.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "userId")));
+        return users.map(user -> new UserForm(user.getUserId(), user.getNickname()));
+
     }
 
     public boolean updatePassword(String userId, String currentPassword, String newPassword ) {

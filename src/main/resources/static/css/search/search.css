@@ -1,11 +1,12 @@
 #stationList {
-    width: 300px;
+    display: none;
+    width: 100%;
     border: 1px solid #ccc;
     max-height: 200px;
     background-color: #ffffff;
     position: absolute;
     z-index: 1000;
-    display: none;
+    overflow-y: auto;
 }
 
 .container {
@@ -123,4 +124,94 @@ select:focus, input:focus {
 .icon-search {
     width: 25px;
     height: 20px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+}
+
+.line-number {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: white;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.station-name {
+    margin-left: 0.5rem;
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 60%;
+}
+
+.status-time {
+    color: #000000;
+    font-size: 0.9rem;
+    margin-right: 1rem;
+}
+
+.progress-bar {
+    position: relative;
+    width: 50%;
+    height: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-right: 0.5rem;
+}
+
+.progress {
+    height: 100%;
+}
+
+.status-label {
+    font-size: 0.9rem;
+}
+
+#default-message {
+    font-size: 1.2rem; /* 폰트 크기 조정 */
+    font-weight: bold; /* 글씨를 강조 */
+    margin-bottom: 1rem; /* 단어 아래에 여백 추가 */
+    text-align: left; /* 중앙 정렬 */
+}
+
+.new-box {
+    width: 90%;
+    background-color: #ffffff;
+    padding: 1rem;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 1rem;
+    color: #333333;
+    margin-top: 1.5rem;
+}
+
+#input-time {
+    text-align: right;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+#stationLineList {
+    border: none;
+    background-color: transparent;
+    text-align: center;
 }

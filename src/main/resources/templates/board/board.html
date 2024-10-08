@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판 페이지</title>
     <link rel="stylesheet" href="/css/board/board.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/menu.css" rel="stylesheet">
+    <script src="/js/board/board.js"></script>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: menuBar}"></div>
-<div class="container">
+<div id="container">
     <h1>게시판</h1>
     <p>역에 관련된 내용을 적는 곳입니다. 실시간 역 사고 내용을 적어 주시길 바랍니다.</p>
 
@@ -24,18 +24,27 @@
             <th>날짜</th> <!-- 날짜는 작성 날짜가 보이도록 수정이 필요 -->
             <th>조회 수</th> <!-- 조회 수 체크할 수 있는 기능이 있다면 한번 구현 시도 -->
             <th>좋아요</th> <!-- 좋아요 열 추가 -->
+            <th sec:authorize="hasAuthority('admin')">삭제</th> <!-- 좋아요 열 추가 -->
+            <th sec:authorize="hasAuthority('admin')">긴급 공지</th> <!-- 좋아요 열 추가 -->
         </tr>
         </thead>
         <tbody>
-        <tr th:each="boardL: ${boardList}"> <!-- 보드컨트롤러에서 받아온 페이징된 보드 객체들 -->
-            <td th:text="${boardL.boardNo}"></td> <!-- 보드 시퀀스 -->
-            <td th:text="${boardL.stationLine}" th:class="${boardL.stationLine}"></td> <!-- 보드 역 명 -->
-            <td><a th:href="@{|/board/content|(boardNo=${boardL.boardNo})}" th:text="${boardL.title}"></a></td>
-            <!-- 보드 title, 클릭 시 해당 보드의 내용 페이지로 넘어감 -->
-            <td th:text="${boardL.user.userId}"></td> <!-- 보드 글쓴이 -->
-            <td th:text="*{#temporals.format(boardL.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- 보드 게시 날짜 -->
-            <td th:text="${boardL.view}"></td> <!-- 보드 조회수 -->
-            <td th:text="${boardL.thumbsUp}"></td> <!-- 보드 좋아요 수 -->
+        <tr th:each="boardL, stat: ${boardList}" th:id="'boardRow_' + ${boardL.boardNo}"> <!-- 보드컨트롤러에서 받아온 페이징된 보드 객체들 -->
+                <td th:text="${boardL.boardNo}"></td> <!-- 보드 시퀀스 -->
+                <td th:text="${boardL.stationLine}" th:class="${boardL.stationLine}"></td> <!-- 보드 역 명 -->
+                <td><a th:href="@{|/board/content|(boardNo=${boardL.boardNo})}" th:text="${boardL.title}"></a></td>
+                <!-- 보드 title, 클릭 시 해당 보드의 내용 페이지로 넘어감 -->
+                <td th:text="${boardL.user.userId}"></td> <!-- 보드 글쓴이 -->
+                <td th:text="*{#temporals.format(boardL.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- 보드 게시 날짜 -->
+                <td th:text="${boardL.view}"></td> <!-- 보드 조회수 -->
+                <td th:text="${boardL.thumbsUp}"></td> <!-- 보드 좋아요 수 -->
+                <td sec:authorize="hasAuthority('admin')" id="deleteBoard" th:onclick="'deleteBoard(' + ${boardL.boardNo} + ', ' + 'boardRow_' + ${boardL.boardNo} + ')'">삭제</td>
+                <td sec:authorize="hasAuthority('admin')">
+                    <input type="hidden" th:id="${boardL.boardNo}" th:value="${boardL.isNoticeBoard}">
+                    <div th:id="'noticeSelectionDiv' + ${boardL.boardNo}">
+                        선택
+                    </div>
+                </td>
         </tr>
         </tbody>
     </table>
@@ -43,7 +52,7 @@
     <!-- 각 넘어가는 경로 필요 -->
     <div class="pagination">
         <!--        /board?page=1-->
-        <a th:href="@{/board(page=1)}">첫 페이지 </a>
+        <a th:href="${boardList.first} ? '#' : @{/board(page=1)}">첫 페이지 </a>
         <!-- 이전 링크 활성화 비활성화 -->
         <!--        boardList.getNumber 사용자:2페이지 getNumber()=1-->
         <a th:href="${boardList.first} ? '#' : @{/board(page=${boardList.number})}"> 이전 </a>
@@ -54,7 +63,7 @@
 <!-- 현재페이지는 링크 없이 숫자만 -->
             <span th:if="${page == boardList.number + 1}" th:text="${page}"></span>
             <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
-            <span th:unless="${page == boardList.number + 1}">
+            <span th:unless="${page == boardList.number + 1 || page == 0}">
                 <a th:href="@{/board(page=${page})}" th:text="${page}"></a>
             </span>
         </span>
@@ -63,10 +72,9 @@
             사용자: 2페이지, getNumber: 1, 3페이지-->
         <a th:href="${boardList.last} ? '#' : @{/board(page=${boardList.number + 2})}"> 다음 </a>
         <!-- 마지막 페이지로 이동 -->
-        <a th:href="@{/board(page=${boardList.totalPages})}"> 마지막 페이지</a>
+        <a th:href="${boardList.last} ? '#' : @{/board(page=${boardList.totalPages})}"> 마지막 페이지</a>
         <a href="/board/writeBoard" class="write-btn">글쓰기</a>
     </div>
 </div>
-
 </body>
 </html>
