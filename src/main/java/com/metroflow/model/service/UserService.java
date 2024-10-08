@@ -69,7 +69,7 @@ public class UserService {
         return false;
     }
 
-    public void updateUserProfile(String us)
+//    public void updateUserProfile(String us)
 
 
 }
