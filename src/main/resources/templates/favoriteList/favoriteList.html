@@ -44,6 +44,7 @@
     </div>
 
     <div class="middleArea">
+        <div id = "favoriteList_header">즐겨찾는 역 목록</div>
         <div class="time-select">
             <select id="ampm">
                 <option value="AM">오전</option>
@@ -126,36 +127,58 @@
                 <option value="58">58</option>
                 <option value="59">59</option>
             </select>
-            <button class="search-btn2">
+            <button class="time-select-button">
                 <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
             </button>
         </div>
 
-        <div class="favoriteList_area">
-            <table>
-                <thead>
-                <tr>
-                    <th>유저 ID</th>
-                    <th>역 ID</th>
-                    <th>역 노선</th>
-                    <th>역 이름</th>
-                    <th>방향</th>
-                    <th>요일 타입</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="item : ${favoriteList}">
-                    <td th:text="${item.userId}"></td>
-                    <td th:text="${item.stationId}"></td>
-                    <td th:text="${item.stationLine}"></td>
-                    <td th:text="${item.stationName}"></td>
-                    <td th:text="${item.directionType}"></td>
-                    <td th:text="${item.dayType}"></td>
-                    <td th:text="${item.subwayTime.getH0830() != null ? item.subwayTime[currentTime] : '정보 없음'}"></td>
-                </tr>
-                </tbody>
-            </table>
+        <div class = "favoriteList_time">
+            <span class="input_time" th:text="${amPm}+' '+${hour}+' : '+${minute}"></span>
         </div>
+
+        <div class="favoriteList_container">
+            <div class = "favoriteList-content" th:each = "entry : ${groupedFavorites}">
+                <div class = "topItems">
+                    <!--아래 th:class에 의해 덮어씌워짐 -->
+                    <div class = "line-number-div">
+                        <span class="line-number"
+                              th:class="${  entry.value[0].stationLine == '1' ? 'lines line1' :
+                                        entry.value[0].stationLine == '2' ? 'lines line2' :
+                                        entry.value[0].stationLine == '3' ? 'lines line3' :
+                                        entry.value[0].stationLine == '4' ? 'lines line4' :
+                                        entry.value[0].stationLine == '5' ? 'lines line5' :
+                                        entry.value[0].stationLine == '6' ? 'lines line6' :
+                                        entry.value[0].stationLine == '7' ? 'lines line7' :
+                                        entry.value[0].stationLine == '8' ? 'lines line8' :
+                                        entry.value[0].stationLine == '9' ? 'lines line9' :
+                                        'lines default-line'}"
+                              th:text="${entry.value[0].stationLine}"></span>
+                    </div>
+                    <div class = "station-name-div">
+                        <span class="station-name" th:text="${entry.value[0].stationName}"></span>
+                    </div>
+                    <div class = "delete_favorite_button-div">
+                        <button class = "delete_favorite_button" th:text="삭제"></button>
+                    </div>
+                </div>
+
+                <div class = "middleItems" th:each="item : ${entry.value}">
+                    <span th:text="${item.directionType}"></span>
+                    <div class = "status-bar">
+                        <div class="bar"
+                             th:class="${item.subwayTime[setTime] != null ?
+                 (T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) <= 33 ? 'bar spacious' :
+                  T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) > 33 && T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) <= 66 ? 'bar normal' :
+                  T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) > 66 ? 'bar crowded' :
+                  'bar default-congestion') :
+                 'bar default-congestion'}">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 </div>
 

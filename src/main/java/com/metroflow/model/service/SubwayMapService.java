@@ -42,7 +42,18 @@ public class SubwayMapService {
             minute=0;
         }
 
-        return String.format("h%02d%02d", hour, minute);
+        // 유효한 시간 범위 체크
+        if (hour >= 1 && hour <= 5) {
+            System.err.println("SubwayMapService : 유효하지 않은 시간대입니다.");
+            return "h0030"; // h0100 ~ h0500은 리턴하지 않음
+        }
+
+        // h0000 ~ h2350의 유효한 시간 반환
+        if (hour >= 0 && hour <= 23) {
+            return String.format("h%02d%02d", hour, minute);
+        }
+        System.err.println("SubwayMapService : 유효하지 않은 시간대입니다.");
+        return "h0030";
     }
     // 평일, 휴일인지 분류해서 String으로 리턴하는 메소드
     public String getCurrentDayType(){

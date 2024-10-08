@@ -1,9 +1,12 @@
 package com.metroflow.model.service;
 
+import com.metroflow.model.dto.TimeAttributes;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 // 주말인지 판단하는 서비스
@@ -204,6 +207,16 @@ public class IsHolidaysService {
         } else {
             return "평일";
         }
+    }
+
+    public TimeAttributes getCurrentTimeAttributes() {
+        LocalDateTime now = LocalDateTime.now();
+
+        String amPm = now.format(DateTimeFormatter.ofPattern("a"));
+        String hour = now.format(DateTimeFormatter.ofPattern("hh"));
+        String minute = now.format(DateTimeFormatter.ofPattern("mm"));
+
+        return new TimeAttributes(amPm, hour, minute);
     }
 
 }

@@ -88,7 +88,4 @@ public class FavoriteListService {
     public Page<FavoriteListPageDto> getFavoriteListByUserId(String userId, Pageable pageable){
         return favoriteListRepository.findFavoriteListByUserId(userId, pageable);
     }
-
-
-
 }
