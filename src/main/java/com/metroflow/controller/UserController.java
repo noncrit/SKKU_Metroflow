@@ -54,33 +54,33 @@ public class UserController {
         return "user/myPage";
     }
 
-    // 비밀 번호 변경
-    @PostMapping("/myPage")
-    public String updatePassword(@RequestParam String userId,
-                                 @RequestParam String email,
-                                 @RequestParam String currentPassword,
-                                 @RequestParam String newPassword,
-                                 @RequestParam String confirmPassword) {
-        if (!newPassword.equals(confirmPassword)) {
-            return "새로은 비밀번호가 일치하지 않습니다.";
-        }
+//    // 비밀 번호 변경
+//    @PostMapping("/myPage")
+//    public String updatePassword(@RequestParam String userId,
+//                                 @RequestParam String email,
+//                                 @RequestParam String currentPassword,
+//                                 @RequestParam String newPassword,
+//                                 @RequestParam String confirmPassword) {
+//        if (!newPassword.equals(confirmPassword)) {
+//            return "새로은 비밀번호가 일치하지 않습니다.";
+//        }
+//
+//        boolean isUpdated = USERSERVICE.updatePassword(userId, currentPassword, newPassword);
+//        if (isUpdated) {
+//            USERSERVICE.up
+//        }
+//
+//    }
 
-        boolean isUpdated = USERSERVICE.updatePassword(userId, currentPassword, newPassword);
-        if (isUpdated) {
-            USERSERVICE.up
-        }
-
-    }
-
-    // 프로필 사진 변경
-    @PostMapping("/myPage/profilePic")
-    public ResponseEntity<String> changeProfilePic(
-            @RequestParam String userId,
-            @RequestParam String userImgPath) {
-        USERSERVICE.updateProfileImage(userId, userImgPath);
-        return ResponseEntity.ok("Profile image updated successfully");
-
-    }
+//    // 프로필 사진 변경
+//    @PostMapping("/myPage/profilePic")
+//    public ResponseEntity<String> changeProfilePic(
+//            @RequestParam String userId,
+//            @RequestParam String userImgPath) {
+//        USERSERVICE.updateProfileImage(userId, userImgPath);
+//        return ResponseEntity.ok("Profile image updated successfully");
+//
+//    }
 
 
 
