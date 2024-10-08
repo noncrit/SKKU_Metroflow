@@ -31,7 +31,7 @@
             <div sec:authorize="isAuthenticated()" class="member">
                 <img th:src="${sessionUser.userImgPath}">
                 <a href="/logout">로그아웃</a>
-                <a href="#">내 정보</a>
+                <a href="/myPage">내 정보</a>
             </div>
         </div>
     </nav>

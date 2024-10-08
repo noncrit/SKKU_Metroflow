@@ -4,19 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 정보 수정</title>
-    <link rel="stylesheet" href="../../static/css/myPage.css">
-    <script src="../../static/js/myPage.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/myPage.css">
+    <!-- 자바스크립트 파일 연결 -->
+    <script src="/js/myPage.js"></script>
 </head>
 <body>
 <!-- 회원 프로필 DB 가져와야댐 -->
 <div class="container">
     <h2>회원 정보 수정</h2>
     <div class="profile-picture">
-        <img src="https://via.placeholder.com/120" alt="프로필 사진" id="profilePic">
+        <img id="profilePic" src="https://via.placeholder.com/120" alt="프로필 사진" />
         <button onclick="changeProfilePic()">프로필 사진 변경</button>
+        <form id="profilePicForm" style="display: none;" enctype="multipart/form-data">
+            <input type="file" id="profileImage" name="profileImage" accept="image/*">
+        </form>
     </div>
     <!-- disabled 이용해서 수정 못하는 칸을 막았습니다 -->
-    <form th:action="@{/myPage}" th:object="@{/user}" method="post" id="profileForm">
+
+    <!-- 주석 어노테이션 내 외부 변수 선언 -->
+    <!--/*@thymesVar id="myPage" type=""*/-->
+    <!--/*@thymesVar id="user" type=""*/-->
+    <form th:action="${myPage}" th:object="${user}" id="profileForm" >
+
         <label for="nickname">닉네임</label>
         <input type="text" id="nickname" name="nickname" placeholder="이름" disabled>
 
@@ -43,7 +52,6 @@
     </form>
 </div>
 
-<!-- 자바스크립트 파일 연결 -->
-<script src="/js/myPage.js"></script>
+
 </body>
 </html>

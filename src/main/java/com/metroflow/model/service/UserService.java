@@ -57,9 +57,19 @@ public class UserService {
         return user;
     }
 
+    public boolean updatePassword(String userId, String currentPassword, String newPassword ) {
+        Optional<User> optionalUser = USERREPOSITORY.findByUserId(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setPassword(currentPassword);
+            user.setPassword(newPassword);
+            USERREPOSITORY.save(user);
+            return true;
+        }
+        return false;
+    }
 
-
-
+    public void updateUserProfile(String us)
 
 
 }
