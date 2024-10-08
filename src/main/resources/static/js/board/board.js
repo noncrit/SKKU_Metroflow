@@ -51,6 +51,7 @@ function deleteBoard(boardNo, trBoardNo) {
             console.log('응답 성공!')
             if (response.redirected) {
                 console.log('redirect 시도!')
+                window.location.href = "/board";
             } else {
                 throw new Error('Network response was not ok');
             }
