@@ -69,40 +69,13 @@ body {
     width: 250px;
     position: fixed;
     top: 0;
-    left: -250px;
+    left: -300px;
     transition: left 0.3s ease-in-out;
     z-index: 1000;
 }
 
 .menu-checkbox:checked ~ .navbar {
     left: 0;
-}
-
-/* 닫기 버튼 스타일 - 네모 모양으로 설정 */
-.close-label {
-    cursor: pointer;
-    color: #001f3f; /* 기본 텍스트 색상 설정 */
-    padding: 8px 12px;
-    border: 2px solid #001f3f; /* 기본 테두리 색상 설정 */
-    border-radius: 4px; /* 네모 모양 */
-    font-weight: bold;
-    font-size: 0.9rem; /* 폰트 크기 조정 */
-    background-color: #ffffff; /* 기본 배경색을 흰색으로 설정 */
-    margin-top: 2rem;
-    align-self: flex-start;
-    margin-left: 140px;
-    transition: background-color 0.3s, color 0.3s, border 0.3s; /* 애니메이션 효과 */
-}
-
-.close-label:hover {
-    background-color: #181f31; /* 호버 시 배경을 메뉴 바 배경색과 일치시킴 */
-    color: #ffffff; /* 호버 시 글자색을 흰색으로 변경 */
-    border: 2px solid #ffffff; /* 테두리도 흰색으로 변경 */
-}
-
-
-.close-arrow {
-    font-size: 0.9rem; /* 화살표의 폰트 크기도 함께 조정 */
 }
 
 .nav-items {
@@ -153,11 +126,17 @@ body {
     text-decoration: underline;
 }
 
-/* 로그인 및 회원가입 버튼 스타일 */
-.guestMember {
-    margin-top: 2rem;
+/* 로그인 및 회원가입, 로그아웃 버튼 스타일 */
+.guestMember,
+.member {
+    position: absolute; /* 위치를 절대값으로 지정하여 고정 */
+    top: 10px; /* 로고와 수평 정렬 */
+    right: 25px; /* 오른쪽으로 간격 설정 */
+    display: flex; /* 버튼들이 수평으로 정렬되도록 설정 */
+    align-items: center;
 }
 
+/* 로그인 및 회원가입 버튼 스타일 */
 .guest .btn,
 .member .btn {
     padding: 0.5rem 1rem;
@@ -171,9 +150,8 @@ body {
     display: inline-block;
     text-align: center;
     margin-top: 0.5rem;
-    margin-left: 10px; /* 버튼을 오른쪽으로 이동 */
+    margin-left: 15px; /* 버튼 간의 간격 설정 */
 }
-
 
 .guest .btn:hover,
 .member .btn:hover {
@@ -193,9 +171,8 @@ body {
     color: #001f3f;
 }
 
+/* 로그인 후 회원 정보 표시 스타일 */
 .member {
-    display: flex;
-    align-items: center;
     gap: 10px;
 }
 
@@ -215,6 +192,7 @@ body {
     text-decoration: underline;
 }
 
+/* 반응형 스타일 설정 */
 @media (max-width: 768px) {
     .navbar {
         width: 150px;
@@ -224,7 +202,9 @@ body {
         gap: 1rem;
     }
 
-    .guestMember {
+    .guestMember,
+    .member {
+        position: static; /* 작은 화면에서는 정적 위치로 전환 */
         flex-direction: column;
         justify-content: center;
         width: 100%;
