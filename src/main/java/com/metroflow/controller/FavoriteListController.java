@@ -103,7 +103,7 @@ public class FavoriteListController {
             // ampm, 시, 분 을 가져오는 기능
             // 페이지 최초 접근시에는 현재 기준으로 설정
             TimeAttributes timeAttributes = isHolidaysService.getCurrentTimeAttributes();
-            model.addAttribute("amPm",timeAttributes.getAmPm());
+            model.addAttribute("ampm",timeAttributes.getAmPm());
             model.addAttribute("hour",timeAttributes.getHour());
             model.addAttribute("minute",timeAttributes.getMinute());
 
@@ -193,8 +193,8 @@ public class FavoriteListController {
             String dayType = targetDate;
 
             // ampm, 시, 분 을 가져오는 기능
-            // 페이지 최초 접근시에는 현재 기준으로 설정
-            model.addAttribute("amPm",ampm);
+            System.out.println("AMPM : "+ampm);
+            model.addAttribute("ampm",ampm);
             model.addAttribute("hour",hour);
             model.addAttribute("minute",minute);
 

@@ -127,13 +127,15 @@
                 <option value="58">58</option>
                 <option value="59">59</option>
             </select>
-            <button class="time-select-button">
+            <button class="time-select-button"
+                    th:data-current-page="${currentPage}"
+                    th:onclick="submitGoFavoriteList()">
                 <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
             </button>
         </div>
 
         <div class = "favoriteList_time">
-            <span class="input_time" th:text="${amPm}+' '+${hour}+' : '+${minute}"></span>
+            <span class="input_time" th:text="${ampm}+' '+${hour}+' : '+${minute}"></span>
         </div>
 
         <div class="favoriteList_container">
@@ -158,7 +160,11 @@
                         <span class="station-name" th:text="${entry.value[0].stationName}"></span>
                     </div>
                     <div class = "delete_favorite_button-div">
-                        <button class = "delete_favorite_button" th:text="삭제"></button>
+                        <button class = "delete_favorite_button"
+                                th:data-delete-target="${entry.value[0].stationId}"
+                                th:onclick="submitDeleteFavorite(event)"
+                                th:text="삭제">
+                        </button>
                     </div>
                 </div>
 
@@ -182,17 +188,17 @@
         <div class="paging-container">
             <div class="paging">
                  <span th:if="${currentPage > 0}">
-                     <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage - 1})}">이전</a>
+                     <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage - 1},ampm=${ampm}, hour=${hour}, minute=${minute})}">이전</a>
                  </span>
 
                 <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
-                    <a th:href="@{/goFavoriteListWithSetTime(page=${pageNum})}"
+                    <a th:href="@{/goFavoriteListWithSetTime(page=${pageNum},ampm=${ampm}, hour=${hour}, minute=${minute})}"
                         th:class="${pageNum == currentPage ? 'active' : ''}"
                         th:text="${pageNum + 1}"></a>
                 </span>
 
                 <span th:if="${currentPage < totalPages - 1}">
-            <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1})}">다음</a>
+            <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1},ampm=${ampm}, hour=${hour}, minute=${minute})}">다음</a>
         </span>
             </div>
         </div>
@@ -201,5 +207,6 @@
     </div>
 </div>
 
+<script src="/js/favorite/favoriteList.js" defer></script>
 </body>
 </html>
