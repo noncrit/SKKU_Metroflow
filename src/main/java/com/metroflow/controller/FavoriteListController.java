@@ -113,6 +113,19 @@ public class FavoriteListController {
 
             // station_id 순으로 정렬(오름차순)
             Map<Long, List<FavoriteListPageDto>> groupedFavorites = new TreeMap<>(raw_groupedFavorites);
+            
+            // Map 확인용 출력
+//            groupedFavorites.forEach((stationId, favorites) -> {
+//                System.out.println("Station ID: " + stationId);
+//                favorites.forEach(favorite -> {
+//                    System.out.println("  getStationLine: " + favorite.getStationLine());
+//                    System.out.println("  getStationId: " + favorite.getStationId());
+//                    System.out.println("  getStationName: " + favorite.getStationName());
+//                    System.out.println("  getDayType: " + favorite.getDayType());
+//                    System.out.println("  getDirectionType: " + favorite.getDirectionType());
+//                    System.out.println();
+//                });
+//            });
 
             // 모델에 데이터 추가
             model.addAttribute("setTime", setTime);
@@ -178,7 +191,8 @@ public class FavoriteListController {
         if (minute == null || minute.isEmpty()) {
             minute = String.format("%02d", LocalDateTime.now().getMinute()); // 현재 분
         }
-
+        
+        // dayType 분류를 위한 변수
         String targetDate = isHolidaysService.classifyDate(LocalDate.parse(year + "-" + month + "-" + day));
 
         String favoriteList_user_id = userService.getUserObject().getUserId();
