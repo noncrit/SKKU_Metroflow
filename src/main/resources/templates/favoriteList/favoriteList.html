@@ -45,6 +45,46 @@
 
     <div class="middleArea">
         <div id = "favoriteList_header">즐겨찾는 역 목록</div>
+
+        <div class="calender-div">
+            <label for="year">연도:</label>
+            <select id="year" name="year" required onchange="updateDays()">
+                <script>
+                    const currentYear = new Date().getFullYear();
+                    for (let year = currentYear; year >= 2022; year--) {
+                        document.write(`<option value="${year}">${year}</option>`);
+                    }
+                </script>
+            </select>
+
+            <label for="month">월:</label>
+            <select id="month" name="month" required onchange="updateDays()">
+                <script>
+                    for (let month = 1; month <= 12; month++) {
+                        document.write(`<option value="${month}">${month}</option>`);
+                    }
+                </script>
+            </select>
+
+            <label for="day">일:</label>
+            <select id="day" name="day" required>
+                <script>
+                    // 초기값 설정
+                    document.write(`<option value="1">1</option>`);
+                </script>
+            </select>
+
+            <button class="calendar-select-button"
+                    th:data-current-page="${currentPage}"
+                    th:data-ampm="${ampm}"
+                    th:data-hour="${hour}"
+                    th:data-minute="${minute}"
+                    th:onclick="submitCalendarAndGoFavoriteList()">
+                <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
+            </button>
+
+        </div>
+
         <div class="time-select">
             <select id="ampm">
                 <option value="AM">오전</option>
@@ -129,9 +169,16 @@
             </select>
             <button class="time-select-button"
                     th:data-current-page="${currentPage}"
-                    th:onclick="submitGoFavoriteList()">
+                    th:data-year="${year}"
+                    th:data-month="${month}"
+                    th:data-day="${day}"
+                    th:onclick="submitTimeAndGoFavoriteList()">
                 <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
             </button>
+        </div>
+
+        <div class="favoriteList_calendar">
+            <span class="input-calendar" th:text="${year}+' / '+${month}+' / '+${day}"></span>
         </div>
 
         <div class = "favoriteList_time">
@@ -180,6 +227,9 @@
                  'bar default-congestion'}">
                         </div>
                     </div>
+                    <div class="value-check">
+                        <span th:text="${item.subwayTime[setTime]}+'%'"></span>
+                    </div>
                 </div>
 
             </div>
@@ -188,17 +238,17 @@
         <div class="paging-container">
             <div class="paging">
                  <span th:if="${currentPage > 0}">
-                     <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage - 1},ampm=${ampm}, hour=${hour}, minute=${minute})}">이전</a>
+                     <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage - 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">이전</a>
                  </span>
 
                 <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
-                    <a th:href="@{/goFavoriteListWithSetTime(page=${pageNum},ampm=${ampm}, hour=${hour}, minute=${minute})}"
+                    <a th:href="@{/goFavoriteListWithSetTime(page=${pageNum},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}"
                         th:class="${pageNum == currentPage ? 'active' : ''}"
                         th:text="${pageNum + 1}"></a>
                 </span>
 
                 <span th:if="${currentPage < totalPages - 1}">
-            <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1},ampm=${ampm}, hour=${hour}, minute=${minute})}">다음</a>
+            <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">다음</a>
         </span>
             </div>
         </div>

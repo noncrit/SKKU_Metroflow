@@ -1,9 +1,13 @@
 
 
-function submitGoFavoriteList() {
+function submitTimeAndGoFavoriteList() {
 
     const button = document.querySelector('.time-select-button');
     const currentPage = button.getAttribute('data-current-page');
+    const year = button.getAttribute('data-year');
+    const month = button.getAttribute('data-month');
+    const day = button.getAttribute('data-day');
+
     const ampm = document.getElementById('ampm').value;
     const hour = document.getElementById('hour').value;
     const minute = document.getElementById('minute').value;
@@ -15,10 +19,60 @@ function submitGoFavoriteList() {
     // console.log(minute);
 
     // URL 생성
-    const url = `/goFavoriteListWithSetTime?page=${currentPage}&ampm=${ampm}&hour=${hour}&minute=${minute}`;
+    const url =
+        `/goFavoriteListWithSetTime?page=${currentPage}&year=${year}&month=${month}&day=${day}&ampm=${ampm}&hour=${hour}&minute=${minute}`;
 
     console.log(url);
     location.href = url; // 페이지 이동
+}
+
+function submitCalendarAndGoFavoriteList() {
+
+    const button = document.querySelector('.calendar-select-button');
+    const currentPage = button.getAttribute('data-current-page');
+    const ampm = button.getAttribute('data-ampm');
+    const hour = button.getAttribute('data-hour');
+    const minute = button.getAttribute('data-minute');
+
+
+    const year = document.getElementById('year').value;
+    const month = document.getElementById('month').value;
+    const day = document.getElementById('day').value;
+
+    console.log("submitGoFavoriteList 작동");
+    // console.log(currentPage);
+    // console.log(ampm);
+    // console.log(hour);
+    // console.log(minute);
+
+    // URL 생성
+    const url =
+        `/goFavoriteListWithSetTime?page=${currentPage}&year=${year}&month=${month}&day=${day}&ampm=${ampm}&hour=${hour}&minute=${minute}`;
+
+    console.log(url);
+    location.href = url; // 페이지 이동
+}
+
+
+// 윤년, 윤달 판단을 위한 날짜 관련 함수들
+function updateDays() {
+    const year = parseInt(document.getElementById('year').value);
+    const month = parseInt(document.getElementById('month').value);
+    const daySelect = document.getElementById('day');
+
+    // 이전 옵션 제거
+    daySelect.innerHTML = '';
+
+    // 각 월에 맞는 최대 일 수
+    const daysInMonth = [31, (isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    for (let day = 1; day <= daysInMonth[month - 1]; day++) {
+        daySelect.innerHTML += `<option value="${day}">${day}</option>`;
+    }
+}
+
+function isLeapYear(year) {
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
 }
 
 async function submitDeleteFavorite(event) {

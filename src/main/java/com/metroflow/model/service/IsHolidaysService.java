@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 // 주말인지 판단하는 서비스
 @Service
@@ -212,7 +213,7 @@ public class IsHolidaysService {
     public TimeAttributes getCurrentTimeAttributes() {
         LocalDateTime now = LocalDateTime.now();
 
-        String amPm = now.format(DateTimeFormatter.ofPattern("a"));
+        String amPm = now.format(DateTimeFormatter.ofPattern("a", Locale.ENGLISH));
         String hour = now.format(DateTimeFormatter.ofPattern("hh"));
         String minute = now.format(DateTimeFormatter.ofPattern("mm"));
 

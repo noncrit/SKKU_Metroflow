@@ -86,16 +86,6 @@ public class FavoriteListController {
             Pageable pageable = PageRequest.of(page, size);
             Page<FavoriteListPageDto> favoriteListPage = favoriteListService.getFavoriteListByUserId(favoriteList_user_id,pageable);
 
-//                        favoriteListPage.getContent().forEach(item -> {
-////                System.out.println("User ID: " + item.getUserId());
-//                System.out.println("Station ID: " + item.getStationId());
-//                System.out.println("Station Line: " + item.getStationLine());
-//                System.out.println("Station Name: " + item.getStationName());
-//                System.out.println("Direction Type: " + item.getDirectionType());
-//                System.out.println("Day Type: " + item.getDayType());
-////                System.out.println("Current Time Congestion : "+ item.getSubwayTime().getH1530());
-//            });
-                        
             // setTime을 인덱스처럼 사용할 예정 (h0530 같은 값으로)
             String setTime = subwayMapService.isValidTimeFormat(subwayMapService.getCurrentTimeColumn());
             String dayType = subwayMapService.getCurrentDayType();
@@ -106,6 +96,14 @@ public class FavoriteListController {
             model.addAttribute("ampm",timeAttributes.getAmPm());
             model.addAttribute("hour",timeAttributes.getHour());
             model.addAttribute("minute",timeAttributes.getMinute());
+
+            // 현재 시간 기준 연, 월, 일을 어트리뷰트로 추가
+            String year = String.valueOf(LocalDate.now().getYear());
+            String month = month = String.format("%02d", LocalDate.now().getMonthValue());
+            String day = String.format("%02d", LocalDate.now().getDayOfMonth());
+            model.addAttribute("year",year);
+            model.addAttribute("month",month);
+            model.addAttribute("day",day);
 
             // station_id를 이용해 매핑 처리해서 station_id 하위 항목으로 상선, 하선 데이터가 들어가도록 조정
             // 그룹화 (평일, 휴일 기준으로 매칭되는 데이터만 매핑시킴)
@@ -122,7 +120,6 @@ public class FavoriteListController {
             model.addAttribute("favoriteList", favoriteListPage.getContent()); // 페이지의 내용
             model.addAttribute("totalPages", favoriteListPage.getTotalPages()); // 총 페이지 수
             model.addAttribute("currentPage", favoriteListPage.getNumber()); // 현재 페이지 번호
-
         }
 
         model.addAttribute("sessionUser", userService.getUserObject());
@@ -148,15 +145,23 @@ public class FavoriteListController {
                                             @RequestParam(defaultValue = "0") int page,
                                             Model model){
 
-        // 날짜 미 선택시 현재 날짜 기준 표시
+        // 날짜 미 선택시 현재 날짜 기준 표시, 선택한 경우는 포맷팅 처리
         if (year == null || year.isEmpty()) {
             year = String.valueOf(LocalDate.now().getYear());
         }
+
         if (month == null || month.isEmpty()) {
             month = String.format("%02d", LocalDate.now().getMonthValue());
         }
+        else{
+            month = String.format("%02d", Integer.parseInt(month));
+        }
+
         if (day == null || day.isEmpty()) {
             day = String.format("%02d", LocalDate.now().getDayOfMonth());
+        }
+        else{
+            day = String.format("%02d", Integer.parseInt(day));
         }
 
         // 시간 미선택 시 현재 시간 기준 처리
@@ -197,6 +202,11 @@ public class FavoriteListController {
             model.addAttribute("ampm",ampm);
             model.addAttribute("hour",hour);
             model.addAttribute("minute",minute);
+
+            // 연,월,일 어트리뷰트로 추가
+            model.addAttribute("year",year);
+            model.addAttribute("month",month);
+            model.addAttribute("day",day);
 
             // station_id를 이용해 매핑 처리해서 station_id 하위 항목으로 상선, 하선 데이터가 들어가도록 조정
             // 그룹화 (평일, 휴일 기준으로 매칭되는 데이터만 매핑시킴)
