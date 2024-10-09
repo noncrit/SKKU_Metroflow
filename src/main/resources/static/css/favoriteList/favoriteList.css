@@ -115,7 +115,7 @@ select:focus, input:focus {
     flex-direction: column; /* 세로 방향 정렬 */
     /*margin-bottom: 20px; !* 항목 간 여백 *!*/
 
-    flex: 1 1 200px; /* 각 항목의 최소 너비 설정 */
+    flex: 0 0 270px; /* 각 항목의 최소 너비 설정 */
     margin: 10px; /* 항목 간 간격 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 (선택 사항) */
     padding: 10px; /* 패딩 추가 (선택 사항) */
@@ -300,5 +300,26 @@ select:focus, input:focus {
 .line9 {
     background-color: #8C8279;
     color: white;
+}
+
+/*페이징 처리 부분 디자인 */
+.paging-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.paging a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.paging a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.paging span {
+    margin: 0 5px;
 }
 

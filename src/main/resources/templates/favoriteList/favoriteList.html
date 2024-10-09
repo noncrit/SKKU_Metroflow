@@ -179,6 +179,25 @@
             </div>
         </div>
 
+        <div class="paging-container">
+            <div class="paging">
+                 <span th:if="${currentPage > 0}">
+                     <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage - 1})}">이전</a>
+                 </span>
+
+                <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{/goFavoriteListWithSetTime(page=${pageNum})}"
+                        th:class="${pageNum == currentPage ? 'active' : ''}"
+                        th:text="${pageNum + 1}"></a>
+                </span>
+
+                <span th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1})}">다음</a>
+        </span>
+            </div>
+        </div>
+
+
     </div>
 </div>
 
