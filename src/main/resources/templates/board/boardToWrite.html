@@ -25,7 +25,7 @@
                 <option th:each="num : ${#numbers.sequence(1,9)}" th:value="${num + '호선'}"
                         th:text="${num} + '호선'" th:class="${'line-' + num}"></option>
             </select>
-
+        </div>
             <!-- 역 선택 부분 -->
             <label for="station-select"></label>
             <select id="station-select" th:field="${board.stationName}" required>
