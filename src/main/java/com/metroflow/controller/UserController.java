@@ -22,20 +22,21 @@ public class UserController {
 
     private final UserDAO USERDAO;
     private final UserService USERSERVICE;
-    private final UserRepository USERREPOSITORY;
 
+    // 회원가입으로 가는 메소드
     @GetMapping("/goRegister")
     public String goRegisterPage(Model model) {
         model.addAttribute("user", new UserRegisterForm());
         return "user/register";
     }
 
+    // 회원가입 메소드
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user") UserRegisterForm user, BindingResult result,
                            @RequestParam("imagePath") String imagePath) {
-        USERSERVICE.idDuplicationCheck(user, result);
-        USERSERVICE.passwordCheck(user, result);
-        USERSERVICE.nicknameDuplicationCheck(user, result);
+        USERSERVICE.idDuplicationCheck(user, result); // id 중복 체크
+        USERSERVICE.passwordCheck(user, result); // 비밀번호 체크(비밀번호 확인과 값이 같은지)
+        USERSERVICE.nicknameDuplicationCheck(user, result); // 닉네임 중복 체크
         if (result.hasErrors()) {
             return "user/register";
         }
@@ -43,13 +44,15 @@ public class UserController {
         return "home";
     }
 
+    // 로그인 화면으로 가는 메소드
     @GetMapping("/goLogin")
     public String goLoginPage(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute("errorMessage", "");
+        session.setAttribute("errorMessage", ""); // 에러 메세지 초기화
         return "user/login";
     }
 
+    // 로그인 메소드
     @GetMapping("/login")
     public String login() {
         return"user/login";
