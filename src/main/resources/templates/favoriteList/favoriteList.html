@@ -44,13 +44,58 @@
     </div>
 
     <div class="middleArea">
+        <div id = "favoriteList_header">즐겨찾는 역 목록</div>
+
+        <div class="calender-div">
+            <label for="year">연도:</label>
+            <select id="year" name="year" required onchange="updateDays()">
+                <script>
+                    const currentYear = new Date().getFullYear();
+                    for (let year = currentYear; year >= 2022; year--) {
+                        document.write(`<option value="${year}">${year}</option>`);
+                    }
+                </script>
+            </select>
+
+            <label for="month">월:</label>
+            <select id="month" name="month" required onchange="updateDays()">
+                <script>
+                    for (let month = 1; month <= 12; month++) {
+                        document.write(`<option value="${month}">${month}</option>`);
+                    }
+                </script>
+            </select>
+
+            <label for="day">일:</label>
+            <select id="day" name="day" required>
+                <script>
+                    // 초기값 설정
+                    document.write(`<option value="1">1</option>`);
+                </script>
+            </select>
+
+            <button class="calendar-select-button"
+                    th:data-current-page="${currentPage}"
+                    th:data-ampm="${ampm}"
+                    th:data-hour="${hour}"
+                    th:data-minute="${minute}"
+                    th:onclick="submitCalendarAndGoFavoriteList()">
+                <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
+            </button>
+
+        </div>
+<!--
+시간 선택에서는 이전 달련 상태(year,month,day)의 값을 받아오고,
+달력 선택에서는 이전 시간 값(ampm, hour, minute)을 서로 교차해서 받아오는 형태
+이렇게 미리 받아오면 이동할 때 페이징 처리 작업을 따로 안해줘도 된다.
+-->
         <div class="time-select">
             <select id="ampm">
                 <option value="AM">오전</option>
                 <option value="PM">오후</option>
             </select>
             <select id="hour">
-                <option value="firstHour">시간</option>
+                <option value="00">시간</option>
                 <option value="01">01</option>
                 <option value="02">02</option>
                 <option value="03">03</option>
@@ -65,7 +110,7 @@
                 <option value="12">12</option>
             </select>
             <select id="minute">
-                <option value="firstMinute">분</option>
+                <option value="00">분</option>
                 <option value="01">01</option>
                 <option value="02">02</option>
                 <option value="03">03</option>
@@ -126,38 +171,106 @@
                 <option value="58">58</option>
                 <option value="59">59</option>
             </select>
-            <button class="search-btn2">
+            <button class="time-select-button"
+                    th:data-current-page="${currentPage}"
+                    th:data-year="${year}"
+                    th:data-month="${month}"
+                    th:data-day="${day}"
+                    th:onclick="submitTimeAndGoFavoriteList()">
                 <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
             </button>
         </div>
 
-        <div class="favoriteList_area">
-            <table>
-                <thead>
-                <tr>
-                    <th>유저 ID</th>
-                    <th>역 ID</th>
-                    <th>역 노선</th>
-                    <th>역 이름</th>
-                    <th>방향</th>
-                    <th>요일 타입</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="item : ${favoriteList}">
-                    <td th:text="${item.userId}"></td>
-                    <td th:text="${item.stationId}"></td>
-                    <td th:text="${item.stationLine}"></td>
-                    <td th:text="${item.stationName}"></td>
-                    <td th:text="${item.directionType}"></td>
-                    <td th:text="${item.dayType}"></td>
-                    <td th:text="${item.subwayTime.getH0830() != null ? item.subwayTime[currentTime] : '정보 없음'}"></td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="favoriteList_calendar">
+            <span class="input-calendar" th:text="${year}+' / '+${month}+' / '+${day}"></span>
         </div>
+
+        <div class = "favoriteList_time">
+            <span class="input_time" th:text="${ampm}+' '+${hour}+' : '+${minute}"></span>
+        </div>
+<!--
+groupedFavorites 자체가 이미 station_id 기준으로 매핑을 하고,
+
+station_id 기준으로 매핑만 한 상태라면 entry 1개당 4개의 데이터가 있는게 맞음
+(dayType (2가지) X directionType (2가지) = 4)
+
+근데 dayType 기준으로 일치하는 것만 필터링했기 때문에
+directionType 만 남아서 entry에는 2개의 데이터만 존재함
+-->
+            <div class="favoriteList_container">
+            <div class = "favoriteList-content" th:each = "entry : ${groupedFavorites}">
+
+                <div class = "topItems">
+                    <!--아래 th:class에 의해 덮어씌워짐 -->
+                    <div class = "line-number-div">
+                        <span class="line-number"
+                              th:class="${  entry.value[0].stationLine == '1' ? 'lines line1' :
+                                        entry.value[0].stationLine == '2' ? 'lines line2' :
+                                        entry.value[0].stationLine == '3' ? 'lines line3' :
+                                        entry.value[0].stationLine == '4' ? 'lines line4' :
+                                        entry.value[0].stationLine == '5' ? 'lines line5' :
+                                        entry.value[0].stationLine == '6' ? 'lines line6' :
+                                        entry.value[0].stationLine == '7' ? 'lines line7' :
+                                        entry.value[0].stationLine == '8' ? 'lines line8' :
+                                        entry.value[0].stationLine == '9' ? 'lines line9' :
+                                        'lines default-line'}"
+                              th:text="${entry.value[0].stationLine}"></span>
+                    </div>
+                    <div class = "station-name-div">
+                        <span class="station-name" th:text="${entry.value[0].stationName}"></span>
+                    </div>
+                    <div class = "delete_favorite_button-div">
+                        <button class = "delete_favorite_button"
+                                th:data-delete-target="${entry.value[0].stationId}"
+                                th:onclick="submitDeleteFavorite(event)"
+                                th:text="삭제">
+                        </button>
+                    </div>
+                </div>
+
+                <div class = "middleItems" th:each="item : ${entry.value}">
+                    <span th:text="${item.directionType}"></span>
+                    <div class = "status-bar">
+                        <div class="bar"
+                             th:class="${item.subwayTime[setTime] != null ?
+                 (T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) <= 33 ? 'bar spacious' :
+                  T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) > 33 && T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) <= 66 ? 'bar normal' :
+                  T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) > 66 && T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) <= 99 ? 'bar crowded' :
+                  T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) > 99 ? 'bar overcrowded' :
+                  'bar default-congestion') :
+                 'bar default-congestion'}">
+                        </div>
+                    </div>
+                    <div class="value-check">
+                        <span th:text="${item.subwayTime[setTime]}+'%'"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="paging-container">
+            <div class="paging">
+                 <span th:if="${currentPage > 0}">
+                     <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage - 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">이전</a>
+                 </span>
+
+                <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{/goFavoriteListWithSetTime(page=${pageNum},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}"
+                        th:class="${pageNum == currentPage ? 'active' : ''}"
+                        th:text="${pageNum + 1}"></a>
+                </span>
+
+                <span th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">다음</a>
+        </span>
+            </div>
+        </div>
+
+
     </div>
 </div>
 
+<script src="/js/favorite/favoriteList.js" defer></script>
 </body>
 </html>
