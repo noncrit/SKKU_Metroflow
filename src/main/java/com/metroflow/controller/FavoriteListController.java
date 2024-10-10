@@ -4,7 +4,6 @@ import com.metroflow.model.dto.*;
 import com.metroflow.model.service.*;
 import com.metroflow.repository.NoticeBoardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -25,17 +23,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FavoriteListController {
 
-    @Autowired
-    private FavoriteListService favoriteListService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private SubwayMapService subwayMapService;
-    @Autowired
-    private IsHolidaysService isHolidaysService;
-    @Autowired
-    private SearchService searchService;
-
+    private final FavoriteListService favoriteListService;
+    private final UserService userService;
+    private final SubwayMapService subwayMapService;
+    private final IsHolidaysService isHolidaysService;
+    private final SearchService searchService;
     private final NoticeBoardRepository NOTICEBOARDREPOSITORY;
     private final NoticeBoardService NOTICEBOARDSERVICE;
 
@@ -82,6 +74,9 @@ public class FavoriteListController {
 
         if(favoriteList_user_id != null){
             // 4개 레코드가 완전한 데이터 1개 !!
+            // station_id 하나에 대해 요일 구분(평일, 휴일) / 방향 구분(상선, 하선 or 외선, 내선)
+            // 즉, 2 x 2 = 4가지의 데이터가 쿼리 결과로 넘어온다.
+            // 그래서 size가 4 단위여야 1개의 station_id 에 대한 온전한 데이터 전체를 받아 올 수 있음
             int size = 32;
             Pageable pageable = PageRequest.of(page, size);
             Page<FavoriteListPageDto> favoriteListPage = favoriteListService.getFavoriteListByUserId(favoriteList_user_id,pageable);
@@ -128,7 +123,7 @@ public class FavoriteListController {
 //            });
 
             // 모델에 데이터 추가
-            model.addAttribute("setTime", setTime);
+            model.addAttribute("setTime", setTime); // 현재 시간 기준 인덱스(h0000 형태)
             model.addAttribute("groupedFavorites", groupedFavorites);   // 매핑시킨 데이터
             model.addAttribute("favoriteList", favoriteListPage.getContent()); // 페이지의 내용
             model.addAttribute("totalPages", favoriteListPage.getTotalPages()); // 총 페이지 수
@@ -159,60 +154,38 @@ public class FavoriteListController {
                                             Model model){
 
         // 날짜 미 선택시 현재 날짜 기준 표시, 선택한 경우는 포맷팅 처리
-        if (year == null || year.isEmpty()) {
-            year = String.valueOf(LocalDate.now().getYear());
-        }
-
-        if (month == null || month.isEmpty()) {
-            month = String.format("%02d", LocalDate.now().getMonthValue());
-        }
-        else{
-            month = String.format("%02d", Integer.parseInt(month));
-        }
-
-        if (day == null || day.isEmpty()) {
-            day = String.format("%02d", LocalDate.now().getDayOfMonth());
-        }
-        else{
-            day = String.format("%02d", Integer.parseInt(day));
-        }
+        TimeChecker.CanlendarDTO calendarChecker = favoriteListService.calendarChecker(year,month,day);
+        year = calendarChecker.getYear();
+        month = calendarChecker.getMonth();
+        day = calendarChecker.getDay();
 
         // 시간 미선택 시 현재 시간 기준 처리
-        if (ampm == null || ampm.isEmpty()) {
-            LocalDateTime now = LocalDateTime.now();
-            ampm = now.getHour() < 12 ? "AM" : "PM";
-        }
-        if (hour == null || hour.isEmpty()) {
-            hour = String.format("%02d", LocalDateTime.now().getHour() % 12); // 12시간제로 2자리 포맷
-            if (hour.equals("00")) {
-                hour = "12"; // 0시를 12시로 변환
-            }
-        }
-        if (minute == null || minute.isEmpty()) {
-            minute = String.format("%02d", LocalDateTime.now().getMinute()); // 현재 분
-        }
-        
-        // dayType 분류를 위한 변수
-        String targetDate = isHolidaysService.classifyDate(LocalDate.parse(year + "-" + month + "-" + day));
+        TimeChecker.ClockDTO clockChecker = favoriteListService.clockChecker(ampm, hour, minute);
+        ampm = clockChecker.getAmpm();
+        hour = clockChecker.getHour();
+        minute = clockChecker.getMinute();
 
+        // dayType 분류를 위한 변수
+        String dayType = isHolidaysService.classifyDate(LocalDate.parse(year + "-" + month + "-" + day));
+        
+        // 즐겨찾기 목록을 위해 세션에서 userId 가져오기
         String favoriteList_user_id = userService.getUserObject().getUserId();
 
         if(favoriteList_user_id != null){
             // 4개 레코드가 완전한 데이터 1개 !!
+            // station_id 하나에 대해 요일 구분(평일, 휴일) / 방향 구분(상선, 하선 or 외선, 내선)
+            // 즉, 2 x 2 = 4가지의 데이터가 쿼리 결과로 넘어온다.
+            // 그래서 size가 4단위여야 1개의 station_id 에 대한 온전한 데이터 전체를 받아 올 수 있음
             int size = 32;
             Pageable pageable = PageRequest.of(page, size);
             Page<FavoriteListPageDto> favoriteListPage = favoriteListService.getFavoriteListByUserId(favoriteList_user_id,pageable);
 
             // setTime을 인덱스처럼 사용할 예정 (h0530 같은 값으로)
             // 사용자가 설정한 시간으로 바꿔줘야함
-            // 정확한 시간 포맷인지 검사후 넘기기
+            // 정확한 시간 포맷인지 검사후 넘기기(isValidTimeFormat)
             String setTime = subwayMapService.isValidTimeFormat(searchService.getInputColumn(ampm, hour, minute));
 
-            // 위에서 설정한 targetDate로 설정
-            String dayType = targetDate;
-
-            // ampm, 시, 분 을 가져오는 기능
-            System.out.println("AMPM : "+ampm);
+            // ampm, 시, 분 을 어트리뷰트로 추가
             model.addAttribute("ampm",ampm);
             model.addAttribute("hour",hour);
             model.addAttribute("minute",minute);
@@ -232,7 +205,7 @@ public class FavoriteListController {
             Map<Long, List<FavoriteListPageDto>> groupedFavorites = new TreeMap<>(raw_groupedFavorites);
 
             // 모델에 데이터 추가
-            model.addAttribute("setTime", setTime);
+            model.addAttribute("setTime", setTime); // 사용자 요구 시간 기준 인덱스(h0000 형태)
             model.addAttribute("groupedFavorites", groupedFavorites);   // 매핑시킨 데이터
             model.addAttribute("favoriteList", favoriteListPage.getContent()); // 페이지의 내용
             model.addAttribute("totalPages", favoriteListPage.getTotalPages()); // 총 페이지 수

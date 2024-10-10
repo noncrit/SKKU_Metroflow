@@ -84,14 +84,18 @@
             </button>
 
         </div>
-
+<!--
+시간 선택에서는 이전 달련 상태(year,month,day)의 값을 받아오고,
+달력 선택에서는 이전 시간 값(ampm, hour, minute)을 서로 교차해서 받아오는 형태
+이렇게 미리 받아오면 이동할 때 페이징 처리 작업을 따로 안해줘도 된다.
+-->
         <div class="time-select">
             <select id="ampm">
                 <option value="AM">오전</option>
                 <option value="PM">오후</option>
             </select>
             <select id="hour">
-                <option value="firstHour">시간</option>
+                <option value="00">시간</option>
                 <option value="01">01</option>
                 <option value="02">02</option>
                 <option value="03">03</option>
@@ -106,7 +110,7 @@
                 <option value="12">12</option>
             </select>
             <select id="minute">
-                <option value="firstMinute">분</option>
+                <option value="00">분</option>
                 <option value="01">01</option>
                 <option value="02">02</option>
                 <option value="03">03</option>
@@ -187,11 +191,11 @@
 <!--
 groupedFavorites 자체가 이미 station_id 기준으로 매핑을 하고,
 
-station_id 기준으로 매핑만 한 상태라면 entry 1개당 4개의 개체가 있는게 맞음
+station_id 기준으로 매핑만 한 상태라면 entry 1개당 4개의 데이터가 있는게 맞음
 (dayType (2가지) X directionType (2가지) = 4)
 
 근데 dayType 기준으로 일치하는 것만 필터링했기 때문에
-directionType 만 남아서 entry에는 2개의 개체만 존재함
+directionType 만 남아서 entry에는 2개의 데이터만 존재함
 -->
             <div class="favoriteList_container">
             <div class = "favoriteList-content" th:each = "entry : ${groupedFavorites}">
@@ -231,7 +235,8 @@ directionType 만 남아서 entry에는 2개의 개체만 존재함
                              th:class="${item.subwayTime[setTime] != null ?
                  (T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) <= 33 ? 'bar spacious' :
                   T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) > 33 && T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) <= 66 ? 'bar normal' :
-                  T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) > 66 ? 'bar crowded' :
+                  T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) > 66 && T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) <= 99 ? 'bar crowded' :
+                  T(com.metroflow.model.service.CongestionConverter).convertToInt(item.subwayTime[setTime]) > 99 ? 'bar overcrowded' :
                   'bar default-congestion') :
                  'bar default-congestion'}">
                         </div>

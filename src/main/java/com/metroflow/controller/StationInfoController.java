@@ -23,17 +23,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StationInfoController {
 
-    @Autowired
-    private SubwayMapService subwayMapService;
+    private final SubwayMapService subwayMapService;
 
     private final UserService USERSERVICE;
 
     private final FavoriteListService FavoriteListService;
 
     private static final Logger logger = LoggerFactory.getLogger(StationInfoController.class);
-    @Autowired
-    private UserService userService;
-
 
     @GetMapping("/station-info")
     public ResponseEntity<StationInfoResponse> getStationInfo(@RequestParam String stationName, Model model) {
