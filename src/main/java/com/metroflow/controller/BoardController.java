@@ -118,7 +118,7 @@ public class BoardController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(url));
         if (url.equals("/board/updateBoard") || url.equals("/board/delete")) { // goUpdate 컨트롤러나 delete 컨트롤러는 파라미터로 no를 필요로 하기 때문에 따로 빼줌
-            headers.setLocation(URI.create(url + "?no=" + boardNo)); // url
+            headers.setLocation(URI.create(url + "?no=" + boardNo)); // uri
             return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X
         }
         return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X, js에서 다뤄줘야 함(response.redirected)

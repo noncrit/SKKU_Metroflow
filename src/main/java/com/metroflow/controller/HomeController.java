@@ -19,6 +19,7 @@ public class HomeController {
     private final NoticeBoardRepository NOTICEBOARDREPOSITORY;
     private final NoticeBoardService NOTICEBOARDSERVICE;
 
+    // 홈으로 가는 메소드(긴급공지 관련 로직O)
     @GetMapping("/")
     public String goHome(Model model/*, HttpSession session*/) {
 //        session.invalidate();
@@ -32,6 +33,7 @@ public class HomeController {
         return "home";
     }
 
+    // 홈으로 가는 메소드(긴급공지 관련 로직O)
     @GetMapping("/home")
     public String home(Model model) {
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());

@@ -1,20 +1,16 @@
 package com.metroflow.model.service;
 
 import com.metroflow.model.dto.Board;
-import com.metroflow.model.dto.NoticeBoard;
-import com.metroflow.repository.NoticeBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class NoticeBoardService {
 
-    private final NoticeBoardRepository NOTICEBOARDREPOSITORY;
     private final BoardService BOARDSERVICE;
 
+    // 긴급공지에 들어갈 게시물의 내용을 15자 이상일 시 ...으로 표시
     public String modifyBoardText(Long boardNo) {
         Board board = BOARDSERVICE.getInfo(boardNo);
         String boardText = board.getBoardText();
