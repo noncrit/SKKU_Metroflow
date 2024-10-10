@@ -40,7 +40,7 @@ public class SearchService {
         return isHolidaysService.classifyDate(now);
     }
 
-    private String getInputColumn(String ampm, String hour, String minute) {
+    public String getInputColumn(String ampm, String hour, String minute) {
 
             int hourInt = Integer.parseInt(hour);
             int minuteInt = Integer.parseInt(minute);
