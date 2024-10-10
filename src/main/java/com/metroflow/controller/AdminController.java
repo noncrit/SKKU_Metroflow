@@ -38,18 +38,20 @@ public class AdminController {
 
     // 관리자 계정으로 게시물 긴급공지로 insert
     @GetMapping("/admin/notice/insert")
-    public ResponseEntity<String> noticeInsert(@RequestParam("boardNo") Long boardNo) {
+    public ResponseEntity<Integer> noticeInsert(@RequestParam("boardNo") Long boardNo) {
         NOTICEBOARDDAO.insert(boardNo);
         BOARDREPOSITORY.updateBoardByBoardNo(true, boardNo);
-        return ResponseEntity.ok().body("게시글 인서트 성공!");
+        int noticeCount = NOTICEBOARDREPOSITORY.findCountsByIsNoticeBoard();
+        return ResponseEntity.ok(noticeCount);
     }
 
     // 관리자 계정으로 게시물 긴급공지 삭제
     @GetMapping("/admin/notice/delete")
-    public ResponseEntity<String> noticeDelete(@RequestParam("boardNo") Long boardNo) {
+    public ResponseEntity<Integer> noticeDelete(@RequestParam("boardNo") Long boardNo) {
         NOTICEBOARDREPOSITORY.deleteById(boardNo);
         BOARDREPOSITORY.updateBoardByBoardNo(false, boardNo);
-        return ResponseEntity.ok().body("공지 삭제 성공!");
+        int noticeCount = NOTICEBOARDREPOSITORY.findCountsByIsNoticeBoard();
+        return ResponseEntity.ok(noticeCount);
     }
 
     // 관리자 계정으로 유저 리스트 보기(페이징 처리 O)
