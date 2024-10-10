@@ -12,13 +12,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class UserDAO {
 
     private final UserRepository USERREPOSITORY;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    @Transactional
+    // 회원가입 메소드
     public void register(UserRegisterForm user, String imagePath) {
         Set<String> set = new HashSet<>();
         set.add("user");
