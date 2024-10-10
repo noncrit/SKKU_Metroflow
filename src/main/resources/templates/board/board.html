@@ -38,7 +38,7 @@
                 <td th:text="*{#temporals.format(boardL.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- 보드 게시 날짜 -->
                 <td th:text="${boardL.view}"></td> <!-- 보드 조회수 -->
                 <td th:text="${boardL.thumbsUp}"></td> <!-- 보드 좋아요 수 -->
-                <td sec:authorize="hasAuthority('admin')" id="deleteBoard" th:onclick="'deleteBoard(' + ${boardL.boardNo} + ', ' + 'boardRow_' + ${boardL.boardNo} + ')'">삭제</td>
+                <td sec:authorize="hasAuthority('admin')" id="deleteBoard" th:onclick="'deleteBoard(' + ${boardL.boardNo} + ', ' + 'boardRow_' + ${boardL.boardNo} + ')'" class="delete-cell">삭제</td>
                 <td sec:authorize="hasAuthority('admin')">
                     <input type="hidden" th:id="${boardL.boardNo}" th:value="${boardL.isNoticeBoard}">
                     <div th:id="'noticeSelectionDiv' + ${boardL.boardNo}">

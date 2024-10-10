@@ -28,12 +28,12 @@
                 <a href="/goLogin" class="login btn btn-outline-light" role="button">로그인</a>
                 <a href="/goRegister" class="register btn btn-outline-light" role="button">회원가입</a>
             </div>
+        </div>
             <div sec:authorize="isAuthenticated()" class="member">
                 <img id="userImage" th:src="${sessionUser.userImgPath}">
                 <a href="/logout" class="logout btn btn-outline-light" role="button">로그아웃</a>
                 <a href="#" class="myPage btn btn-outline-light" role="button">내 정보</a>
             </div>
-        </div>
         <!-- 로고 이미지 경로 추가 -->
     </div>
 
