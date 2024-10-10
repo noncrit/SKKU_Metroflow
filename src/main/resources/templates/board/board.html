@@ -6,7 +6,6 @@
     <title>게시판 페이지</title>
     <link rel="stylesheet" href="/css/board/board.css">
     <link href="/css/menu.css" rel="stylesheet">
-    <script src="/js/board/board.js"></script>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: menuBar}"></div>
@@ -76,5 +75,7 @@
         <a href="/board/writeBoard" class="write-btn">글쓰기</a>
     </div>
 </div>
+<input type="hidden" th:value="${noticeCount}" id="noticeCount">
+<script src="/js/board/board.js"></script>
 </body>
 </html>

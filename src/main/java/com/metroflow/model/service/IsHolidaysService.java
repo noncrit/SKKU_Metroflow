@@ -1,19 +1,53 @@
 package com.metroflow.model.service;
 
+import com.metroflow.model.dto.TimeAttributes;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 // 주말인지 판단하는 서비스
 @Service
 public class IsHolidaysService {
 
-    private Set<LocalDate> holidays;
+    private final Set<LocalDate> holidays;
 
     public IsHolidaysService() {
         holidays = new HashSet<>();
+
+        holidays.add(LocalDate.of(2022, 1, 1));
+        holidays.add(LocalDate.of(2022, 1, 31));
+        holidays.add(LocalDate.of(2022, 2, 1));
+        holidays.add(LocalDate.of(2022, 2, 2));
+        holidays.add(LocalDate.of(2022, 3, 1));
+        holidays.add(LocalDate.of(2022, 5, 5));
+        holidays.add(LocalDate.of(2022, 5, 8));
+        holidays.add(LocalDate.of(2022, 6, 6));
+        holidays.add(LocalDate.of(2022, 8, 15));
+        holidays.add(LocalDate.of(2022, 9, 9));
+        holidays.add(LocalDate.of(2022, 9, 10));
+        holidays.add(LocalDate.of(2022, 9, 11));
+        holidays.add(LocalDate.of(2022, 10, 3));
+        holidays.add(LocalDate.of(2022, 12, 25));
+
+        holidays.add(LocalDate.of(2023, 1, 1));
+        holidays.add(LocalDate.of(2023, 1, 21));
+        holidays.add(LocalDate.of(2023, 1, 22));
+        holidays.add(LocalDate.of(2023, 1, 23));
+        holidays.add(LocalDate.of(2023, 3, 1));
+        holidays.add(LocalDate.of(2023, 5, 5));
+        holidays.add(LocalDate.of(2023, 5, 27));
+        holidays.add(LocalDate.of(2023, 6, 6));
+        holidays.add(LocalDate.of(2023, 8, 15));
+        holidays.add(LocalDate.of(2023, 9, 28));
+        holidays.add(LocalDate.of(2023, 9, 29));
+        holidays.add(LocalDate.of(2023, 9, 30));
+        holidays.add(LocalDate.of(2023, 10, 3));
+        holidays.add(LocalDate.of(2023, 12, 25));
 
         holidays.add(LocalDate.of(2024, 1, 1));  // 새해
         holidays.add(LocalDate.of(2024, 2, 9));  // 설날
@@ -204,6 +238,16 @@ public class IsHolidaysService {
         } else {
             return "평일";
         }
+    }
+
+    public TimeAttributes getCurrentTimeAttributes() {
+        LocalDateTime now = LocalDateTime.now();
+
+        String amPm = now.format(DateTimeFormatter.ofPattern("a", Locale.ENGLISH));
+        String hour = now.format(DateTimeFormatter.ofPattern("hh"));
+        String minute = now.format(DateTimeFormatter.ofPattern("mm"));
+
+        return new TimeAttributes(amPm, hour, minute);
     }
 
 }

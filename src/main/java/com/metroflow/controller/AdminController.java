@@ -28,28 +28,33 @@ public class AdminController {
     private final NoticeBoardDAO NOTICEBOARDDAO;
     private final NoticeBoardRepository NOTICEBOARDREPOSITORY;
 
+    // 관리자 계정으로 게시물 삭제(삭제 컨트롤러로 보내주는 메소드)
     @GetMapping("/admin/board/delete")
     public ResponseEntity<String> boardDelete(@RequestParam("boardNo") Long boardNo) {
-        BOARDREPOSITORY.deleteById(boardNo);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/board/delete"));
+        headers.setLocation(URI.create("/board/delete?no=" + boardNo));
         return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X, js에서 다뤄줘야 함(response.redirected)
     }
 
+    // 관리자 계정으로 게시물 긴급공지로 insert
     @GetMapping("/admin/notice/insert")
-    public ResponseEntity<String> noticeInsert(@RequestParam("boardNo") Long boardNo) {
+    public ResponseEntity<Integer> noticeInsert(@RequestParam("boardNo") Long boardNo) {
         NOTICEBOARDDAO.insert(boardNo);
         BOARDREPOSITORY.updateBoardByBoardNo(true, boardNo);
-        return ResponseEntity.ok().body("게시글 인서트 성공!");
+        int noticeCount = NOTICEBOARDREPOSITORY.findCountsByIsNoticeBoard();
+        return ResponseEntity.ok(noticeCount);
     }
 
+    // 관리자 계정으로 게시물 긴급공지 삭제
     @GetMapping("/admin/notice/delete")
-    public ResponseEntity<String> noticeDelete(@RequestParam("boardNo") Long boardNo) {
+    public ResponseEntity<Integer> noticeDelete(@RequestParam("boardNo") Long boardNo) {
         NOTICEBOARDREPOSITORY.deleteById(boardNo);
         BOARDREPOSITORY.updateBoardByBoardNo(false, boardNo);
-        return ResponseEntity.ok().body("공지 삭제 성공!");
+        int noticeCount = NOTICEBOARDREPOSITORY.findCountsByIsNoticeBoard();
+        return ResponseEntity.ok(noticeCount);
     }
 
+    // 관리자 계정으로 유저 리스트 보기(페이징 처리 O)
     @GetMapping("/admin/userList")
     public String goUserList(Model model, @PageableDefault(page = 1) Pageable pageable) {
         Page<UserForm> userList = USERSERVICE.paging(pageable); // 페이징 처리된 보드들 리스트

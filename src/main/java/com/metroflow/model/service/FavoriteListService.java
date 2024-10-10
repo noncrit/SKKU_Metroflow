@@ -1,9 +1,6 @@
 package com.metroflow.model.service;
 
-import com.metroflow.model.dto.FavoriteList;
-import com.metroflow.model.dto.FavoriteListPageDto;
-import com.metroflow.model.dto.SubwayStation;
-import com.metroflow.model.dto.User;
+import com.metroflow.model.dto.*;
 import com.metroflow.repository.FavoriteListRepository;
 import com.metroflow.repository.SubwayStationRepository;
 import com.metroflow.repository.UserRepository;
@@ -13,12 +10,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class FavoriteListService {
-
     @Autowired
     private FavoriteListRepository favoriteListRepository;
     @Autowired
@@ -89,6 +87,48 @@ public class FavoriteListService {
         return favoriteListRepository.findFavoriteListByUserId(userId, pageable);
     }
 
+    // 날짜 미 선택시 현재 날짜 기준 표시, 선택한 경우는 포맷팅 처리
+    public TimeChecker.CanlendarDTO calendarChecker(String year, String month, String day){
+        TimeChecker timeChecker = new TimeChecker();
 
+        if (year == null || year.isEmpty()) {
+            year = String.valueOf(LocalDate.now().getYear());
+        }
 
+        if (month == null || month.isEmpty()) {
+            month = String.format("%02d", LocalDate.now().getMonthValue());
+        }
+        else{
+            month = String.format("%02d", Integer.parseInt(month));
+        }
+
+        if (day == null || day.isEmpty()) {
+            day = String.format("%02d", LocalDate.now().getDayOfMonth());
+        }
+        else{
+            day = String.format("%02d", Integer.parseInt(day));
+        }
+        return timeChecker.new CanlendarDTO(year,month,day);
+    }
+
+    public TimeChecker.ClockDTO clockChecker(String ampm, String hour, String minute){
+
+        TimeChecker timeChecker = new TimeChecker();
+
+        if (ampm == null || ampm.isEmpty()) {
+            LocalDateTime now = LocalDateTime.now();
+            ampm = now.getHour() < 12 ? "AM" : "PM";
+        }
+        if (hour == null || hour.isEmpty()) {
+            hour = String.format("%02d", LocalDateTime.now().getHour() % 12); // 12시간제로 2자리 포맷
+            if (hour.equals("00")) {
+                hour = "12"; // 0시를 12시로 변환
+            }
+        }
+        if (minute == null || minute.isEmpty()) {
+            minute = String.format("%02d", LocalDateTime.now().getMinute()); // 현재 분
+        }
+
+        return timeChecker.new ClockDTO(ampm, hour, minute);
+    }
 }

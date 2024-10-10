@@ -1,9 +1,11 @@
+let selectedImage = null;
+let selectedImageSrc = null;
+// 스페이스바 입력 시 해당 진행 막기(스페이스바 금지)
 const disableSpacebar = (event) => {
     if (event.code === "Space") {
         event.preventDefault();
     }
 };
-
 const disableKorean = (event) => {
     const value = event.target.value;
     if (/[\u3131-\uD79D]/.test(value)) {
@@ -11,7 +13,6 @@ const disableKorean = (event) => {
         event.target.value = value.replace(/[\u3131-\uD79D]/g, '');
     }
 };
-
 window.addEventListener('load', function () {
     const inputFields = document.getElementsByTagName("input");
     const nickname = document.getElementById('nickname');
@@ -24,10 +25,27 @@ window.addEventListener('load', function () {
         }
     });
 });
+// 폼 제출 이벤트 리스너
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('form').addEventListener('submit', function(event) {
+        // event.preventDefault(); // 기본 제출 동작 방지
 
+        // console.log("폼 제출 시 selectedImageSrc: " + selectedImageSrc);
+        if (selectedImageSrc) {
+            // console.log("선택된 이미지: " + selectedImageSrc);
+            document.getElementById('imagePath').value = selectedImageSrc;
+        } else {
+            // console.log('선택된 이미지 없음, 기본값 사용');
+            document.getElementById('imagePath').value = '/images/img_4.png'; // 기본값 설정
+        }
 
-let selectedImage = null;
-let selectedImageSrc = null;
+        // 추가 로직이 있다면 여기서 수행
+
+        // 수동으로 폼 제출하고 싶으면 아래 주석 해제
+        // event.target.submit();
+    });
+});
+
 // 예제 사용
 function selectImage(imgElement) {
     // 기존 선택된 이미지가 있다면 'selected' 클래스를 제거합니다.
@@ -57,23 +75,4 @@ function hideModal() {
     document.getElementById('imageModal').style.display = 'none';
 }
 
-// 폼 제출 이벤트 리스너
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('form').addEventListener('submit', function(event) {
-        // event.preventDefault(); // 기본 제출 동작 방지
 
-        // console.log("폼 제출 시 selectedImageSrc: " + selectedImageSrc);
-        if (selectedImageSrc) {
-            // console.log("선택된 이미지: " + selectedImageSrc);
-            document.getElementById('imagePath').value = selectedImageSrc;
-        } else {
-            // console.log('선택된 이미지 없음, 기본값 사용');
-            document.getElementById('imagePath').value = '/images/img_4.png'; // 기본값 설정
-        }
-
-        // 추가 로직이 있다면 여기서 수행
-
-        // 수동으로 폼 제출하고 싶으면 아래 주석 해제
-        // event.target.submit();
-    });
-});

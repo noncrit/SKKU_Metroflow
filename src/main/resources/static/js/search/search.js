@@ -213,11 +213,11 @@ const resultContainer = document.getElementById('result-container');
 
 function getStatusColor(congestion) {
     if (congestion <= 33) {
-        return "red";    // 혼잡
+        return "green";    // 여유
     } else if (congestion > 33 && congestion <= 66) {
         return "orange"; // 보통
     } else if (congestion > 66) {
-        return "green";  // 여유
+        return "red";  // 혼잡
     } else {
         return "gray";   // 기본값
     }
@@ -225,11 +225,11 @@ function getStatusColor(congestion) {
 
 function getCongestion(congestion) {
     if (congestion <= 33) {
-        return "혼잡";    // 혼잡
+        return "여유";    // 여유
     } else if (congestion > 33 && congestion <= 66) {
         return "보통"; // 보통
     } else if (congestion > 66) {
-        return "여유";  // 여유
+        return "혼잡";  // 혼잡
     } else {
         return "오류";   // 기본값
     }
