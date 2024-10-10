@@ -64,6 +64,7 @@ public class UserService {
         return user;
     }
 
+    // 유저 리스트 용 페이징 처리 로직
     @Transactional(readOnly = true)
     public Page<UserForm> paging(Pageable pageable) {
         int page = pageable.getPageNumber() - 1; // 인덱스 값이라 보일 값보다 -1 해줘야함
@@ -74,7 +75,6 @@ public class UserService {
         Page<User> users =
                 USERREPOSITORY.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "userId")));
         return users.map(user -> new UserForm(user.getUserId(), user.getNickname()));
-
     }
 
     // 사용자 정보 업데이트
