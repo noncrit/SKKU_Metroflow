@@ -32,7 +32,7 @@ public class BoardDAO {
         board.setThumbsUp(0L); // 보드의 좋아요 수
         board.setThumbsDown(0L); // 보드의 싫어요 수
         board.setView(0L); // 조회수
-        board.setNoticeBoard(false);
+        board.setNoticeBoard(false); // 긴급 공지인지 T / F
         BOARDREPOSITORY.save(board); // Insert
     }
 

@@ -17,7 +17,7 @@ public class User {
     private String userId;
     @Column(nullable = false)
     private String password;
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = false, unique = true)
     private String nickname;
     @Column(columnDefinition = "TEXT", nullable = false)
     private String userImgPath;
