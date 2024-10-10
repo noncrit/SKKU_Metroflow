@@ -1,15 +1,14 @@
 package com.metroflow.controller;
 
 import com.metroflow.model.dao.UserDAO;
+import com.metroflow.model.dto.User;
 import com.metroflow.model.dto.UserRegisterForm;
 import com.metroflow.model.service.UserService;
-import com.metroflow.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,9 +21,8 @@ public class UserController {
 
     private final UserDAO USERDAO;
     private final UserService USERSERVICE;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Value("${profile.upload-dir}")
-    private String uploadDir;
 
     @GetMapping("/goRegister")
     public String goRegisterPage(Model model) {
@@ -58,39 +56,38 @@ public class UserController {
     }
 
     @GetMapping("/myPage")
-    public String showMyPage() {
+    public String showMyPage(Model model) {
+        User currentUser = USERSERVICE.getUserObject();
+        model.addAttribute("user", currentUser);
         return "user/myPage";
     }
 
-//    // 비밀 번호 변경
-//    @PostMapping("/myPage")
-//    public String updatePassword(@RequestParam String userId,
-//                                 @RequestParam String email,
-//                                 @RequestParam String currentPassword,
-//                                 @RequestParam String newPassword,
-//                                 @RequestParam String confirmPassword) {
-//        if (!newPassword.equals(confirmPassword)) {
-//            return "새로은 비밀번호가 일치하지 않습니다.";
-//        }
-//
-//        boolean isUpdated = USERSERVICE.updatePassword(userId, currentPassword, newPassword);
-//        if (isUpdated) {
-//            USERSERVICE.up
-//        }
-//
-//    }
+    @PostMapping("/user/update")
+    public String updateUserProfile(
+            @RequestParam("currentPassword") String currentPassword,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("confirmPassword") String confirmPassword,
+            @RequestParam("nickname") String nickname,
+            @RequestParam("email") String email,
+            @RequestParam(value = "profilePic", required = false) String profilePic,
+            Model model) {
 
-//    // 프로필 사진 변경
-//    @PostMapping("/myPage/profilePic")
-//    public ResponseEntity<String> changeProfilePic(
-//            @RequestParam String userId,
-//            @RequestParam String userImgPath) {
-//        USERSERVICE.updateProfileImage(userId, userImgPath);
-//        return ResponseEntity.ok("Profile image updated successfully");
-//
-//    }
+        User user = USERSERVICE.getUserObject();
+        System.out.println("controller 도착");
+
+        try {
+            // 사용자 정보 업데이트
+            USERSERVICE.updateUser(user, currentPassword, newPassword, confirmPassword, nickname, email, profilePic);
+            model.addAttribute("success", "프로필이 업데이트되었습니다.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("exception in controller");
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("user", user);
+            return "user/myPage";   // 에러 발생 시 마이페이지로 다시 리다이렉트
+        }
+        return "redirect:/myPage";  // 성공적으로 업데이트 후 마이페이지로 리다이렉트
 
 
-
+    }
 
 }

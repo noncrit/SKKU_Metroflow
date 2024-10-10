@@ -44,7 +44,6 @@
                 <a href="/goRegister" class="register btn btn-outline-light" role="button">회원가입</a>
             </div>
             <div sec:authorize="isAuthenticated()" class="member">
-                <img th:src="${sessionUser.userImgPath}">
                 <img id="userImage" th:src="${sessionUser.userImgPath}">
                 <a href="/logout" class="logout btn btn-outline-light" role="button">로그아웃</a>
                 <a href="/myPage" class="myPage btn btn-outline-light" role="button">내 정보</a>

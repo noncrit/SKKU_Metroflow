@@ -1,6 +1,8 @@
 package com.metroflow.model.service;
 
-import com.metroflow.model.dto.*;
+import com.metroflow.model.dto.User;
+import com.metroflow.model.dto.UserForm;
+import com.metroflow.model.dto.UserRegisterForm;
 import com.metroflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,7 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository USERREPOSITORY;
+    private final BCryptPasswordEncoder BCRYPTPASSWORDENCODER;
 
     // ID 중복 체크
     public void idDuplicationCheck(UserRegisterForm user, BindingResult result) {
@@ -73,19 +77,36 @@ public class UserService {
 
     }
 
-    public boolean updatePassword(String userId, String currentPassword, String newPassword ) {
-        Optional<User> optionalUser = USERREPOSITORY.findByUserId(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setPassword(currentPassword);
-            user.setPassword(newPassword);
-            USERREPOSITORY.save(user);
-            return true;
+    // 사용자 정보 업데이트
+    public void updateUser(User user, String currentPassword, String newPassword
+            , String confirmPassword, String nickname, String email, String ProfilePic) throws IllegalArgumentException{
+
+        // 현재 비밀 번호 확인
+        if (!BCRYPTPASSWORDENCODER.matches(currentPassword, user.getPassword())) {
+            System.out.println("wrong prior password");
+            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
         }
-        return false;
+
+        // 새 비밀번호 일치 여부 확인
+        if (!newPassword.equals(confirmPassword)) {
+            System.out.println("wrong confirm password");
+            throw new IllegalArgumentException("새 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 비밀번호 변경시 비밀번호 업데이트
+        if (!newPassword.isEmpty()) {
+            user.setPassword(BCRYPTPASSWORDENCODER.encode(newPassword));
+        }
+
+        // 이메일 변경시 이메일 업데이트
+        user.setUserEmail(email);
+        user.setNickname(nickname);
+
+        // 프로필 이미지 업데이트
+        user.setUserImgPath(ProfilePic);
+
+        // 변경된 사용자 정보 저장
+        USERREPOSITORY.save(user);
+
     }
-
-//    public void updateUserProfile(String us)
-
-
 }

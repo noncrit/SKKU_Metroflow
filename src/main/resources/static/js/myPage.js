@@ -1,58 +1,38 @@
-// 프로필 사진 변경
-function changeProfilePic() {
-    document.getElementById('profileImage').click();
-}
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("profileModal");
+    const openModalButton = document.getElementById("openModalButton");
+    const closeModal = document.querySelector(".close");
+    const profilePic = document.getElementById("profilePic");
+    const selectableImages = document.querySelectorAll(".selectable-image");
+    const selectedProfilePicInput = document.getElementById("selectedProfilePic");
 
-document.getElementById('profileImage').addEventListener('change', function () {
-    const formData = new FormData();
-    formData.append('profileImage', this.files[0]);
 
-    fetch('/updateProfileImage', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('프로필 싲ㄴ 변경 실패,');
-            }
-        })
-        .then(data => {
-            document.getElementById('profilePic').src = data.newImagePath;
-            alert('프로필 사진이 변경되었습니다.');
-        })
-        .catch(error => {
-            console.error(error);
-            alert('오류가 발생했습니다.');
+    // 모달 열기
+    openModalButton.addEventListener("click", function () {
+        modal.style.display = "block";
+    });
+
+    // 모달 닫기
+    closeModal.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // 이미지 선택
+    selectableImages.forEach(function (image) {
+        image.addEventListener("click", function () {
+            selectableImages.forEach(img => img.classList.remove("selected"));
+            image.classList.add("selected");
+            profilePic.src = image.src;  // 선택한 이미지를 프로필로 미리보기
+            selectedProfilePicInput.value = image.src;  // 선택한 이미지 경로를 hidden input에 저장
         });
+    });
+
+    // 선택한 이미지 저장
+    document.getElementById("changeProfilePic").addEventListener("click", function () {
+        modal.style.display = "none";  // 모달 닫기
+    });
 });
 
-// // 비밀번호 변경 처리
-// function changePassword(event) {
-//     event.preventDefault();
-//
-//     const userId = jeong;
-//     const currentPassword = document.getElementById('currentPassword').value;
-//     const newPassword = document.getElementById('newPassword').value;
-//     const confirmPassword = document.getElementById('confirmPassword').value;
-//
-//     if (newPassword !== confirmPassword) {
-//         alert("New password do not match!");
-//         return;
-//     }
-//
-//     fetch(`/myPage/password?userId=${userId}&currentPassword=${currentPassword}&newPassword=${newPassword}`,{
-//         method: 'PUT',
-//     })
-//         .then(response => response.text())
-//         .then(data => {
-//             alert(data);
-//             document.getElementById('profileForm').reset();
-//         })
-//         .catch(error => console.error('Error:', error));
-//
-// }
 
 // 회원 탈퇴 확인 처리
 document.getElementById('deleteAccount').addEventListener('click', function(event) {
