@@ -89,10 +89,14 @@
 }
 
 .input-container,
-.direct-input,
-.time-select {
+.direct-input
+{
     width: 85%;
     margin-bottom: 1rem;
+}
+
+.time-select {
+    justify-content: center;
 }
 
 select {
@@ -312,4 +316,9 @@ input:focus {
 
 .paging span {
     margin: 0 5px;
+}
+
+.calendar-div {
+    display: flex;
+    justify-content: center;
 }
