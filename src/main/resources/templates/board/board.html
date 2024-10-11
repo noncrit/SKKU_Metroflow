@@ -6,7 +6,6 @@
     <title>게시판 페이지</title>
     <link rel="stylesheet" href="/css/board/board.css">
     <link href="/css/menu.css" rel="stylesheet">
-    <script src="/js/board/board.js"></script>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: menuBar}"></div>
@@ -38,7 +37,7 @@
                 <td th:text="*{#temporals.format(boardL.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td> <!-- 보드 게시 날짜 -->
                 <td th:text="${boardL.view}"></td> <!-- 보드 조회수 -->
                 <td th:text="${boardL.thumbsUp}"></td> <!-- 보드 좋아요 수 -->
-                <td sec:authorize="hasAuthority('admin')" id="deleteBoard" th:onclick="'deleteBoard(' + ${boardL.boardNo} + ', ' + 'boardRow_' + ${boardL.boardNo} + ')'">삭제</td>
+                <td sec:authorize="hasAuthority('admin')" id="deleteBoard" th:onclick="'deleteBoard(' + ${boardL.boardNo} + ', ' + 'boardRow_' + ${boardL.boardNo} + ')'" class="delete-cell">삭제</td>
                 <td sec:authorize="hasAuthority('admin')">
                     <input type="hidden" th:id="${boardL.boardNo}" th:value="${boardL.isNoticeBoard}">
                     <div th:id="'noticeSelectionDiv' + ${boardL.boardNo}">
@@ -76,5 +75,7 @@
         <a href="/board/writeBoard" class="write-btn">글쓰기</a>
     </div>
 </div>
+<input type="hidden" th:value="${noticeCount}" id="noticeCount">
+<script src="/js/board/board.js"></script>
 </body>
 </html>

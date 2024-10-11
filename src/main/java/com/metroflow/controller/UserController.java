@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,18 +58,17 @@ public class UserController {
         return"user/login";
     }
 
-    @GetMapping("/user/myProfile")
-    public String getProfile(Model model, Authentication authentication) {
-        String username = authentication.getName(); // Get the logged-in user's username
+    @GetMapping("/myProfile")
+    public String getProfile(Model model) {
         User user = USERSERVICE.getUserObject(); // Fetch user data
-        model.addAttribute("user", user); // Add user data to the model for Thymeleaf
+        model.addAttribute("sessionUser", user); // Add user data to the model for Thymeleaf
         return "/user/myProfile"; // Return the Thymeleaf template name
     }
 
     @GetMapping("/myPage")
     public String showMyPage(Model model) {
         User currentUser = USERSERVICE.getUserObject();
-        model.addAttribute("user", currentUser);
+        model.addAttribute("sessionUser", currentUser);
         return "user/myPage";
     }
 
@@ -78,34 +76,27 @@ public class UserController {
     public String updateUserProfile(
             @Valid @ModelAttribute("user") UserRegisterForm user, BindingResult result,
             @RequestParam("currentPassword") String currentPassword,
-            @RequestParam("newPassword") String newPassword,
-            @RequestParam("confirmPassword") String confirmPassword,
-            @RequestParam("nickname") String nickname,
-            @RequestParam("email") String email,
-            @RequestParam(value = "profilePic", required = false) String profilePic,
             Model model) {
+        String errorMessage = USERSERVICE.validateUserProfile(user, result);
+        model.addAttribute("sessionUser", USERSERVICE.getUserObject());
 
-        USERSERVICE.passwordCheck(user, result); // 비밀번호 체크(비밀번호 확인과 값이 같은지)
+        // 에러가 있을 경우, 해당 에러 메시지를 모델에 추가하고 다시 마이페이지로 이동
+        if (errorMessage != null) {
+            model.addAttribute("errorMessage", errorMessage);
+            return "user/myPage";
+        }
 
         User userObject = USERSERVICE.getUserObject();
-        System.out.println("controller 도착");
-
-        if (result.hasErrors()) {
-            model.addAttribute("errorMessage", result.getAllErrors().get(0).getDefaultMessage());
-            return "redirect:/myPage";
-        }
 
         try {
             // 사용자 정보 업데이트
-            USERSERVICE.updateUser(userObject, currentPassword, newPassword, confirmPassword, nickname, email, profilePic);
+            USERSERVICE.updateUser(userObject, currentPassword, user.getPassword(), user.getPasswordCheck(), user.getNickname(), user.getUserEmail(), user.getUserImgPath());
             model.addAttribute("success", "프로필이 업데이트되었습니다.");
         } catch (IllegalArgumentException e) {
-            System.out.println("exception in controller");
             model.addAttribute("errorMessage", e.getMessage());
-            model.addAttribute("user", user);
             return "user/myPage";   // 에러 발생 시 마이페이지로 다시 리다이렉트
         }
-        return "redirect:/myPage";  // 성공적으로 업데이트 후 마이페이지로 리다이렉트
+        return "redirect:/myProfile";  // 성공적으로 업데이트 후 마이페이지로 리다이렉트
 
 
     }

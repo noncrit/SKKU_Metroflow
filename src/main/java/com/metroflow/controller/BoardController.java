@@ -7,6 +7,7 @@ import com.metroflow.model.dto.RecommendationRequestForm;
 import com.metroflow.model.service.BoardService;
 import com.metroflow.model.service.UserService;
 import com.metroflow.repository.BoardRepository;
+import com.metroflow.repository.NoticeBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,7 @@ public class BoardController {
     private final UserService USERSERVICE;
     private final BoardDAO BOARDDAO;
     private final BoardRepository BOARDREPOSITORY;
-
+    private final NoticeBoardRepository NOTICEBOARDREPOSITORY;
     // /board?page=1
     // 보드 페이징 처리 컨트롤러
     @GetMapping("/board")
@@ -40,7 +41,9 @@ public class BoardController {
         int blockLimit = 5; // 한번에 보일 페이지 갯수 제한
         int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
         int endPage = Math.min((startPage + blockLimit - 1), boardList.getTotalPages());
+        int noticeCount =  NOTICEBOARDREPOSITORY.findCountsByIsNoticeBoard();
 
+        model.addAttribute("noticeCount", noticeCount);
         model.addAttribute("boardList", boardList);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);

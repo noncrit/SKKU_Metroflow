@@ -36,21 +36,7 @@ h2 {
     margin: 0 auto;
 }
 
-.profile-picture button {
-    display: block;
-    margin: 10px auto 0;
-    padding: 8px 12px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-/* 마우스 hover 시 배경색 흐려짐 */
-.profile-picture button:hover {
-    background-color: #5dade2; /* 흐려진 색상 */
-}
 
 form {
     display: flex;
@@ -83,16 +69,8 @@ input[disabled] {
     align-items: center;
 }
 
-#deleteAccount {
-    color: #e74c3c;
-    text-decoration: none;
-}
 
-#deleteAccount:hover {
-    color: #f1948a; /* 회원탈퇴 링크 hover 시 색상 변경 */
-}
-
-button[type="submit"] {
+a[role="button"] {
     padding: 10px 20px;
     background-color: #223249;
     color: #fff;
@@ -102,9 +80,11 @@ button[type="submit"] {
 }
 
 /* 마우스 hover 시 배경색 흐려짐 */
-button[type="submit"]:hover {
+a[role="button"] :hover {
     background-color: #3a4b63; /* 흐려진 색상 */
 }
+
+
 
 /* 모달 배경 */
 .modal {

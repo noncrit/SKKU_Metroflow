@@ -1,4 +1,4 @@
-let count = 0; // 긴급 공지 게시물 수
+let count = parseInt(document.getElementById('noticeCount').value); // 긴급 공지 게시물 수;
 
 document.addEventListener('DOMContentLoaded', function () {
     const rows = document.querySelectorAll('tr[id^="boardRow_"]')
@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isNoticeSelected === true) { // 이미 긴급공지로 선택됐을 시
             isNoticeSelectContainer.classList.add('activeSelection'); // 클래스 activeSelection 추가 => css 효과 on
             isSelected = true;
-            count ++;
         } else {
             isSelected = false;
         }
@@ -19,20 +18,18 @@ document.addEventListener('DOMContentLoaded', function () {
         isNoticeSelectContainer.addEventListener('click', function () {
             isSelected = !isSelected;
             if (isSelected) {
-                count ++;
-                if (count < 4) {
+                console.log("9minute : " + count);
+                if (count < 3) {
                     isNoticeSelectContainer.classList.add('activeSelection');
                     selectNotice(boardNo);
                 } else {
                     alert('최대 공지 수를 넘겼습니다!')
                     isSelected = !isSelected;
                     // console.log("현재 카운트 : " + count)
-                    count --;
                 }
 
             } else {
                 isNoticeSelectContainer.classList.remove('activeSelection');
-                count --;
                 deleteNotice(boardNo);
 
             }
@@ -61,6 +58,7 @@ function deleteBoard(boardNo, trBoardNo) {
         })
         .then(data => {
             // console.log('Success:', data);
+
         })
         .catch((error) => {
             // console.error('Error:', error + '에러남!');
@@ -76,21 +74,21 @@ function selectNotice(boardNo) {
         },
     })
         .then(response => {
-            // console.log('응답 성공!')
-            if (response.redirected) {
-                // console.log('redirect 시도!')
-            } else {
+
+            if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            // return response.json(); // JSON 형태로 응답받기
+            return response.json(); // JSON 형태로 응답받기
         })
-        .then(data => {
-            // console.log('Success:', data);
+        .then(data =>{
+            console.log("데이터 값 : " + data);
+            count = parseInt(JSON.stringify(data));
         })
         .catch((error) => {
             // console.error('Error:', error + '에러남!');
         });
 }
+
 
 // 게시물 긴급공지에서 삭제 함수
 function deleteNotice(boardNo) {
@@ -101,14 +99,15 @@ function deleteNotice(boardNo) {
         },
     })
         .then(response => {
-            // console.log('응답 성공!')
-            if (response.redirected) {
+            if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            // return response.json(); // JSON 형태로 응답 받기
+            return response.json(); // JSON 형태로 응답받기
         })
         .then(data => {
             // console.log('Success:', data);
+            count = parseInt(JSON.stringify(data));
+            console.log("삭제 카운팅 " + count);
         })
         .catch((error) => {
             // console.error('Error:', error + '에러남!');

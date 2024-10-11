@@ -1,3 +1,4 @@
+// 프로필 사진 변경 처리
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("profileModal");
     const openModalButton = document.getElementById("openModalButton");
@@ -32,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "none";  // 모달 닫기
     });
 });
-
 
 // 회원 탈퇴 확인 처리
 document.getElementById('deleteAccount').addEventListener('click', function(event) {
