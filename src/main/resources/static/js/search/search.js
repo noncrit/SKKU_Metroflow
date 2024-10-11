@@ -136,7 +136,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
     $.ajax( {
         type: 'POST',
         url: `/goSearch/result`,
-        // dataType: 'json',
+        dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify({
             stationName:stationName,
