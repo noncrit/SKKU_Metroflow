@@ -14,12 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const buttonLink = document.querySelectorAll('button'); // 버튼 태그 선택자
     const header = document.querySelector('meta[name="_csrf_header"]').content; // csrf header
     const token = document.querySelector('meta[name="_csrf"]').content; // csrf token
-    if (thumbsUp === true) { // 유저가 해당 보드에 대해 좋아요가 true 이면
-        thumbsUpContainer.classList.add('thumbsUpActive'); // 좋아요 css 이벤트 작동
-    } else if (thumbsDown === true) { // 유저가 해당 보드에 대해 싫어요가 true 이면
-        thumbsDownContainer.classList.add('thumbsDownActive') // 싫어요 css 이벤트 작동
-    }
 
+    judgePriorThumbs(thumbsUp, thumbsUpContainer, thumbsDown, thumbsDownContainer);
     thumbsUpContainer.addEventListener('click', function () { // 좋아요 컨테이너 클릭 시
         thumbsUp = !thumbsUp; // 스위치 기능 작동(현재 좋아요가 true 였다면 클릭시 false)
         if (thumbsUp === true && thumbsDown === true) { // false 에서 true 가 된 좋아요고, 싫어요가 true 였다면
@@ -65,7 +61,6 @@ document.addEventListener('DOMContentLoaded', function () {
     buttonLink.forEach(link => {
         link.addEventListener('click', function (e) {
             let linkUrl = new URL(link.form.action).pathname;
-            alert("URL : " + linkUrl);
             e.preventDefault()
             if (link.form.id === "button_delete") {
                 const confirmation = confirm('정말로 삭제하시겠습니까?');
@@ -149,4 +144,11 @@ function thumbsDownMinus(thumbsDownContainer, thumbsDownCount) {
     thumbsDownCount.value = String(parseInt(thumbsDownCount.value) - 1); // 카운트 감소
 }
 
+function judgePriorThumbs(thumbsUp, thumbsUpContainer, thumbsDown, thumbsDownContainer) {
+    if (thumbsUp === true) { // 유저가 해당 보드에 대해 좋아요가 true 이면
+        thumbsUpContainer.classList.add('thumbsUpActive'); // 좋아요 css 이벤트 작동
+    } else if (thumbsDown === true) { // 유저가 해당 보드에 대해 싫어요가 true 이면
+        thumbsDownContainer.classList.add('thumbsDownActive') // 싫어요 css 이벤트 작동
+    }
+}
 
