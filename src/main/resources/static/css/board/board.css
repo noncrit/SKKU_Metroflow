@@ -6,12 +6,14 @@
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 27px;
   font-weight: bold;
   margin-bottom: 10px;
+  margin-top: -1px;
 }
 
 p {
@@ -31,7 +33,7 @@ p {
 }
 
 .board-table th, .board-table td {
-  padding: 10px;
+  padding: 8px;
   text-align: center;
   vertical-align: middle;
   border: 1px solid #ddd;
@@ -93,27 +95,30 @@ p {
   border-radius: 3px;
 }
 
+/* 기존 페이지네이션 스타일 유지 */
 .pagination {
   display: flex;
-  justify-content: center;
+  justify-content: center; /* 페이지네이션 요소들을 가운데 정렬 */
   align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 25px;
+  margin-top: 30px;
+  position: relative;
 }
 
+/* 중앙에 있는 페이지네이션 링크 스타일 */
 .pagination a {
   padding: 8px 16px;
-  background-color: #fff;
-  color: #001f3f;
+  background-color: #001f3f;
+  color: white;
   text-decoration: none;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 13px;
   border: 1px solid #001f3f;
 }
 
 .pagination a:hover {
-  background-color: #001f3f;
-  color: #fff;
+  background-color: white;
+  color: #001f3f;
 }
 
 .pagination a.active {
@@ -121,15 +126,37 @@ p {
   color: white;
 }
 
+/* 글쓰기 버튼 스타일 - 오른쪽 정렬 */
 .write-btn {
-  background-color: #28a745;
-  color: white;
-}
-
-.write-btn:hover {
-  background-color: #218838;
+  position: absolute;
+  right: 0;
+  top: -40px;
+  margin-right: 0;
+  margin-left: 0;
+  transform: translateY(-297%);
+  font-size: 15px !important;
 }
 
 .activeSelection {
-  background-color: #fc4c02;
+  color: #0251fc;
+  cursor: default;
+}
+
+.activeSelection:hover {
+  color: #0251fc;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* 삭제 셀(td)의 기본 스타일 */
+.board-table td.delete-cell {
+  color: red; /* 기본 텍스트 색상 */
+  cursor: default; /* 기본 커서 */
+}
+
+/* 마우스가 삭제 셀 위에 올라갔을 때 스타일 */
+.board-table td.delete-cell:hover {
+  color: red; /* 글자 색상을 빨간색으로 변경 */
+  cursor: pointer; /* 커서를 손가락 모양(포인터)으로 변경 */
+  font-weight: bold; /* 글자를 두껍게 표시 */
 }
