@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,14 +36,36 @@ public class BoardController {
     // /board?page=1
     // 보드 페이징 처리 컨트롤러
     @GetMapping("/board")
-    public String goBoard(@PageableDefault(page = 1) Pageable pageable, Model model) {
-        Page<BoardForm> boardList = BOARDSERVICE.paging(pageable); // 페이징 처리된 보드들 리스트
+    public String goBoard(@PageableDefault(page = 1) Pageable pageable, Model model, @RequestParam(value = "selectedOption", required = false) String option, @RequestParam(value = "boardOption", required = false) String boardOption) {
+        Page<BoardForm> boardList;
+        Page<BoardForm> allBoards = BOARDSERVICE.paging(pageable);
+        Page<BoardForm> myBoards = BOARDSERVICE.myBoardsPaging(pageable);
+        System.out.println("파라미터 옵션 : " + boardOption);
+        if (Objects.isNull(option)) {
+            if (Objects.isNull(boardOption)){
+                boardList = allBoards;
+                option = "allBoards";
+            } else if (boardOption.equals("myBoards")) {
+                boardList = myBoards;
+                option = "myBoards";
+            } else {
+                boardList = allBoards;
+                option = "allBoards";
+            }
+        } else if (option.equals("myBoards")) {
+            boardList = myBoards;
+            option = "myBoards";
+        } else {
+            boardList = allBoards; // 페이징 처리된 보드들 리스트
+            option = "allBoards";
+        }
 
         int blockLimit = 5; // 한번에 보일 페이지 갯수 제한
         int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
         int endPage = Math.min((startPage + blockLimit - 1), boardList.getTotalPages());
         int noticeCount =  NOTICEBOARDREPOSITORY.findCountsByIsNoticeBoard();
 
+        model.addAttribute("selectedOption", option);
         model.addAttribute("noticeCount", noticeCount);
         model.addAttribute("boardList", boardList);
         model.addAttribute("startPage", startPage);
@@ -125,5 +148,13 @@ public class BoardController {
             return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X
         }
         return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X, js에서 다뤄줘야 함(response.redirected)
+    }
+
+    @GetMapping("/board/selectOption")
+    public ResponseEntity<String> judgeOption(@RequestParam("selectedOption") String option) {
+        System.out.println("옵션 : " + option);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/board?selectedOption=" + option));
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 }
