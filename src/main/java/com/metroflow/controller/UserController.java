@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -58,6 +59,14 @@ public class UserController {
         return"user/login";
     }
 
+    @GetMapping("/user/myProfile")
+    public String getProfile(Model model, Authentication authentication) {
+        String username = authentication.getName(); // Get the logged-in user's username
+        User user = USERSERVICE.getUserObject(); // Fetch user data
+        model.addAttribute("user", user); // Add user data to the model for Thymeleaf
+        return "/user/myProfile"; // Return the Thymeleaf template name
+    }
+
     @GetMapping("/myPage")
     public String showMyPage(Model model) {
         User currentUser = USERSERVICE.getUserObject();
@@ -67,6 +76,7 @@ public class UserController {
 
     @PostMapping("/user/update")
     public String updateUserProfile(
+            @Valid @ModelAttribute("user") UserRegisterForm user, BindingResult result,
             @RequestParam("currentPassword") String currentPassword,
             @RequestParam("newPassword") String newPassword,
             @RequestParam("confirmPassword") String confirmPassword,
@@ -75,12 +85,19 @@ public class UserController {
             @RequestParam(value = "profilePic", required = false) String profilePic,
             Model model) {
 
-        User user = USERSERVICE.getUserObject();
+        USERSERVICE.passwordCheck(user, result); // 비밀번호 체크(비밀번호 확인과 값이 같은지)
+
+        User userObject = USERSERVICE.getUserObject();
         System.out.println("controller 도착");
+
+        if (result.hasErrors()) {
+            model.addAttribute("errorMessage", result.getAllErrors().get(0).getDefaultMessage());
+            return "redirect:/myPage";
+        }
 
         try {
             // 사용자 정보 업데이트
-            USERSERVICE.updateUser(user, currentPassword, newPassword, confirmPassword, nickname, email, profilePic);
+            USERSERVICE.updateUser(userObject, currentPassword, newPassword, confirmPassword, nickname, email, profilePic);
             model.addAttribute("success", "프로필이 업데이트되었습니다.");
         } catch (IllegalArgumentException e) {
             System.out.println("exception in controller");

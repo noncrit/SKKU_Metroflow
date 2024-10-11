@@ -80,6 +80,7 @@ public class UserService {
     // 사용자 정보 업데이트
     public void updateUser(User user, String currentPassword, String newPassword
             , String confirmPassword, String nickname, String email, String ProfilePic) throws IllegalArgumentException{
+        System.out.println("pw : "+ currentPassword);
 
         // 현재 비밀 번호 확인
         if (!BCRYPTPASSWORDENCODER.matches(currentPassword, user.getPassword())) {
