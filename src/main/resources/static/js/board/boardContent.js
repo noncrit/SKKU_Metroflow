@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
     buttonLink.forEach(link => {
         link.addEventListener('click', function (e) {
             let linkUrl = new URL(link.form.action).pathname;
-            alert("URL : " + linkUrl);
+            // alert("URL : " + linkUrl);
             e.preventDefault()
             if (link.form.id === "button_delete") {
                 const confirmation = confirm('정말로 삭제하시겠습니까?');

@@ -1,6 +1,9 @@
 package com.metroflow.repository;
 
 import com.metroflow.model.dto.Board;
+import com.metroflow.model.dto.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -47,4 +50,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
             " set board.isNoticeBoard = :isNoticeBoard" +
             " where board.boardNo = :boardNo")
     void updateBoardByBoardNo(boolean isNoticeBoard, Long boardNo);
+
+    // 유저가 쓴 게시글 가져오기
+    @Query(value = "select board" +
+            " from Board board" +
+            " where board.user = :user")
+    Page<Board> findBoardsByUser(@Param("user") User user, Pageable pageable);
 }
