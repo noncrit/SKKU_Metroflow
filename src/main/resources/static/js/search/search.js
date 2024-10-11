@@ -46,7 +46,7 @@ $('#stationList').on('click', 'li', function() {
 });
 
 $(document).click(function(event) {
-    // 리스트 이외의 다른 곳을 클릭했을때 리스트 사라짐, 나중에 다시
+    // 리스트 이외의 다른 곳을 클릭했을때 리스트 사라짐
     if (!$(event.target).closest('#searchInput, #stationList').length) {
         console.log('리스트 숨기기')
         $('#stationList').hide().empty();
@@ -136,8 +136,9 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
     $.ajax( {
         type: 'POST',
         url: `/goSearch/result`,
-        // dataType: 'json',
-        contentType: 'application/json',
+        dataType: 'json',
+        // contentType: 'application/json',
+        contentType: 'application/json; charset=utf-8',
         data: JSON.stringify({
             stationName:stationName,
             stationLine:stationLine,
@@ -152,7 +153,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (response) {
-            // console.log('응답내용: ',response);
+            console.log('응답내용: ',response);
             let station = {
                 stationName: stationName,
                 stationLine: stationLine
@@ -169,8 +170,8 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
 
         },
         error: function(err) {
+            console.log('작동함!!!!!!!')
             console.log('에러: ', err);
-
             const messageElement = document.getElementById('result-container');
             messageElement.textContent = '혼잡도 데이터가 없습니다'
             messageElement.style.display = 'block';
@@ -188,7 +189,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
 
 // 데이터를 받아서 HTML로 변환하는 함수
 function displayResults(data) {
-    resultContainer.innerHTML = '';  // 기존 결과 초기화
+    // resultContainer.innerHTML = '';  // 기존 결과 초기화
 
     data.forEach(item => {
         const statusColor = getStatusColor(item.congestion);
