@@ -18,22 +18,27 @@
 
     <form id="post-form" method="post" th:action="@{/board/write}">
         <div class="form-group">
-            <!-- 호선 선택 부분 -->
-            <label for="line-select"></label>
-            <select id="line-select" th:field="${board.stationLine}" required><!-- 모든 속성이 호선-->
-                <option value="default">호선 선택</option>
-                <option th:each="num : ${#numbers.sequence(1,9)}" th:value="${num + '호선'}"
-                        th:text="${num} + '호선'" th:class="${'line-' + num}"></option>
-            </select>
-        </div>
-            <!-- 역 선택 부분 -->
-            <label for="station-select"></label>
-            <select id="station-select" th:field="${board.stationName}" required>
-                <option th:value="default">역 선택</option>
-                <!-- 추후 DB 에서 가져온 역 정보를 이곳에 넣을 예정 -->
-            </select>
+            <!-- 선택 박스들을 나란히 배치하기 위한 컨테이너 추가 -->
+            <div class="select-container">
+                <!-- 호선 선택 부분 -->
+                <label for="line-select"></label>
+                <select id="line-select" th:field="${board.stationLine}" required>
+                    <option value="default">호선 선택</option>
+                    <option th:each="num : ${#numbers.sequence(1,9)}" th:value="${num + '호선'}"
+                            th:text="${num} + '호선'" th:class="${'line-' + num}"></option>
+                </select>
 
-            <!-- 로그인 후 글쓰려고 들어갔을 때 아이디를 볼 수 있도록 하는 기능 추가 -->
+                <!-- 역 선택 부분 -->
+                <label for="station-select"></label>
+                <select id="station-select" th:field="${board.stationName}" required>
+                    <option th:value="default">역 선택</option>
+                    <!-- 추후 DB 에서 가져온 역 정보를 이곳에 넣을 예정 -->
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <!-- 로그인 후 글쓰려고 들어갔을 때 아이디를 볼 수 있도록 하는 기능 추가 -->
             <span class="user-id">User : <span th:text="${board.user.nickname}"></span></span>
             <input type="hidden" th:field="${board.user.userId}"/>
 
@@ -51,7 +56,7 @@
 
         <!-- 글쓰기 버튼을 폼의 아래쪽에 배치 -->
         <div class="form-group">
-            <button type="submit" th:if="${param.no == null}">글쓰기</button>
+            <button type="submit" class="write-button" th:if="${param.no == null}">글쓰기</button>
         </div>
     </form>
 

@@ -45,9 +45,9 @@
 
     <div class="middleArea">
         <div id = "favoriteList_header">즐겨찾는 역 목록</div>
-
+        <div class="year-text">즐겨찾는 역 목록을 조회하려면 날짜를 선택하세요.</div>
         <div class="calender-div">
-            <label for="year">연도:</label>
+            <label for="year" class="year-label">연도:</label>
             <select id="year" name="year" required onchange="updateDays()">
                 <script>
                     const currentYear = new Date().getFullYear();
@@ -57,7 +57,7 @@
                 </script>
             </select>
 
-            <label for="month">월:</label>
+            <label for="month" class="month-label">월:</label>
             <select id="month" name="month" required onchange="updateDays()">
                 <script>
                     for (let month = 1; month <= 12; month++) {
@@ -66,7 +66,7 @@
                 </script>
             </select>
 
-            <label for="day">일:</label>
+            <label for="day" class="day-label">일:</label>
             <select id="day" name="day" required>
                 <script>
                     // 초기값 설정
@@ -88,7 +88,7 @@
 시간 선택에서는 이전 달련 상태(year,month,day)의 값을 받아오고,
 달력 선택에서는 이전 시간 값(ampm, hour, minute)을 서로 교차해서 받아오는 형태
 이렇게 미리 받아오면 이동할 때 페이징 처리 작업을 따로 안해줘도 된다.
--->
+-->     <div class="time-text">원하는 시간을 선택한 후 검색 버튼을 클릭하세요.</div>
         <div class="time-select">
             <select id="ampm">
                 <option value="AM">오전</option>

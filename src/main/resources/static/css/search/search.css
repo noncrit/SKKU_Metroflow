@@ -169,6 +169,7 @@ select:focus, input:focus {
 .map-area {
     width: 65%;
     text-align: center;
+    border-radius: 8px;
 }
 
 .map {

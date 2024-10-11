@@ -13,6 +13,8 @@
     <h1>게시판</h1>
     <p>역에 관련된 내용을 적는 곳입니다. 실시간 역 사고 내용을 적어 주시길 바랍니다.</p>
 
+    <a href="/board/writeBoard" class="write-btn">글쓰기</a>
+
     <table class="board-table">
         <thead>
         <tr>
@@ -53,26 +55,22 @@
         <!--        /board?page=1-->
         <a th:href="${boardList.first} ? '#' : @{/board(page=1)}">첫 페이지 </a>
         <!-- 이전 링크 활성화 비활성화 -->
-        <!--        boardList.getNumber 사용자:2페이지 getNumber()=1-->
         <a th:href="${boardList.first} ? '#' : @{/board(page=${boardList.number})}"> 이전 </a>
 
-        <!-- 페이지 번호 링크(현재 페이지는 숫자만)
-                for(int page=startPage; page<=endPage; page++)-->
+        <!-- 페이지 번호 링크(현재 페이지는 숫자만) -->
         <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-<!-- 현재페이지는 링크 없이 숫자만 -->
-            <span th:if="${page == boardList.number + 1}" th:text="${page}"></span>
-            <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
-            <span th:unless="${page == boardList.number + 1 || page == 0}">
-                <a th:href="@{/board(page=${page})}" th:text="${page}"></a>
-            </span>
+        <!-- 현재 페이지는 링크 없이 숫자만 -->
+        <span th:if="${page == boardList.number + 1}" th:text="${page}" class="page-number active"></span>
+            <!-- 현재 페이지 번호가 아닌 다른 페이지 번호에는 링크를 보여줌 -->
+        <span th:unless="${page == boardList.number + 1 || page == 0}" class="page-number">
+            <a th:href="@{/board(page=${page})}" th:text="${page}"></a>
         </span>
+    </span>
 
-        <!-- 다음 링크 활성화 비활성화
-            사용자: 2페이지, getNumber: 1, 3페이지-->
+        <!-- 다음 링크 활성화 비활성화 -->
         <a th:href="${boardList.last} ? '#' : @{/board(page=${boardList.number + 2})}"> 다음 </a>
         <!-- 마지막 페이지로 이동 -->
         <a th:href="${boardList.last} ? '#' : @{/board(page=${boardList.totalPages})}"> 마지막 페이지</a>
-        <a href="/board/writeBoard" class="write-btn">글쓰기</a>
     </div>
 </div>
 <input type="hidden" th:value="${noticeCount}" id="noticeCount">
