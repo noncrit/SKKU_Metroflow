@@ -3,7 +3,7 @@ let pagingButtons = document.querySelectorAll('.paging');
 let optionValue = document.getElementById('boardOption').value;
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.addEventListener('change', function () {
+    document.getElementById('boardOption').addEventListener('change', function () {
         optionValue = document.getElementById('boardOption').value;
         selectOption(optionValue);
     })
