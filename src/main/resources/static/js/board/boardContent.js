@@ -54,7 +54,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // a태그 클릭 시 경로 지정
     aLink.forEach(link => {
         link.addEventListener('click', function (e) {
-            let linkUrl = link.href.substring(21);
+            let linkUrl = new URL(link.href).pathname;
+            alert("URL : " + linkUrl);
             e.preventDefault()
             goRecommendation(linkUrl, boardNo, hiddenUp, hiddenDown, priorThumbsUp, priorThumbsDown, header, token)
         }); // a태그 url, 보드 번호, 유저가 그 보드에 대해 좋아요를 눌렀는지,
@@ -63,7 +64,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     buttonLink.forEach(link => {
         link.addEventListener('click', function (e) {
-            let linkUrl = link.form.action.substring(21);
+            let linkUrl = new URL(link.form.action).pathname;
+            alert("URL : " + linkUrl);
             e.preventDefault()
             if (link.form.id === "button_delete") {
                 const confirmation = confirm('정말로 삭제하시겠습니까?');
