@@ -95,6 +95,11 @@
     margin-bottom: 1rem;
 }
 
+.calendar-div {
+    display: flex;
+    justify-content: center;
+}
+
 .time-select {
     justify-content: center;
 }
@@ -316,9 +321,4 @@ input:focus {
 
 .paging span {
     margin: 0 5px;
-}
-
-.calendar-div {
-    display: flex;
-    justify-content: center;
 }
