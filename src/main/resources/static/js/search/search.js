@@ -137,8 +137,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         type: 'POST',
         url: `/goSearch/result`,
         dataType: 'json',
-        // contentType: 'application/json',
-        contentType: 'application/json; charset=utf-8',
+        contentType: 'application/json',
         data: JSON.stringify({
             stationName:stationName,
             stationLine:stationLine,
@@ -153,7 +152,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (response) {
-            console.log('응답내용: ',response);
+            // console.log('응답내용: ',response);
             let station = {
                 stationName: stationName,
                 stationLine: stationLine
@@ -170,7 +169,6 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
 
         },
         error: function(err) {
-            console.log('작동함!!!!!!!')
             console.log('에러: ', err);
             const messageElement = document.getElementById('result-container');
             messageElement.textContent = '혼잡도 데이터가 없습니다'
@@ -189,7 +187,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
 
 // 데이터를 받아서 HTML로 변환하는 함수
 function displayResults(data) {
-    // resultContainer.innerHTML = '';  // 기존 결과 초기화
+    resultContainer.innerHTML = '';  // 기존 결과 초기화
 
     data.forEach(item => {
         const statusColor = getStatusColor(item.congestion);

@@ -17,7 +17,7 @@ import java.util.Set;
 public class UserDAO {
 
     private final UserRepository USERREPOSITORY;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder PASSWORDENCODER;
 
     // 회원가입 메소드
     public void register(UserRegisterForm user, String imagePath) {
@@ -28,7 +28,7 @@ public class UserDAO {
         registerUser.setUserId(user.getUserId());
         registerUser.setUserEmail(user.getUserEmail());
         registerUser.setUserRole(set);
-        registerUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        registerUser.setPassword(PASSWORDENCODER.encode(user.getPassword()));
         registerUser.setUserImgPath(imagePath);
         registerUser.setNickname(user.getNickname());
         USERREPOSITORY.save(registerUser);
