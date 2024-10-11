@@ -248,15 +248,11 @@ function setRecentSearch() {
 
     if (stationName) {
         $('#searchInput').val(stationName);
-    } else {
-        a
     }
 
     if (stationLine) {
-        $('#stationLineList').append('<option value="' + station.stationLine + '">' + station.stationLine + '호선' + '</option>');
-        $('#stationList').val(stationLine)
-    } else {
-        a
+        $('#stationLineList').append('<option value="' + stationLine + '">' + stationLine + '호선' + '</option>');
+        $('#stationLineList').val(stationLine)
     }
 }
 
@@ -280,6 +276,10 @@ function insertToLocalStorage(station) {
     }
 
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    setRecentSearch();
+});
 
 
 
