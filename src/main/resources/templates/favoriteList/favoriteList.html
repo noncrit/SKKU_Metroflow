@@ -247,6 +247,10 @@ directionType 만 남아서 entry에는 2개의 데이터만 존재함
                 </div>
 
             </div>
+
+                <span th:if="${totalPages == 0}">
+                    <text>등록된 즐겨찾기가 없습니다.</text>
+                </span>
         </div>
 
         <div class="paging-container">
@@ -255,15 +259,15 @@ directionType 만 남아서 entry에는 2개의 데이터만 존재함
                      <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage - 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">이전</a>
                  </span>
 
-                <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
+                <span th:if="${totalPages>0}" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
                     <a th:href="@{/goFavoriteListWithSetTime(page=${pageNum},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}"
                         th:class="${pageNum == currentPage ? 'active' : ''}"
                         th:text="${pageNum + 1}"></a>
                 </span>
 
                 <span th:if="${currentPage < totalPages - 1}">
-            <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">다음</a>
-        </span>
+                    <a th:class="next" th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">다음</a>
+                </span>
             </div>
         </div>
 

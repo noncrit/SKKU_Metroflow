@@ -152,7 +152,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (response) {
-            // console.log('응답내용: ',response);
+            console.log('응답내용: ',response);
             let station = {
                 stationName: stationName,
                 stationLine: stationLine
