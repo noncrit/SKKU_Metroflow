@@ -26,27 +26,27 @@
             <div class="registerInput">
                 <p th:if="${#fields.hasErrors('user.userId')}" th:errors="${user.userId}" th:errorclass="errorClass"></p>
                 <p th:if="!${#fields.hasErrors('user.userId')}"></p>
-                <input th:type="text" class="form-control input-small" th:field="${user.userId}" id="id" placeholder="ID 입력" max="15">
+                <label for="id"></label><input th:type="text" class="form-control input-small" th:field="${user.userId}" id="id" placeholder="ID 입력" max="15">
             </div>
             <div class="registerInput">
                 <p th:if="${#fields.hasErrors('user.nickname')}" th:errors="${user.nickname}" th:errorclass="errorClass"></p>
                 <p th:if="!${#fields.hasErrors('user.nickname')}"></p>
-                <input th:type="text" class="form-control input-small" th:field="${user.nickname}" id="nickname" placeholder="닉네임 입력" max="10">
+                <label for="nickname"></label><input th:type="text" class="form-control input-small" th:field="${user.nickname}" id="nickname" placeholder="닉네임 입력" max="10">
             </div>
             <div class="registerInput">
                 <p th:if="${#fields.hasErrors('user.userEmail')}" th:errors="${user.userEmail}" th:errorclass="errorClass"></p>
                 <p th:if="!${#fields.hasErrors('user.userEmail')}"></p>
-                <input th:type="text" class="form-control input-small" th:field="${user.userEmail}" id="email" placeholder="이메일 입력" max="50">
+                <label for="email"></label><input th:type="text" class="form-control input-small" th:field="${user.userEmail}" id="email" placeholder="이메일 입력" max="50">
             </div>
             <div class="registerInput">
                 <p th:if="${#fields.hasErrors('user.password')}" th:errors="${user.password}" th:errorclass="errorClass"></p>
                 <p th:if="!${#fields.hasErrors('user.password')}"></p>
-                <input th:type="password" class="form-control input-small" th:field="${user.password}" id="password" placeholder="비밀번호 입력" max="20">
+                <label for="password"></label><input th:type="password" class="form-control input-small" th:field="${user.password}" id="password" placeholder="비밀번호 입력" max="20">
             </div>
             <div class="registerInput">
                 <p th:if="${#fields.hasErrors('user.passwordCheck')}" th:errors="${user.passwordCheck}" th:errorclass="errorClass"></p>
                 <p th:if="!${#fields.hasErrors('user.passwordCheck')}"></p>
-                <input th:type="password" class="form-control input-small" th:field="${user.passwordCheck}" id="passwordCheck" placeholder="비밀번호 확인" max="20">
+                <label for="passwordCheck"></label><input th:type="password" class="form-control input-small" th:field="${user.passwordCheck}" id="passwordCheck" placeholder="비밀번호 확인" max="20">
             </div>
             <div>
                 <input type="hidden" id="imagePath" name="imagePath">

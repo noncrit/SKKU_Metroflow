@@ -40,7 +40,6 @@ public class BoardController {
         Page<BoardForm> boardList;
         Page<BoardForm> allBoards = BOARDSERVICE.paging(pageable);
         Page<BoardForm> myBoards = BOARDSERVICE.myBoardsPaging(pageable);
-        System.out.println("파라미터 옵션 : " + boardOption);
         if (Objects.isNull(option)) {
             if (Objects.isNull(boardOption)){
                 boardList = allBoards;
@@ -152,7 +151,6 @@ public class BoardController {
 
     @GetMapping("/board/selectOption")
     public ResponseEntity<String> judgeOption(@RequestParam("selectedOption") String option) {
-        System.out.println("옵션 : " + option);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/board?selectedOption=" + option));
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
