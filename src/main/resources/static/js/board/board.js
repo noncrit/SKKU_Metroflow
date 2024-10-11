@@ -1,13 +1,27 @@
 let count = parseInt(document.getElementById('noticeCount').value); // 긴급 공지 게시물 수;
+let pagingButtons = document.querySelectorAll('.paging');
+let optionValue = document.getElementById('boardOption').value;
 
 document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('change', function () {
+        optionValue = document.getElementById('boardOption').value;
+        selectOption(optionValue);
+    })
+    pagingButtons.forEach(button => {
+        let baseUrl = button.getAttribute('href').split('?')[0];
+        // alert("baseurl1 : " + baseUrl);
+        baseUrl += ("?" + button.getAttribute('href').split('?')[1]);
+        // alert("baseurl2 : " + baseUrl);
+        button.setAttribute('href', `${baseUrl}&boardOption=${optionValue}`)
+        // alert("buttonLink : " + button.getAttribute('href'));
+        // alert("a태그 링크 : " + button);
+    })
     const rows = document.querySelectorAll('tr[id^="boardRow_"]')
     rows.forEach(row => {
         let isSelected;
         const boardNo = row.id.split('_')[1]; // ID에서 boardNo 추출
         const isNoticeSelected = document.getElementById(boardNo).value.toLowerCase() === "true";
         const isNoticeSelectContainer = document.getElementById('noticeSelectionDiv' + boardNo);
-        // console.log(isNoticeSelected)
         if (isNoticeSelected === true) { // 이미 긴급공지로 선택됐을 시
             isNoticeSelectContainer.classList.add('activeSelection'); // 클래스 activeSelection 추가 => css 효과 on
             isSelected = true;
@@ -108,6 +122,29 @@ function deleteNotice(boardNo) {
             // console.log('Success:', data);
             count = parseInt(JSON.stringify(data));
             console.log("삭제 카운팅 " + count);
+        })
+        .catch((error) => {
+            // console.error('Error:', error + '에러남!');
+        });
+}
+
+function selectOption(selectedOption) {
+    fetch(`/board/selectOption?selectedOption=${selectedOption}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        } else {
+            window.location.href=response.url;
+        }
+        return response.json(); // JSON 형태로 응답받기
+    })
+        .then(data => {
+            console.log("제이슨 데이터 : " + JSON.stringify(data));
+            // console.log('Success:', data);
         })
         .catch((error) => {
             // console.error('Error:', error + '에러남!');

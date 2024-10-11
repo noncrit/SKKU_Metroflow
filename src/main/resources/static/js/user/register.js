@@ -6,6 +6,7 @@ const disableSpacebar = (event) => {
         event.preventDefault();
     }
 };
+// 한글 입력 시 한글 제거
 const disableKorean = (event) => {
     const value = event.target.value;
     if (/[\u3131-\uD79D]/.test(value)) {
@@ -13,6 +14,7 @@ const disableKorean = (event) => {
         event.target.value = value.replace(/[\u3131-\uD79D]/g, '');
     }
 };
+
 window.addEventListener('load', function () {
     const inputFields = document.getElementsByTagName("input");
     const nickname = document.getElementById('nickname');
@@ -33,7 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // console.log("폼 제출 시 selectedImageSrc: " + selectedImageSrc);
         if (selectedImageSrc) {
             // console.log("선택된 이미지: " + selectedImageSrc);
-            document.getElementById('imagePath').value = selectedImageSrc;
+            document.getElementById('imagePath').value = new URL(selectedImageSrc).pathname;
+            // alert(selectedImageSrc);
         } else {
             // console.log('선택된 이미지 없음, 기본값 사용');
             document.getElementById('imagePath').value = '/images/img_4.png'; // 기본값 설정

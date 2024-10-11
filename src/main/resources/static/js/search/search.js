@@ -1,3 +1,4 @@
+// 역 이름 자동완성
 $('#searchInput').on('input', function() {
     var query = $('#searchInput').val();
 
@@ -40,6 +41,7 @@ $('#searchInput').on('input', function() {
 $('#stationList').on('click', 'li', function() {
     var stationName = $(this).text();
     $('#searchInput').val(stationName);
+    $('#searchInput').trigger('change');
     $('#stationList').hide().empty();
 });
 
@@ -51,17 +53,33 @@ $(document).click(function(event) {
       }
 });
 
+$('#searchInput').on('keydown', function(event) {
+    // Backspace 키가 눌렸을 때 확인 (keyCode 8은 Backspace)
+    if (event.key === 'Backspace' || event.keyCode === 8) {
+        // 키를 눌렀을 때, 입력 필드가 비었는지 확인
+        setTimeout(function() {
+            var query = $('#searchInput').val();
 
-// 역이름을 넣고 역이름 옆의 버튼을 눌렀을 때 (밑에 있는 호선에 대한 데이터가 바뀜)
-$('.search-btn1').on('click', function() {
+            if (query.trim() === '') {
+                // searchInput이 비었을 때 실행할 코드
+                $('#stationList').empty().hide();  // 예: 호선 리스트 비우기
+                $('#searchInput').val('');      // searchInput 값 초기화
+            }
+        }, 0); // keydown 이벤트 후에 실행되도록 setTimeout으로 지연
+    }
+});
+
+// 역이름을 넣었을때 호선에 대한 데이터가 바뀜
+// $('.search-btn1').on('click', function() {
+$('#searchInput').on('change', function() {
     var query = $('#searchInput').val();
 
     // console.log('역이름: ' + query); // 로그를 통해 값 확인
-    if (!query || query.trim() === '') {
-        alert('역 이름을 입력해주세요!');
-        $('#searchInput').empty();
-        return;
-    }
+    // if (!query || query.trim() === '') {
+    //     alert('역 이름을 입력해주세요!');
+    //     $('#searchInput').empty();
+    //     return;
+    // }
 
     $.ajax({
         type: 'GET',
@@ -97,7 +115,7 @@ $('.search-btn1').on('click', function() {
     });
 });
 
-
+// 역이름 호선 시간 데이터가 모두 들어가있으면 혼잡도 결과 보여주기
 document.querySelector('.search-btn2').addEventListener('click', function (event) {
     event.preventDefault();
 
@@ -121,8 +139,8 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         // dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify({
-            stationName: stationName,
-            stationLine: stationLine,
+            stationName:stationName,
+            stationLine:stationLine,
             ampm: ampm,
             hour:hour,
             minute: minute
@@ -135,9 +153,12 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         },
         success: function (response) {
             // console.log('응답내용: ',response);
-
+            let station = {
+                stationName: stationName,
+                stationLine: stationLine
+            }
             displayResults(response);
-
+            insertToLocalStorage(station);
             // 검색후에 값 초기화
             $('#stationLineList').empty();
             $('#stationLineList').append('<option value="">' + '호선' + '</option>');
@@ -230,3 +251,52 @@ function getCongestion(congestion) {
         return "오류";   // 기본값
     }
 }
+
+// GET방식으로 넘어온 파라미터 가져오기
+function getQueryParam(params) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(params);
+}
+
+// 최근검색에서 가져온 데이터를 기반으로 칸 채우기
+function setRecentSearch() {
+    const stationName = getQueryParam('stationName');
+    const stationLine = getQueryParam('stationLine');
+
+    if (stationName) {
+        $('#searchInput').val(stationName);
+    }
+
+    if (stationLine) {
+        $('#stationLineList').append('<option value="' + stationLine + '">' + stationLine + '호선' + '</option>');
+        $('#stationLineList').val(stationLine)
+    }
+}
+
+function insertToLocalStorage(station) {
+    let storageCount = window.localStorage.length;
+    let storage = window.localStorage;
+    let JSONStation = JSON.stringify(station);
+    if (storageCount === 0) {
+        storage.setItem(1, JSONStation);
+    } else if (storageCount === 1) {
+        storage.setItem(2, storage.getItem(1));
+        storage.removeItem(1);
+        storage.setItem(1, JSONStation);
+    } else if (storageCount === 2 || storageCount === 3) {
+        storage.setItem(3, storage.getItem(2));
+        console.log('2번 객체' + storage.getItem(2));
+        storage.removeItem(2);
+        storage.setItem(2, storage.getItem(1));
+        storage.removeItem(1);
+        storage.setItem(1, JSONStation);
+    }
+
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    setRecentSearch();
+});
+
+
+

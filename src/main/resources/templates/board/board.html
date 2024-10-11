@@ -15,6 +15,12 @@
 
     <a href="/board/writeBoard" class="write-btn">글쓰기</a>
 
+    <label>
+        <select id="boardOption" name="boardOption">
+            <option value="allBoards" th:selected="${selectedOption == 'allBoards'}">전체 게시글</option>
+            <option value="myBoards" th:selected="${selectedOption == 'myBoards'}">내 게시글</option>
+        </select>
+    </label>
     <table class="board-table">
         <thead>
         <tr>
@@ -53,24 +59,27 @@
     <!-- 각 넘어가는 경로 필요 -->
     <div class="pagination">
         <!--        /board?page=1-->
-        <a th:href="${boardList.first} ? '#' : @{/board(page=1)}">첫 페이지 </a>
+        <a class="paging" th:href="${boardList.first} ? '#' : @{/board(page=1)}">첫 페이지 </a>
         <!-- 이전 링크 활성화 비활성화 -->
-        <a th:href="${boardList.first} ? '#' : @{/board(page=${boardList.number})}"> 이전 </a>
+        <!--        boardList.getNumber 사용자:2페이지 getNumber()=1-->
+        <a class="paging" th:href="${boardList.first} ? '#' : @{/board(page=${boardList.number})}"> 이전 </a>
 
-        <!-- 페이지 번호 링크(현재 페이지는 숫자만) -->
+        <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+                for(int page=startPage; page<=endPage; page++)-->
         <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-        <!-- 현재 페이지는 링크 없이 숫자만 -->
-        <span th:if="${page == boardList.number + 1}" th:text="${page}" class="page-number active"></span>
-            <!-- 현재 페이지 번호가 아닌 다른 페이지 번호에는 링크를 보여줌 -->
-        <span th:unless="${page == boardList.number + 1 || page == 0}" class="page-number">
-            <a th:href="@{/board(page=${page})}" th:text="${page}"></a>
+<!-- 현재페이지는 링크 없이 숫자만 -->
+            <span th:if="${page == boardList.number + 1}" th:text="${page}"></span>
+            <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+            <span th:unless="${page == boardList.number + 1 || page == 0}">
+                <a class="paging" th:href="@{/board(page=${page})}" th:text="${page}"></a>
+            </span>
         </span>
-    </span>
 
-        <!-- 다음 링크 활성화 비활성화 -->
-        <a th:href="${boardList.last} ? '#' : @{/board(page=${boardList.number + 2})}"> 다음 </a>
+        <!-- 다음 링크 활성화 비활성화
+            사용자: 2페이지, getNumber: 1, 3페이지-->
+        <a class="paging" th:href="${boardList.last} ? '#' : @{/board(page=${boardList.number + 2})}"> 다음 </a>
         <!-- 마지막 페이지로 이동 -->
-        <a th:href="${boardList.last} ? '#' : @{/board(page=${boardList.totalPages})}"> 마지막 페이지</a>
+        <a class="paging" th:href="${boardList.last} ? '#' : @{/board(page=${boardList.totalPages})}"> 마지막 페이지</a>
     </div>
 </div>
 <input type="hidden" th:value="${noticeCount}" id="noticeCount">

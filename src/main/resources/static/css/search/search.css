@@ -1,12 +1,13 @@
 #stationList {
     display: none;
-    width: 100%;
+    width: 70%;
     border: 1px solid #ccc;
     max-height: 200px;
     background-color: #ffffff;
     position: absolute;
     z-index: 1000;
     overflow-y: auto;
+    top: calc(100% - 30px);;
 }
 
 .container {
@@ -74,6 +75,7 @@
     border-radius: 0; /* 둥근 모서리 제거 */
     margin-bottom: 1.5rem;
     box-shadow: none; /* 그림자 제거 */
+    position: relative;
 }
 
 /* 지하철 역 검색 입력칸 스타일 */
