@@ -84,7 +84,6 @@
     padding-left: 0.2rem; /* 내부 왼쪽 여백 최소화 */
     border-bottom: 1px solid #ccc; /* 밑줄만 표시 */
     border-radius: 0; /* 둥근 모서리 제거 */
-    padding: 0.5rem 0;
     text-align: center;
     margin-left: 0; /* 외부 여백 제거 */
 }
