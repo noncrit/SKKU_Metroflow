@@ -46,6 +46,9 @@
     <div class="middleArea">
         <div id = "favoriteList_header">즐겨찾는 역 목록</div>
         <div class="year-text">즐겨찾는 역 목록을 조회하려면 날짜를 선택하세요.</div>
+        <div class="time-text">원하는 시간을 선택한 후 검색 버튼을 클릭하세요.</div>
+
+        <div class="calendar-select-time">
         <div class="calender-div">
             <label for="year" class="year-label">연도:</label>
             <select id="year" name="year" required onchange="updateDays()">
@@ -84,11 +87,11 @@
             </button>
 
         </div>
-<!--
-시간 선택에서는 이전 달련 상태(year,month,day)의 값을 받아오고,
-달력 선택에서는 이전 시간 값(ampm, hour, minute)을 서로 교차해서 받아오는 형태
-이렇게 미리 받아오면 이동할 때 페이징 처리 작업을 따로 안해줘도 된다.
--->     <div class="time-text">원하는 시간을 선택한 후 검색 버튼을 클릭하세요.</div>
+        <!--
+        시간 선택에서는 이전 달련 상태(year,month,day)의 값을 받아오고,
+        달력 선택에서는 이전 시간 값(ampm, hour, minute)을 서로 교차해서 받아오는 형태
+        이렇게 미리 받아오면 이동할 때 페이징 처리 작업을 따로 안해줘도 된다.
+        -->
         <div class="time-select">
             <select id="ampm">
                 <option value="AM">오전</option>
@@ -180,7 +183,7 @@
                 <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
             </button>
         </div>
-
+        </div>
         <div class="favoriteList_calendar">
             <span class="input-calendar" th:text="${year}+' / '+${month}+' / '+${day}"></span>
         </div>
@@ -188,16 +191,16 @@
         <div class = "favoriteList_time">
             <span class="input_time" th:text="${ampm}+' '+${hour}+' : '+${minute}"></span>
         </div>
-<!--
-groupedFavorites 자체가 이미 station_id 기준으로 매핑을 하고,
+        <!--
+        groupedFavorites 자체가 이미 station_id 기준으로 매핑을 하고,
 
-station_id 기준으로 매핑만 한 상태라면 entry 1개당 4개의 데이터가 있는게 맞음
-(dayType (2가지) X directionType (2가지) = 4)
+        station_id 기준으로 매핑만 한 상태라면 entry 1개당 4개의 데이터가 있는게 맞음
+        (dayType (2가지) X directionType (2가지) = 4)
 
-근데 dayType 기준으로 일치하는 것만 필터링했기 때문에
-directionType 만 남아서 entry에는 2개의 데이터만 존재함
--->
-            <div class="favoriteList_container">
+        근데 dayType 기준으로 일치하는 것만 필터링했기 때문에
+        directionType 만 남아서 entry에는 2개의 데이터만 존재함
+        -->
+        <div class="favoriteList_container">
             <div class = "favoriteList-content" th:each = "entry : ${groupedFavorites}">
 
                 <div class = "topItems">
@@ -257,8 +260,8 @@ directionType 만 남아서 entry에는 2개의 데이터만 존재함
 
                 <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
                     <a th:href="@{/goFavoriteListWithSetTime(page=${pageNum},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}"
-                        th:class="${pageNum == currentPage ? 'active' : ''}"
-                        th:text="${pageNum + 1}"></a>
+                       th:class="${pageNum == currentPage ? 'active' : ''}"
+                       th:text="${pageNum + 1}"></a>
                 </span>
 
                 <span th:if="${currentPage < totalPages - 1}">

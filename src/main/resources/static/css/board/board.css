@@ -105,7 +105,7 @@ p {
   color: white;
   text-decoration: none;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 14px;
   border: 1px solid #001f3f;
 }
 
@@ -132,20 +132,21 @@ p {
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  border: 1px solid transparent;
 }
 
 .write-btn:hover {
   background-color: white;
   color: #001f3f;
-  border-color: #001f3f;
+  border: 1px solid #001f3f;
 }
 
 /* 페이지 번호 스타일 */
 .page-number {
   font-size: 16px;
-  padding: 5px 10px;
+  padding: 5px 3px;
   margin: 0 5px;
-  color: black;
+  color: #001f3f;
   text-decoration: none;
   border: none;
   background-color: transparent;
@@ -154,15 +155,15 @@ p {
 }
 
 .page-number:hover {
-  color: black;
+  color: #001f3f;
   font-weight: bold;
   cursor: pointer;
 }
 
 .page-number.active {
   font-weight: bold;
-  color: black;
-  border-bottom: 2px solid #181f31;
+  color: #001f3f;
+  border-bottom: 2px solid #001f3f;
   background-color: transparent;
   padding-bottom: 2px;
 }
