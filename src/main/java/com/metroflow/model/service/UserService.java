@@ -1,7 +1,10 @@
 package com.metroflow.model.service;
 
-import com.metroflow.model.dto.*;
+import com.metroflow.model.dto.User;
+import com.metroflow.model.dto.UserForm;
+import com.metroflow.model.dto.UserRegisterForm;
 import com.metroflow.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,7 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository USERREPOSITORY;
+    private final BCryptPasswordEncoder BCRYPTPASSWORDENCODER;
 
     // ID 중복 체크
     public void idDuplicationCheck(UserRegisterForm user, BindingResult result) {
@@ -28,10 +33,17 @@ public class UserService {
     }
 
     // 비밀번호 확인
-    public void passwordCheck(UserRegisterForm user, BindingResult result) {
+    public void passwordCheck(@Valid UserRegisterForm user, BindingResult result) {
+        // null 체크 추가
+        if (user.getPassword() == null || user.getPasswordCheck() == null) {
+            result.rejectValue("passwordCheck", "null", "비밀번호가 입력되지 않았습니다.");
+            return;
+        }
+
         if (!user.getPassword().equals(user.getPasswordCheck())) {
             result.rejectValue("passwordCheck", "notequal", "비밀번호가 다릅니다.");
         }
+
     }
 
     // 닉네임 중복 확인
@@ -71,6 +83,57 @@ public class UserService {
         Page<User> users =
                 USERREPOSITORY.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "userId")));
         return users.map(user -> new UserForm(user.getUserId(), user.getNickname()));
+    }
+
+
+    // 사용자 정보 업데이트
+    public void updateUser(User user, String currentPassword, String newPassword
+            , String confirmPassword, String nickname, String email, String ProfilePic) throws IllegalArgumentException{
+        System.out.println("pw : "+ currentPassword);
+
+        // 현재 비밀 번호 확인
+        if (!BCRYPTPASSWORDENCODER.matches(currentPassword, user.getPassword())) {
+            System.out.println("wrong prior password");
+            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 새 비밀번호 일치 여부 확인
+        if (!newPassword.equals(confirmPassword)) {
+            System.out.println("wrong confirm password");
+            throw new IllegalArgumentException("새 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 비밀번호 변경시 비밀번호 업데이트
+        if (!newPassword.isEmpty()) {
+            user.setPassword(BCRYPTPASSWORDENCODER.encode(newPassword));
+        }
+
+        // 이메일 변경시 이메일 업데이트
+        user.setUserEmail(email);
+        user.setNickname(nickname);
+
+        // 프로필 이미지 업데이트
+        user.setUserImgPath(ProfilePic);
+
+        // 변경된 사용자 정보 저장
+        USERREPOSITORY.save(user);
+
+    }
+
+    // 유효성 검사 및 비밀번호 확인 로직을 처리하는 메소드
+    public String validateUserProfile(UserRegisterForm user, BindingResult result) {
+
+        // 유효성 검사에서 에러가 발생한 경우 처리
+        if (result.hasErrors()) {
+            return "입력한 정보에서 오류가 발생했습니다.";
+        }
+
+        // 추가적인 비밀번호 확인 로직
+        if (!user.getPassword().equals(user.getPasswordCheck())) {
+            return "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.";
+        }
+
+        return null; // 에러가 없을 경우
     }
 
 }
