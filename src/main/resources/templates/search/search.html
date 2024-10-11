@@ -33,23 +33,16 @@
 
 <div class="container">
     <div class="search-area">
-        <h3><img src="/images/placeicon.png" alt="내 위치 아이콘" class="icon"> 혼잡도 검색</h3>
+        <h3><img src="/images/peoplegroup.png" alt="내 위치 아이콘" class="g_icon"> 역의 혼잡도 검색</h3>
+        <a>역을 먼저 설정하시고 호선을 선택 후 시간을 설정 해주세요.</a>
         <div class="input-container">
-            <input id="searchInput" type="text" placeholder="지하철역 검색" autocomplete="off">
+            <input id="searchInput" type="text" placeholder="지하철역 입력" autocomplete="off">
+            <button class="search-btn1">검색</button>
             <ul id="stationList"></ul>
-            <button class="search-btn1">
-                <img src="/images/magnifiericon.png" alt="검색 아이콘" class="icon-search">
-            </button>
-        </div>
-
-        <div>
             <select id="stationLineList" class="input-container">
                 <option value="">호선</option>
             </select>
         </div>
-
-
-        <h3><img src="/images/compassicon.png" alt="입력 아이콘" class="icon"> 시간 입력</h3>
 
         <div class="time-select">
             <select id="ampm">

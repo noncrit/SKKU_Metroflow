@@ -69,40 +69,13 @@ body {
     width: 250px;
     position: fixed;
     top: 0;
-    left: -250px;
+    left: -300px;
     transition: left 0.3s ease-in-out;
     z-index: 1000;
 }
 
 .menu-checkbox:checked ~ .navbar {
     left: 0;
-}
-
-/* 닫기 버튼 스타일 - 네모 모양으로 설정 */
-.close-label {
-    cursor: pointer;
-    color: #001f3f; /* 기본 텍스트 색상 설정 */
-    padding: 8px 12px;
-    border: 2px solid #001f3f; /* 기본 테두리 색상 설정 */
-    border-radius: 4px; /* 네모 모양 */
-    font-weight: bold;
-    font-size: 0.9rem; /* 폰트 크기 조정 */
-    background-color: #ffffff; /* 기본 배경색을 흰색으로 설정 */
-    margin-top: 2rem;
-    align-self: flex-start;
-    margin-left: 140px;
-    transition: background-color 0.3s, color 0.3s, border 0.3s; /* 애니메이션 효과 */
-}
-
-.close-label:hover {
-    background-color: #181f31; /* 호버 시 배경을 메뉴 바 배경색과 일치시킴 */
-    color: #ffffff; /* 호버 시 글자색을 흰색으로 변경 */
-    border: 2px solid #ffffff; /* 테두리도 흰색으로 변경 */
-}
-
-
-.close-arrow {
-    font-size: 0.9rem; /* 화살표의 폰트 크기도 함께 조정 */
 }
 
 .nav-items {
@@ -153,11 +126,18 @@ body {
     text-decoration: underline;
 }
 
-/* 로그인 및 회원가입 버튼 스타일 */
-.guestMember {
-    margin-top: 2rem;
+/* 로그인 및 회원가입, 로그아웃 버튼 스타일 */
+.guestMember,
+.member {
+    position: absolute; /* 위치 고정 */
+    top: 10px; /* 로고와 수평 정렬 */
+    right: 25px; /* 오른쪽으로 간격 설정 */
+    display: flex; /* 수평 정렬을 위한 플렉스박스 설정 */
+    align-items: center; /* 세로 가운데 정렬 */
+    flex-wrap: nowrap; /* 줄바꿈 방지 */
 }
 
+/* 로그인 및 회원가입 버튼 스타일 */
 .guest .btn,
 .member .btn {
     padding: 0.5rem 1rem;
@@ -171,9 +151,8 @@ body {
     display: inline-block;
     text-align: center;
     margin-top: 0.5rem;
-    margin-left: 10px; /* 버튼을 오른쪽으로 이동 */
+    margin-left: 15px; /* 버튼 간의 간격 설정 */
 }
-
 
 .guest .btn:hover,
 .member .btn:hover {
@@ -193,47 +172,67 @@ body {
     color: #001f3f;
 }
 
+/* 로그인 후 회원 정보 표시 스타일 */
 .member {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    gap: 2px;
+}
+
+.member .btn-outline-light {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    box-sizing: border-box; /* 패딩과 테두리를 전체 크기에 포함 */
+    transition: background-color 0.3s, color 0.3s; /* 크기 변화를 없애고 색상만 변경 */
+}
+
+.member .btn-outline-light:hover {
+    background-color: #e9ecef;
+    color: #001f3f;
+    border: 2px solid #001f3f; /* 같은 크기의 테두리로 설정 */
 }
 
 .member img {
-    height: 40px;
+    height: 45px;
     width: auto;
     border-radius: 50%;
+    margin-top: 4px;
+    margin-right: 3px;
 }
 
 .member a {
-    text-decoration: none;
+    text-decoration: none; /* 기본적으로 밑줄 없음 */
     color: #ffffff;
-    font-weight: bold;
+    transition: color 0.3s; /* 색상만 부드럽게 변경 */
 }
 
 .member a:hover {
-    text-decoration: underline;
+    text-decoration: none; /* 마우스를 올려도 밑줄이 표시되지 않도록 설정 */
+    color: #e9ecef; /* 색상 변경만 적용 */
 }
 
+/* 반응형 스타일 설정 */
 @media (max-width: 768px) {
-    .navbar {
-        width: 150px;
-    }
-
-    .nav-items {
-        gap: 1rem;
-    }
-
-    .guestMember {
-        flex-direction: column;
-        justify-content: center;
-        width: 100%;
+    .guestMember,
+    .member {
+        position: static; /* 작은 화면에서는 정적 위치로 전환 */
+        flex-direction: row; /* 수평 정렬 강제 설정 */
+        justify-content: space-around; /* 요소를 가로로 고르게 분배 */
+        align-items: center; /* 세로 중앙 정렬 */
+        width: 100%; /* 전체 너비 설정 */
         margin-top: 1rem;
+        gap: 15px; /* 요소 간의 간격 설정 */
+        flex-wrap: nowrap; /* 줄바꿈 방지 */
     }
 
-    .guest .btn-outline-light,
+    .guest .btn,
     .member .btn {
-        margin: 0.5rem;
+        margin: 0 0.3rem; /* 버튼 간 마진 조정 */
+        padding: 0.5rem 0.8rem; /* 버튼 크기 조정 */
+    }
+
+    .guestMember img,
+    .member img {
+        height: 35px; /* 작은 화면에서는 프로필 이미지 크기 조정 */
+        margin-right: 20px; /* 이미지와 텍스트 간 간격 조정 */
     }
 }
-
