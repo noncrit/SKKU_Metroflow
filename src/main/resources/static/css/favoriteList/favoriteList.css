@@ -46,12 +46,13 @@
 }
 
 #year, #day, #month {
-    width: 50%;
+    width: 25%;
 }
 
-#ampm, #hour, #minute {
-    width: 50%;
+#ampm, #hour,#minute {
+    width: 25%;
 }
+
 
 /* 컨테이너 기본 설정 */
 .container {
@@ -95,12 +96,16 @@
     margin-bottom: 1rem;
 }
 
-.calendar-div {
+.calendar-select-wrapper {
     display: flex;
-    justify-content: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
-.time-select {
+.calendar-div, .time-select {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
     justify-content: center;
 }
 
