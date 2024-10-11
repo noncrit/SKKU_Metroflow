@@ -135,3 +135,8 @@ body {
     }
 
 }
+
+/* 커서 변경 */
+.st52.st47:hover {
+    cursor: url('/images/mouse/hook.cur'), auto; /* hover 시 커서 변경 */
+}
