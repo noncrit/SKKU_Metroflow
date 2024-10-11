@@ -1,14 +1,14 @@
 /* 기본 Container 스타일 */
 .container {
     position: relative;
-    max-width: 800px; /* 전체 카드의 최대 너비 */
+    max-width: 800px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative;
     min-height: 615px;
     margin-top: 10px;
 }
