@@ -184,12 +184,14 @@
             </button>
         </div>
         </div>
+        <div class="time_day_check">
         <div class="favoriteList_calendar">
             <span class="input-calendar" th:text="${year}+' / '+${month}+' / '+${day}"></span>
         </div>
 
         <div class = "favoriteList_time">
             <span class="input_time" th:text="${ampm}+' '+${hour}+' : '+${minute}"></span>
+        </div>
         </div>
         <!--
         groupedFavorites 자체가 이미 station_id 기준으로 매핑을 하고,
