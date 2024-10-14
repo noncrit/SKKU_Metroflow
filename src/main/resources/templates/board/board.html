@@ -32,8 +32,8 @@
             <th>날짜</th> <!-- 날짜는 작성 날짜가 보이도록 수정이 필요 -->
             <th>조회 수</th> <!-- 조회 수 체크할 수 있는 기능이 있다면 한번 구현 시도 -->
             <th>좋아요</th> <!-- 좋아요 열 추가 -->
-            <th sec:authorize="hasAuthority('admin')">삭제</th> <!-- 좋아요 열 추가 -->
-            <th sec:authorize="hasAuthority('admin')">긴급 공지</th> <!-- 좋아요 열 추가 -->
+            <th sec:authorize="hasAuthority('admin')">삭제</th> <!-- 어드민일 시 삭제 버튼 보임 클릭 시 삭제 -->
+            <th sec:authorize="hasAuthority('admin')">긴급 공지</th> <!-- 어드민일 시 긴급 공지 란 보임 해당 게시물의 선택 누르면 공지로 가짐 -->
         </tr>
         </thead>
         <tbody>
