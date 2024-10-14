@@ -14,13 +14,13 @@ import java.util.Set;
 @Service
 public class SubwayMapService {
 
-    @Autowired
-    private SubwayMapMapper subwayMapMapper;
+    private final SubwayMapMapper subwayMapMapper;
 
     private final IsHolidaysService isHolidaysService;
 
     @Autowired
-    private SubwayMapService(IsHolidaysService isHolidaysService) {
+    private SubwayMapService(SubwayMapMapper subwayMapMapper, IsHolidaysService isHolidaysService) {
+        this.subwayMapMapper = subwayMapMapper;
         this.isHolidaysService = isHolidaysService;
 
         validSet.add("h0530");

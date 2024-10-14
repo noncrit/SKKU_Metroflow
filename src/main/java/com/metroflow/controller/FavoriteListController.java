@@ -169,16 +169,16 @@ public class FavoriteListController {
         String dayType = isHolidaysService.classifyDate(LocalDate.parse(year + "-" + month + "-" + day));
         
         // 즐겨찾기 목록을 위해 세션에서 userId 가져오기
-        String favoriteList_user_id = userService.getUserObject().getUserId();
+        String favoriteListUserId = userService.getUserObject().getUserId();
 
-        if(favoriteList_user_id != null){
+        if(favoriteListUserId != null){
             // 4개 레코드가 완전한 데이터 1개 !!
             // station_id 하나에 대해 요일 구분(평일, 휴일) / 방향 구분(상선, 하선 or 외선, 내선)
             // 즉, 2 x 2 = 4가지의 데이터가 쿼리 결과로 넘어온다.
             // 그래서 size가 4단위여야 1개의 station_id 에 대한 온전한 데이터 전체를 받아 올 수 있음
             int size = 32;
             Pageable pageable = PageRequest.of(page, size);
-            Page<FavoriteListPageDto> favoriteListPage = favoriteListService.getFavoriteListByUserId(favoriteList_user_id,pageable);
+            Page<FavoriteListPageDto> favoriteListPage = favoriteListService.getFavoriteListByUserId(favoriteListUserId,pageable);
 
             // setTime을 인덱스처럼 사용할 예정 (h0530 같은 값으로)
             // 사용자가 설정한 시간으로 바꿔줘야함
