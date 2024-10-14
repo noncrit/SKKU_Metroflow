@@ -2,19 +2,15 @@ let count = parseInt(document.getElementById('noticeCount').value); // 긴급 �
 let pagingButtons = document.querySelectorAll('.paging');
 let optionValue = document.getElementById('boardOption').value;
 
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('boardOption').addEventListener('change', function () {
+document.getElementById('boardOption').addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('change', function () {
         optionValue = document.getElementById('boardOption').value;
         selectOption(optionValue);
     })
     pagingButtons.forEach(button => {
         let baseUrl = button.getAttribute('href').split('?')[0];
-        // alert("baseurl1 : " + baseUrl);
         baseUrl += ("?" + button.getAttribute('href').split('?')[1]);
-        // alert("baseurl2 : " + baseUrl);
         button.setAttribute('href', `${baseUrl}&boardOption=${optionValue}`)
-        // alert("buttonLink : " + button.getAttribute('href'));
-        // alert("a태그 링크 : " + button);
     })
     const rows = document.querySelectorAll('tr[id^="boardRow_"]')
     rows.forEach(row => {
@@ -39,13 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     alert('최대 공지 수를 넘겼습니다!')
                     isSelected = !isSelected;
-                    // console.log("현재 카운트 : " + count)
                 }
-
             } else {
                 isNoticeSelectContainer.classList.remove('activeSelection');
                 deleteNotice(boardNo);
-
             }
         })
     });
@@ -61,22 +54,13 @@ function deleteBoard(boardNo, trBoardNo) {
         },
     })
         .then(response => {
-            // console.log('응답 성공!')
             if (response.redirected) {
-                // console.log('redirect 시도!')
                 window.location.href = "/board";
             } else {
                 throw new Error('Network response was not ok');
             }
             return response.json(); // JSON 형태로 응답받기
         })
-        .then(data => {
-            // console.log('Success:', data);
-
-        })
-        .catch((error) => {
-            // console.error('Error:', error + '에러남!');
-        });
 }
 
 // 게시물 긴급공지로 등록 함수
@@ -95,12 +79,8 @@ function selectNotice(boardNo) {
             return response.json(); // JSON 형태로 응답받기
         })
         .then(data =>{
-            console.log("데이터 값 : " + data);
             count = parseInt(JSON.stringify(data));
         })
-        .catch((error) => {
-            // console.error('Error:', error + '에러남!');
-        });
 }
 
 
@@ -119,13 +99,8 @@ function deleteNotice(boardNo) {
             return response.json(); // JSON 형태로 응답받기
         })
         .then(data => {
-            // console.log('Success:', data);
             count = parseInt(JSON.stringify(data));
-            console.log("삭제 카운팅 " + count);
         })
-        .catch((error) => {
-            // console.error('Error:', error + '에러남!');
-        });
 }
 
 function selectOption(selectedOption) {
@@ -142,11 +117,4 @@ function selectOption(selectedOption) {
         }
         return response.json(); // JSON 형태로 응답받기
     })
-        .then(data => {
-            console.log("제이슨 데이터 : " + JSON.stringify(data));
-            // console.log('Success:', data);
-        })
-        .catch((error) => {
-            // console.error('Error:', error + '에러남!');
-        });
 }
