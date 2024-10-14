@@ -87,8 +87,8 @@ public class FavoriteListController {
 
             // ampm, 시, 분 을 가져오는 기능
             // 페이지 최초 접근시에는 현재 기준으로 설정
-            TimeAttributes timeAttributes = isHolidaysService.getCurrentTimeAttributes();
-            model.addAttribute("ampm",timeAttributes.getAmPm());
+            TimeChecker.ClockDTO timeAttributes = isHolidaysService.getCurrentTimeAttributes();
+            model.addAttribute("ampm",timeAttributes.getAmpm());
             model.addAttribute("hour",timeAttributes.getHour());
             model.addAttribute("minute",timeAttributes.getMinute());
 
