@@ -8,6 +8,55 @@
     display: none;
 }
 
+/* 날짜 및 시간 선택 상자들을 가로로 배치 */
+.calendar-select-time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0;
+    margin-left: -17px;
+}
+
+.year-label {
+    margin-right: 8px;
+    font-size: 15px;
+    color: black;
+}
+
+.year-text {
+    font-size: 13px;
+    color: black;
+    margin-top: 40px;
+    margin-bottom: -12px;
+    text-align: left;
+}
+
+.time-text {
+    font-size: 13px;
+    color: black;
+    margin-top: -17px;
+    margin-bottom: 15px;
+    text-align: right;
+    margin-right: 410px;
+}
+
+.month-label, .day-label {
+    margin-right: 8px;
+    margin-left: 8px;
+    font-size: 15px;
+    color: black;
+}
+
+#year, #day, #month {
+    width: 25%;
+}
+
+#ampm, #hour,#minute {
+    width: 25%;
+}
+
+
+/* 컨테이너 기본 설정 */
 .container {
     display: flex;
     justify-content: space-between;
@@ -34,44 +83,78 @@
     align-items: center;
 }
 
-
 .search-area h3:first-of-type {
     margin-top: 5rem;
 }
-
 
 .search-area h3:nth-of-type(2) {
     margin-top: 7rem;
 }
 
-.input-container, .direct-input, .time-select {
-    width: 100%;
+.input-container,
+.direct-input
+{
+    width: 85%;
     margin-bottom: 1rem;
 }
 
+.calendar-select-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
 
-select, input {
+.calendar-div {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.time-select {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -2px;
+}
+
+select {
     background-color: transparent;
     border: none;
     border-bottom: 1px solid #ccc;
     font-size: 1rem;
     padding: 0.5rem 0;
-    width: 100%;
     text-align: center;
 }
 
-select:focus, input:focus {
+/*input {*/
+/*    background-color: transparent;*/
+/*    border: none;*/
+/*    border-bottom: 1px solid #ccc;*/
+/*    font-size: 1rem;*/
+/*    padding: 0.5rem 0;*/
+/*    width: 15%;*/
+/*    text-align: center;*/
+/*}*/
+
+select:focus {
     outline: none;
     border-bottom: 2px solid #001f3f;
 }
 
+input:focus {
+    outline: none;
+    border-bottom: 2px solid #001f3f;
+}
 
+/* 시간 선택 상자 설정 */
 .time-select {
     display: flex;
-    justify-content: space-between;
-    margin-left: -10px;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    align-items: center; /* 세로 가운데 정렬 */
+    margin-left: -40px;
+    margin-top: -5px; /* `.time-text`와 가까워지도록 위쪽 여백 줄임 */
+    margin-bottom: 20px;
 }
 
 .icon {
@@ -80,7 +163,6 @@ select:focus, input:focus {
     margin-right: 8px;
     vertical-align: middle;
 }
-
 
 .time-select-btn {
     background-color: transparent;
@@ -91,19 +173,19 @@ select:focus, input:focus {
 }
 
 .icon-search {
-    width: 25px;
+    width: 20px;
     height: 20px;
 }
 
-.line-number-div{
-    width:8%;
+.line-number-div {
+    width: 8%;
 }
 
-.station-name-div{
+.station-name-div {
 }
 
-.delete_favorite_button-div{
-    width:35%;
+.delete_favorite_button-div {
+    width: 35%;
 }
 
 .favoriteList_time {
@@ -111,44 +193,38 @@ select:focus, input:focus {
 }
 
 .favoriteList-content {
-    /*display: flex;*/
-    flex-direction: column; /* 세로 방향 정렬 */
-    /*margin-bottom: 20px; !* 항목 간 여백 *!*/
-
-    flex: 0 0 270px; /* 각 항목의 최소 너비 설정 */
-    margin: 10px; /* 항목 간 간격 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 (선택 사항) */
-    padding: 10px; /* 패딩 추가 (선택 사항) */
-    border-radius: 5px; /* 모서리 둥글게 (선택 사항) */
-
+    flex-direction: column;
+    flex: 0 0 270px;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .topItems {
     display: flex;
-    align-items: center; /* 수직 정렬 */
-    justify-content: flex-start; /* 양쪽 끝 정렬 */
-    font-weight: bold; /* 굵은 글씨 */
-    margin-bottom: 10px; /* 아래 여백 */
+    align-items: center;
+    justify-content: flex-start;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-.topItems .delete_favorite_button{
-    margin-left: 20%; /* 버튼을 오른쪽으로 밀어내기 */
-    /*margin-right: 40%;*/
+.topItems .delete_favorite_button {
+    margin-left: 20%;
 }
 
-.middleItems{
+.middleItems {
     display: flex;
-    flex-direction: row; /* 가로 방향 정렬 */
-    margin-bottom: 10px; /* 아래 여백 */
-    width:60%;
+    flex-direction: row;
+    margin-bottom: 10px;
+    width: 60%;
 }
 
-.rightItems{
-    margin-top: auto; /* 하단에 위치하도록 설정 */
+.rightItems {
+    margin-top: auto;
     display: flex;
-    justify-content: flex-end; /* 오른쪽 정렬 */
+    justify-content: flex-end;
 }
-
 
 .line-number {
     display: inline-block;
@@ -165,7 +241,6 @@ select:focus, input:focus {
     margin-left: 0.5rem;
 }
 
-/*혼잡도 표기 바*/
 .status-bar {
     display: flex;
     position: relative;
@@ -179,35 +254,33 @@ select:focus, input:focus {
     margin-left: 8px;
 }
 
-/*혼잡도 별 바 스타일*/
+/* 혼잡도 바 스타일 */
 .overcrowded {
-    width:100%;
+    width: 100%;
     height: 100%;
-    background-color:red ;
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%, transparent);
-    background-size: 10px 10px;
+    background-color: red;
 }
 
-.crowded{
-    width:100%;
+.crowded {
+    width: 100%;
     height: 100%;
-    background-color:red;
+    background-color: red;
 }
 
-.normal{
-    width:100%;
+.normal {
+    width: 100%;
     height: 100%;
-    background-color:orange;
+    background-color: orange;
 }
 
-.spacious{
-    width:100%;
+.spacious {
+    width: 100%;
     height: 100%;
-    background-color:green;
+    background-color: green;
 }
 
-.default-congestion{
-    color:gray;
+.default-congestion {
+    color: gray;
 }
 
 .status-time {
@@ -225,92 +298,26 @@ select:focus, input:focus {
 }
 
 #favoriteList_header {
-    font-size: 1.2rem; /* 폰트 크기 조정 */
-    font-weight: bold; /* 글씨를 강조 */
-    margin-bottom: 1rem; /* 단어 아래에 여백 추가 */
-    text-align: left; /* 중앙 정렬 */
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-align: left;
 }
 
 .favoriteList_container {
-    display: flex; /* 가로 정렬을 위해 flex 사용 */
-    flex-wrap: wrap; /* 필요에 따라 줄 바꿈 */
-
-    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 97.5%;
     background-color: #ffffff;
-    padding: 1rem;
+    padding: 10px;
     border: 1px solid #dddddd;
     border-radius: 8px;
     text-align: left;
     font-size: 1rem;
     color: #333333;
-    margin-top: 1.5rem;
+    margin-top: 2px;
 }
 
-/*호선 마크 스타일 정의*/
-/*타임리프와 연동되니 조심해서 건드리기*/
-.lines {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    line-height: 24px;
-    text-align: center;
-    color: white;
-    border-radius: 50%;
-    margin-right: 0.5rem;
-}
-
-.default-line {
-    background-color: transparent; /* 기본 스타일 */
-    padding: 5px;
-
-}
-
-.line1 {
-    background-color: #0032A0;
-    color: white;
-}
-
-.line2 {
-    background-color: #00B140;
-    color: white;
-}
-
-.line3 {
-    background-color: #FC4C02;
-    color: white;
-}
-
-.line4 {
-    background-color: #00A9E0;
-    color: white;
-}
-
-.line5 {
-    background-color: #A05EB5;
-    color: white;
-}
-
-.line6 {
-    background-color: #A9431E;
-    color: white;
-}
-
-.line7 {
-    background-color: #67823A;
-    color: white;
-}
-
-.line8 {
-    background-color: #E31C79;
-    color: white;
-}
-
-.line9 {
-    background-color: #8C8279;
-    color: white;
-}
-
-/*페이징 처리 부분 디자인 */
 .paging-container {
     text-align: center;
     margin-top: 20px;
@@ -331,3 +338,22 @@ select:focus, input:focus {
     margin: 0 5px;
 }
 
+.input-calendar {
+    margin-top: 15px;
+    flex: 1;
+    max-width: 50%;
+    margin-right: 20px;
+}
+
+.input_time {
+    margin-top: 15px;
+    flex: 1;
+    max-width: 50%;
+}
+
+.time_day_check {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    font-size: 15px;
+}
