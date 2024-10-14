@@ -151,4 +151,3 @@ function judgePriorThumbs(thumbsUp, thumbsUpContainer, thumbsDown, thumbsDownCon
         thumbsDownContainer.classList.add('thumbsDownActive') // 싫어요 css 이벤트 작동
     }
 }
-

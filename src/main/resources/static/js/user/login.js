@@ -11,15 +11,10 @@ const disableKorean = (event) => {
         event.target.value = value.replace(/[\u3131-\uD79D]/g, '');
     }
 };
-window.addEventListener('load', function () {
-    const inputFields = document.getElementsByTagName("input");
-    const nickname = document.getElementById('nickname');
+const inputFields = document.getElementsByTagName("input");
 
+window.addEventListener('load', function () {
     Array.from(inputFields).forEach(input => {
         input.addEventListener('keydown', disableSpacebar);
-
-        if (nickname !== input) {
-            input.addEventListener('input', disableKorean);
-        }
     });
 });
