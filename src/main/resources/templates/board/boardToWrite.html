@@ -65,7 +65,7 @@
             <input type="hidden" th:name="title" id="hidden-title"/>
             <input type="hidden" th:name="boardText" id="hidden-board-text"/>
             <input type="hidden" th:name="boardNo" th:value="${board.boardNo}"/>
-            <button type="submit" th:if="${param.no != null}">수정</button>
+            <button type="submit" class="fix-button" th:if="${param.no != null}">수정</button>
         </div>
     </form>
 </div>
