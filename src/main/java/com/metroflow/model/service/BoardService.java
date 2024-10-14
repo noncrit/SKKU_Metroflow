@@ -57,7 +57,7 @@ public class BoardService {
 
     // 페이징 처리 로직
     @Transactional(readOnly = true)
-    public Page<BoardForm> paging(Pageable pageable) {
+    public Page<BoardForm> allBoardsPaging(Pageable pageable) {
         int page = pageable.getPageNumber() - 1; // 인덱스 값이라 보일 값보다 -1 해줘야함
         int pageLimit = 8; // 한 페이지에 보여줄 글 갯수
         // 한 페이지당 8개씩 글을 보여주고 정렬 기준은 boardNo 기준으로 내림차순 정렬
