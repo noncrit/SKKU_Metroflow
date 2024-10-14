@@ -24,11 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = USERREPOSITORY.findByUserId(username).orElseThrow(() -> new UsernameNotFoundException("Could not found user"));
 
         return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUserId())
-                .password(user.getPassword())
+                .username(user.getUserId()) // userId
+                .password(user.getPassword()) // 비밀번호
                 .authorities(user.getUserRole().stream()
                         .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.toList())) // 권한 받아옴(리스트 형태)
                 .accountExpired(false) // 계정 만료 여부
                 .accountLocked(false) // 계정 잠금 여부
                 .credentialsExpired(false) // 자격 증명 만료 여부

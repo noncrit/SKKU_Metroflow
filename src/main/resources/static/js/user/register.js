@@ -1,7 +1,8 @@
 let selectedImage = null;
 let selectedImageSrc = null;
+const inputFields = document.getElementsByTagName("input");
 // 스페이스바 입력 시 해당 진행 막기(스페이스바 금지)
-const disableSpacebar = (event) => {
+const disableSpaceBar = (event) => {
     if (event.code === "Space") {
         event.preventDefault();
     }
@@ -15,20 +16,11 @@ const disableKorean = (event) => {
     }
 };
 
-window.addEventListener('load', function () {
-    const inputFields = document.getElementsByTagName("input");
-    const nickname = document.getElementById('nickname');
-
-    Array.from(inputFields).forEach(input => {
-        input.addEventListener('keydown', disableSpacebar);
-
-        if (nickname !== input) {
-            input.addEventListener('input', disableKorean);
-        }
-    });
-});
-// 폼 제출 이벤트 리스너
 document.addEventListener('DOMContentLoaded', function() {
+    // 한국어, 스페이스바 방지(닉네임 칸 제외)
+    const nickname = document.getElementById('nickname');
+    disableKoreanAndSpaceBar(inputFields, nickname);
+// 폼 제출 이벤트 리스너
     document.querySelector('form').addEventListener('submit', function(event) {
         // event.preventDefault(); // 기본 제출 동작 방지
 
@@ -41,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // console.log('선택된 이미지 없음, 기본값 사용');
             document.getElementById('imagePath').value = '/images/img_4.png'; // 기본값 설정
         }
-
         // 추가 로직이 있다면 여기서 수행
 
         // 수동으로 폼 제출하고 싶으면 아래 주석 해제
@@ -69,7 +60,6 @@ function selectImage(imgElement) {
     hideModal();
 }
 
-
 function showModal() {
     document.getElementById('imageModal').style.display = 'block';
 }
@@ -78,4 +68,12 @@ function hideModal() {
     document.getElementById('imageModal').style.display = 'none';
 }
 
+function disableKoreanAndSpaceBar(inputFields, nickname) {
+    Array.from(inputFields).forEach(input => {
+        input.addEventListener('keydown', disableSpaceBar);
+        if (nickname !== input) {
+            input.addEventListener('input', disableKorean);
+        }
+    });
+}
 
