@@ -101,13 +101,13 @@ body {
     padding: 20px;
     justify-items: center;
     align-items: center;
-
     margin-left: 50px;
     /*스크롤바 구현을 위한 설정*/
     overflow: auto; /* 스크롤 가능하도록 설정 */
     max-width: 100%; /* 최대 너비 설정 */
     max-height: 100%; /* 최대 높이 설정 (필요에 따라 조정) */
     border: 1px solid #ddd; /* 선택적 경계선 */
+    border-radius: 8px;
 }
 
 .middleArea::-webkit-scrollbar{
