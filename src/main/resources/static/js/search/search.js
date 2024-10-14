@@ -70,16 +70,9 @@ $('#searchInput').on('keydown', function(event) {
 });
 
 // 역이름을 넣었을때 호선에 대한 데이터가 바뀜
-// $('.search-btn1').on('click', function() {
 $('#searchInput').on('change', function() {
     var query = $('#searchInput').val();
 
-    // console.log('역이름: ' + query); // 로그를 통해 값 확인
-    // if (!query || query.trim() === '') {
-    //     alert('역 이름을 입력해주세요!');
-    //     $('#searchInput').empty();
-    //     return;
-    // }
 
     $.ajax({
         type: 'GET',
