@@ -2,8 +2,8 @@ let count = parseInt(document.getElementById('noticeCount').value); // 긴급 �
 let pagingButtons = document.querySelectorAll('.paging');
 let optionValue = document.getElementById('boardOption').value;
 
-document.getElementById('boardOption').addEventListener('DOMContentLoaded', function () {
-    document.addEventListener('change', function () {
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('boardOption').addEventListener('change', function () {
         optionValue = document.getElementById('boardOption').value;
         selectOption(optionValue);
     })
