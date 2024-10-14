@@ -94,7 +94,7 @@ public class FavoriteListController {
 
             // 현재 시간 기준 연, 월, 일을 어트리뷰트로 추가
             String year = String.valueOf(LocalDate.now().getYear());
-            String month = month = String.format("%02d", LocalDate.now().getMonthValue());
+            String month = String.format("%02d", LocalDate.now().getMonthValue());
             String day = String.format("%02d", LocalDate.now().getDayOfMonth());
             model.addAttribute("year",year);
             model.addAttribute("month",month);
