@@ -3,6 +3,8 @@ package com.metroflow.model.dto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Set;
 
@@ -25,7 +27,11 @@ public class User {
     private String userEmail;
     @ElementCollection
     @CollectionTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "userId", nullable = false)
+            joinColumns = @JoinColumn(name = "userId", nullable = false),
+            foreignKey = @ForeignKey(
+                    name = "userId",
+                    foreignKeyDefinition = "foreign key (user_id) references User (user_id) on delete cascade"
+            )
     )
     @Column(length = 5)
     private Set<String> userRole;
