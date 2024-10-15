@@ -35,5 +35,4 @@ public class User {
     )
     @Column(length = 5)
     private Set<String> userRole;
-
 }

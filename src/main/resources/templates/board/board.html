@@ -68,7 +68,7 @@
         <span th:if="${page == boardList.number + 1}" class="page-number active" th:text="${page}"></span>
             <!-- 현재 페이지가 아닌 경우 링크와 페이지 번호 클래스 적용 -->
         <span th:unless="${page == boardList.number + 1 || page == 0}">
-            <a class="page-number" th:href="@{/board(page=${page})}" th:text="${page}"></a>
+            <a class="paging page-number" th:href="@{/board(page=${page})}" th:text="${page}"></a>
         </span>
     </span>
 
