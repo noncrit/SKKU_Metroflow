@@ -142,7 +142,7 @@ p {
 }
 
 /* 페이지 번호 스타일 */
-.page-number {
+.paging.page-number {
   font-size: 16px;
   padding: 5px 3px;
   margin: 0 5px;
@@ -154,7 +154,7 @@ p {
   transition: color 0.3s, font-weight 0.3s;
 }
 
-.page-number:hover {
+.paging.page-number:hover {
   color: #001f3f;
   font-weight: bold;
   cursor: pointer;
