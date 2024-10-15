@@ -120,9 +120,9 @@ button:hover {
     background-color: #a49e9e; /* 호버 시 배경색 변화 */
 }
 
-#mySVG text:hover {
-    cursor: pointer;
-}
+/*#mySVG text:hover {*/
+/*    cursor: pointer;*/
+/*}*/
 
 /*즐겨찾기 span*/
 .time-container {
