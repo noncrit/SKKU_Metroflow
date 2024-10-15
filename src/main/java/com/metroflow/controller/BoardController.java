@@ -142,15 +142,8 @@ public class BoardController {
     // 좋아요 수 관련 로직 컨트롤러
     @PostMapping("/board/recommendation")
     public ResponseEntity<String> recommendation(@RequestBody RecommendationRequestForm rec) {
-        String url = rec.getUrl(); // 이동할 url
         Long boardNo = rec.getBoardNo(); // 해당 보드의 숫자
         BOARDDAO.updateRecommendation(boardNo, rec.isThumbsUp(), rec.isThumbsDown(), rec.isPriorThumbsUp(), rec.isPriorThumbsDown()); // 좋아요나 싫어요를 누른 결과에 따라 DB에 좋아요, 싫어요 수 반영
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(url));
-        if (url.equals("/board/updateBoard") || url.equals("/board/delete")) { // goUpdate 컨트롤러나 delete 컨트롤러는 파라미터로 no를 필요로 하기 때문에 따로 빼줌
-            headers.setLocation(URI.create(url + "?no=" + boardNo)); // uri
-            return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X
-        }
-        return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X, js에서 다뤄줘야 함(response.redirected)
+        return ResponseEntity.ok("success"); // redirection을 하겠다는 의미, 이것만 있으면 작동 X, js에서 다뤄줘야 함(response.redirected)
     }
 }

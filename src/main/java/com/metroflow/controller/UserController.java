@@ -4,6 +4,7 @@ import com.metroflow.model.dao.UserDAO;
 import com.metroflow.model.dto.User;
 import com.metroflow.model.dto.UserRegisterForm;
 import com.metroflow.model.service.UserService;
+import com.metroflow.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -11,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +20,7 @@ public class UserController {
 
     private final UserDAO USERDAO;
     private final UserService USERSERVICE;
+    private final UserRepository USERREPOSITORY;
 
     // 회원가입으로 가는 메소드
     @GetMapping("/goRegister")
@@ -68,10 +67,15 @@ public class UserController {
     @GetMapping("/myPage")
     public String showMyPage(Model model) {
         User currentUser = USERSERVICE.getUserObject();
+        if (currentUser == null) {
+            model.addAttribute("errorMessage", "사용자 정보를 찾을 수 없습니다.");
+            return "user/myPage";
+        }
         model.addAttribute("sessionUser", currentUser);
         return "user/myPage";
     }
 
+    // 회원 정보 수정 기능
     @PostMapping("/user/update")
     public String updateUserProfile(
             @Valid @ModelAttribute("user") UserRegisterForm user, BindingResult result,
@@ -98,7 +102,23 @@ public class UserController {
         }
         return "redirect:/myProfile";  // 성공적으로 업데이트 후 마이페이지로 리다이렉트
 
-
     }
 
+    // 회원 탈퇴 기능
+    @GetMapping("/user/delete")
+    public String deleteUser(HttpSession session, Model model) {
+        // 세션에서 사용자 정보 가져오기
+        User sessionUser = USERSERVICE.getUserObject();
+
+        // 탈퇴 처리
+        try {
+            session.invalidate(); // 세션 무효화
+            // 사용자 삭제
+            USERREPOSITORY.deleteById(sessionUser.getUserId()); // UserRepository를 통해 사용자 삭제
+            System.out.println("success");
+            return "redirect:/home?deleteSuccess=true"; // 홈 페이지로 리다이렉트하고 쿼리 파라미터 추가
+        } catch (Exception e) {
+            return "user/myProfile";
+        }
+    }
 }
