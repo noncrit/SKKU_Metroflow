@@ -103,6 +103,12 @@ public class UserService {
             throw new IllegalArgumentException("새 비밀번호가 일치하지 않습니다.");
         }
 
+        // 닉네임 중복 확인
+        Optional<User> nicknameUser = USERREPOSITORY.findByNickname(nickname);
+        if (nicknameUser.isPresent() && !nicknameUser.get().getUserId().equals(user.getUserId())) {
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
+        }
+
         // 비밀번호 변경시 비밀번호 업데이트
         if (!newPassword.isEmpty()) {
             user.setPassword(BCRYPTPASSWORDENCODER.encode(newPassword));
