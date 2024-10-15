@@ -106,7 +106,7 @@ public class UserController {
 
     // 회원 탈퇴 기능
     @GetMapping("/user/delete")
-    public String deleteUser(HttpSession session, Model model) {
+    public String deleteUser(HttpSession session) {
         // 세션에서 사용자 정보 가져오기
         User sessionUser = USERSERVICE.getUserObject();
 
