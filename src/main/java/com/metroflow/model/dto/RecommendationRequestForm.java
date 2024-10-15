@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 // @ResponseBody에 넣을 폼(recommendation 컨트롤러 속)
 public class RecommendationRequestForm {
-    private String url;
     private Long boardNo;
     @JsonProperty("isThumbsUp")
     private boolean isThumbsUp;
