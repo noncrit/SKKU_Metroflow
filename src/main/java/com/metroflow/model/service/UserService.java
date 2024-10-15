@@ -1,6 +1,5 @@
 package com.metroflow.model.service;
 
-import com.metroflow.model.dao.UserDAO;
 import com.metroflow.model.dto.User;
 import com.metroflow.model.dto.UserForm;
 import com.metroflow.model.dto.UserRegisterForm;
@@ -25,7 +24,6 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository USERREPOSITORY;
     private final BCryptPasswordEncoder BCRYPTPASSWORDENCODER;
-    private final UserDAO userDAO;
 
     // ID 중복 체크
     public void idDuplicationCheck(UserRegisterForm user, BindingResult result) {
