@@ -103,12 +103,6 @@ public class UserService {
             throw new IllegalArgumentException("새 비밀번호가 일치하지 않습니다.");
         }
 
-        // 이메일 중복 확인
-        Optional<User> emailUser = USERREPOSITORY.findByUserEmail(email);
-        if (emailUser.isPresent() && !emailUser.get().getUserEmail().equals(user.getUserEmail())) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
-        }
-
         // 닉네임 중복 확인
         Optional<User> nicknameUser = USERREPOSITORY.findByNickname(nickname);
         if (nicknameUser.isPresent() && !nicknameUser.get().getUserId().equals(user.getUserId())) {
