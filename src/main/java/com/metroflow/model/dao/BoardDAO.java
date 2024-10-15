@@ -38,7 +38,7 @@ public class BoardDAO {
 
     // Recommendation 인스턴스를 추가하는 메소드(Insert)
     public void insertRecommendation(Long no) {
-        Board board = BOARDSERVICE.getInfo(no); // 해당 게시물의 보드 정보
+        Board board = BOARDSERVICE.getBoardInfo(no); // 해당 게시물의 보드 정보
         User user = USERSERVICE.getUserObject(); // 현재 세션 유저 객체
         if (RECOMMENDATIONREPOSITORY.findRecommendationByUserAndBoard(user.getUserId(), no).isPresent()) { // userId와 boardNo를 통해 해당 Recommendation 객체가 있으면 true, 없으면 false
             return;

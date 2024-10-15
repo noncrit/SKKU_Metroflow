@@ -74,7 +74,7 @@ public class UserService {
 
     // 유저 리스트 용 페이징 처리 로직
     @Transactional(readOnly = true)
-    public Page<UserForm> paging(Pageable pageable) {
+    public Page<UserForm> allUserPaging(Pageable pageable) {
         int page = pageable.getPageNumber() - 1; // 인덱스 값이라 보일 값보다 -1 해줘야함
         int pageLimit = 8; // 한 페이지에 보여줄 글 갯수
         // 한 페이지당 8개씩 글을 보여주고 정렬 기준은 userId 기준으로 내림차순 정렬
@@ -101,6 +101,12 @@ public class UserService {
         if (!newPassword.equals(confirmPassword)) {
             System.out.println("wrong confirm password");
             throw new IllegalArgumentException("새 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 닉네임 중복 확인
+        Optional<User> nicknameUser = USERREPOSITORY.findByNickname(nickname);
+        if (nicknameUser.isPresent() && !nicknameUser.get().getUserId().equals(user.getUserId())) {
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
 
         // 비밀번호 변경시 비밀번호 업데이트

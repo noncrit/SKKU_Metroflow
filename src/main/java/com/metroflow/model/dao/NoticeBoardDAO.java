@@ -19,7 +19,7 @@ public class NoticeBoardDAO {
     // 게시물 중 긴급공지 insert
     public void insert(Long boardNo) {
         NoticeBoard notice = new NoticeBoard();
-        Board board =  BOARDSERVICE.getInfo(boardNo);
+        Board board =  BOARDSERVICE.getBoardInfo(boardNo);
         notice.setBoardNo(boardNo);
         notice.setBoard(board);
         NOTICEBOARDREPOSITORY.save(notice);

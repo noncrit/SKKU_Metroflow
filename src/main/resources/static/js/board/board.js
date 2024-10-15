@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // 게시물 삭제 함수
 function deleteBoard(boardNo, trBoardNo) {
     trBoardNo.remove();
-    fetch(`/admin/board/delete?boardNo=${boardNo}`, {
+    fetch(`/board/delete?no=${boardNo}`, {
         method: 'GET', // GET, POST, PUT, DELETE 중 선택
         headers: {
             'Content-Type': 'application/json',
