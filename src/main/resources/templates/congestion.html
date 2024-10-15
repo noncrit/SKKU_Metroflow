@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Document</title>
+    <link href="/css/menu.css" rel="stylesheet">
+    <link href="/css/congestion.css" rel="stylesheet">
+</head>
+<body>
+    <div th:insert="~{fragments/menu :: menuBar}"></div>
+
+    <div id="content">
+        <div id="middleArea">
+
+            <div>
+                <h1>혼잡도란?</h1>
+                열차의 정원대비 승차인원으로 혼잡도를 나타냅니다. % 데이터와 여유, 보통, 혼잡의 <br>
+                두가지 구분으로 표시됩니다. 1호선부터 9호선까지의 수도권 혼잡도 데이터를 제공합니다.
+            </div>
+
+            <div>
+                <h3>여유</h3>
+                <img src="/images/cong_green.png"><br>
+                33% 이하를 의미하며 좌석이 모두 채워져있거나 남아있는 상태를 말합니다.
+            </div>
+
+            <div>
+                <h3>보통</h3>
+                <img src="/images/cong_yellow.png"><br>
+                34% 이상 66% 이하를 의미하며 좌석이 모두 채워져있고 통로와 출입문에<br>
+                줄이 생겨있는 상태를 말합니다.
+            </div>
+
+            <div>
+                <h3>혼잡</h3>
+                <img src="/images/cong_red.png"><br>
+                67% 이상을 의미하며 통로와 출입문에 2줄 이상 줄서있는 상태를 말합니다.
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

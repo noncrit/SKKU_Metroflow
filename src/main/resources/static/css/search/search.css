@@ -262,3 +262,9 @@ select:focus, input:focus {
     font-size: 15px;
     margin-bottom: 2rem;
 }
+
+#congestion a{
+    font-size: 20px;
+    text-decoration: none;
+    color: #8B50A4;
+}
