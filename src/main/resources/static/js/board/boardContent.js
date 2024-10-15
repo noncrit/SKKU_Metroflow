@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
             thumbsUpMinus(thumbsUpContainer, thumbsUpCount);
         }
         goRecommendation(boardNo, thumbsUp, thumbsDown, priorThumbsUp, priorThumbsDown, header, token);
-        priorThumbsUp = thumbsUp;
-        priorThumbsDown = thumbsDown;
+        priorThumbsUp = thumbsUp; // DB에 데이터를 반영 후 이전 데이터로 반영 당시 데이터를 넣음
+        priorThumbsDown = thumbsDown; // DB에 데이터를 반영 후 이전 데이터로 반영 당시 데이터를 넣음
     });
 
     thumbsDownContainer.addEventListener('click', function () { // 싫어요 컨테이너
@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
             thumbsDownMinus(thumbsDownContainer, thumbsDownCount);
         }
         goRecommendation(boardNo, thumbsUp, thumbsDown, priorThumbsUp, priorThumbsDown, header, token);
-        priorThumbsUp = thumbsUp;
-        priorThumbsDown = thumbsDown;
+        priorThumbsUp = thumbsUp; // DB에 데이터를 반영 후 이전 데이터로 반영 당시 데이터를 넣음
+        priorThumbsDown = thumbsDown; // DB에 데이터를 반영 후 이전 데이터로 반영 당시 데이터를 넣음
     })
 });
 
