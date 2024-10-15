@@ -19,7 +19,7 @@ $('#searchInput').on('input', function() {
 
             var seenStations = new Set();
             var maxItems = 5;
-            var uniqueStations = $.grep(data, function(station) {  // $.greop: 배열에서 특정 항목만 걸러냄
+            var uniqueStations = $.grep(data, function(station) {  // $.grep: 배열에서 특정 항목만 걸러냄
                 if (seenStations.has(station.stationName)) {
                     return false;
                 }
@@ -157,6 +157,7 @@ $('.search-btn2').on('click', function (event) {
 
             displayResults(response);
             insertToLocalStorage(station);
+
             // 검색후에 값 초기화
             $('#stationLineList').empty();
             $('#stationLineList').append('<option value="">' + '호선' + '</option>');
@@ -185,7 +186,7 @@ $('.search-btn2').on('click', function (event) {
 
 // 데이터를 받아서 HTML로 변환하는 함수
 function displayResults(data) {
-    $('#result-Container').empty();  // 기존 결과 초기화
+    $('#result-container').empty();  // 기존 결과 초기화
     // console.log('displayresults 호출됨: ', data);
 
     data.forEach(item => {
