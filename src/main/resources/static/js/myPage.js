@@ -36,13 +36,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 회원 탈퇴 확인 처리
 document.getElementById('deleteAccount').addEventListener('click', function(event) {
-    event.preventDefault();
-    const confirmation = confirm("정말로 회원 탈퇴를 하시겠습니까?");
+    event.preventDefault();  // 기본 링크 동작을 막습니다.
 
-    if (confirmation) {
-        // 회원 탈퇴 처리를 하는 코드 (DB 관련 작업 또는 서버로 탈퇴 요청 설정 필요)
-        alert("회원 탈퇴가 완료되었습니다.");
-    } else {
-        alert("회원 탈퇴가 취소되었습니다.");
+    if (confirm('정말로 회원을 탈퇴하시겠습니까?')) {
+        // 확인을 눌렀을 경우, 탈퇴 요청을 서버로 전송
+        window.location.href = '/user/delete';
     }
 });
+

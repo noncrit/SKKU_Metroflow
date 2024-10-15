@@ -1,18 +1,19 @@
 let count = parseInt(document.getElementById('noticeCount').value); // 긴급 공지 게시물 수;
-let pagingButtons = document.querySelectorAll('.paging');
-let optionValue = document.getElementById('boardOption').value;
+let pagingButtons = document.querySelectorAll('.paging'); // 페이징 버튼들
+let optionValue = document.getElementById('boardOption').value; // 게시물 보기 옵션 값
 
-document.getElementById('boardOption').addEventListener('DOMContentLoaded', function () {
-    document.addEventListener('change', function () {
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('boardOption').addEventListener('change', function () {
         optionValue = document.getElementById('boardOption').value;
         selectOption(optionValue);
     })
+
     pagingButtons.forEach(button => {
-        let baseUrl = button.getAttribute('href').split('?')[0];
-        baseUrl += ("?" + button.getAttribute('href').split('?')[1]);
+        let baseUrl = button.getAttribute('href');
         button.setAttribute('href', `${baseUrl}&boardOption=${optionValue}`)
     })
-    const rows = document.querySelectorAll('tr[id^="boardRow_"]')
+
+    const rows = document.querySelectorAll('tr[id^="boardRow_"]') // boardRow_로 시작하는 id를 지닌 모든 tr 요소들 선택
     rows.forEach(row => {
         let isSelected;
         const boardNo = row.id.split('_')[1]; // ID에서 boardNo 추출
@@ -59,7 +60,6 @@ function deleteBoard(boardNo, trBoardNo) {
             } else {
                 throw new Error('Network response was not ok');
             }
-            return response.json(); // JSON 형태로 응답받기
         })
 }
 
@@ -103,18 +103,19 @@ function deleteNotice(boardNo) {
         })
 }
 
+// 게시물 옵션 선택 시 ajax로 옵션에 맞게 보여주는 함수
 function selectOption(selectedOption) {
-    fetch(`/board/selectOption?selectedOption=${selectedOption}`, {
+    fetch(`/board?selectedOption=${selectedOption}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-    }).then(response => {
+    })
+        .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         } else {
             window.location.href=response.url;
         }
-        return response.json(); // JSON 형태로 응답받기
     })
 }

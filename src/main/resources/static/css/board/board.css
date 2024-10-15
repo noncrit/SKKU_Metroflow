@@ -1,27 +1,38 @@
 #container {
   max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
+  margin: 10px auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
+  position: relative;
 }
 
+/* 제목 스타일 */
 h1 {
   font-size: 27px;
   font-weight: bold;
-  margin-bottom: 10px;
-  margin-top: -1px;
+  margin-bottom: 30px;
+  margin-top: 10px;
 }
 
+/* 드롭다운 선택 영역 */
+.select-label {
+  display: inline-block;
+  margin-top: -5px;
+  position: relative;
+  top: -5px;
+}
+
+/* 설명 텍스트 스타일 */
 p {
   font-size: 14px;
   color: #777;
-  margin-bottom: 20px;
+  margin-bottom: 13px;
 }
 
+/* 게시판 테이블 스타일 */
 .board-table {
   width: 100%;
   border-collapse: collapse;
@@ -54,6 +65,7 @@ p {
   text-decoration: underline;
 }
 
+/* 태그 스타일 */
 .tag {
   display: inline-block;
   padding: 2px 6px;
@@ -63,78 +75,97 @@ p {
   color: white;
 }
 
-.tag.update {
-  background-color: #007bff;
-}
+.tag.update { background-color: #007bff; }
+.tag.idea { background-color: #17a2b8; }
+.tag.error { background-color: #dc3545; }
+.tag.inquiry { background-color: #28a745; }
 
-.tag.idea {
-  background-color: #17a2b8;
-}
-
-.tag.error {
-  background-color: #dc3545;
-}
-
-.tag.inquiry {
-  background-color: #28a745;
-}
-
-.new-tag {
-  background-color: red;
-  color: white;
+.new-tag, .up-tag {
   padding: 2px 4px;
   font-size: 10px;
   border-radius: 3px;
 }
 
-.up-tag {
-  background-color: #ffcc00;
-  color: #333;
-  padding: 2px 4px;
-  font-size: 10px;
-  border-radius: 3px;
-}
+.new-tag { background-color: red; color: white; }
+.up-tag { background-color: #ffcc00; color: #333; }
 
-/* 기존 페이지네이션 스타일 유지 */
+/* 페이지네이션 스타일 */
 .pagination {
   display: flex;
-  justify-content: center; /* 페이지네이션 요소들을 가운데 정렬 */
+  justify-content: center;
   align-items: center;
   gap: 25px;
   margin-top: 30px;
   position: relative;
 }
 
-/* 중앙에 있는 페이지네이션 링크 스타일 */
-.pagination a {
+.pagination .paging {
   padding: 8px 16px;
   background-color: #001f3f;
   color: white;
   text-decoration: none;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 14px;
   border: 1px solid #001f3f;
 }
 
-.pagination a:hover {
+.pagination .paging:hover {
   background-color: white;
   color: #001f3f;
 }
 
-.pagination a.active {
+.pagination .paging.active {
   background-color: #001f3f;
   color: white;
 }
 
-/* 글쓰기 버튼 스타일 - 오른쪽 정렬 */
+/* 글쓰기 버튼 스타일 */
 .write-btn {
   position: absolute;
-  right: 0;
-  top: -40px;
-  margin-right: 0;
-  margin-left: 0;
-  transform: translateY(-297%);
-  font-size: 15px !important;
+  top: 100px;
+  right: 20px;
+  background-color: #001f3f;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  border: 1px solid transparent;
+}
+
+.write-btn:hover {
+  background-color: white;
+  color: #001f3f;
+  border: 1px solid #001f3f;
+}
+
+/* 페이지 번호 스타일 */
+.paging.page-number {
+  font-size: 16px;
+  padding: 5px 3px;
+  margin: 0 5px;
+  color: #001f3f;
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  cursor: default;
+  transition: color 0.3s, font-weight 0.3s;
+}
+
+.paging.page-number:hover {
+  color: #001f3f;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.page-number.active {
+  font-weight: bold;
+  color: #001f3f;
+  border-bottom: 2px solid #001f3f;
+  background-color: transparent;
+  padding-bottom: 2px;
 }
 
 .activeSelection {
