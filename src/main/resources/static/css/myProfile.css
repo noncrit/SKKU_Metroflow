@@ -63,7 +63,6 @@ input[disabled] {
 
 /* 수정 버튼 스타일 */
 a[role="button"] {
-    position: absolute;
     bottom: 13px;
     right: 22px;
     padding: 10px 14px;
