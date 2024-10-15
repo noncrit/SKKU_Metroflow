@@ -1,0 +1,38 @@
+#content {
+    display: flex;
+    justify-content: center; /* 가로 가운데 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    height: 100vh; /* 화면 전체 높이 사용 */
+    margin: 0;
+    background-color: #f4f4f9; /* 배경색 설정 */
+    font-family: Arial, sans-serif;
+    margin-top: -100px;
+}
+
+#middleArea {
+    background-color: white; /* 배경을 흰색으로 */
+    padding: 20px;
+    /*border-radius: 10px; !* 모서리 둥글게 *!*/
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    width: 800px; /* 최대 너비 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+#middleArea h1, h3 {
+    color: #333;
+}
+
+/*img {*/
+/*    width: 100px; !* 이미지 크기 조정 *!*/
+/*    margin-bottom: 10px; !* 이미지 하단 여백 *!*/
+/*}*/
+
+/* 각 설명 섹션 간격 */
+#middleArea div {
+    margin-bottom: 20px;
+}
+
+/* 설명 텍스트 스타일 */
+p {
+    color: #666;
+}

@@ -43,6 +43,7 @@
                 <li><a href="/goSearch">역 검색</a></li>
                 <li><a href="/goFavoriteList">즐겨찾기</a></li>
                 <li><a href="#">내 주변</a></li>
+                <li><a href="/goCongestion">혼잡도란?</a></li>
                 <li><a href="/board" th:if="${sessionUser == null || #sets.contains(sessionUser.userRole, 'user')}">방명록</a></li>
                 <li sec:authorize="hasAuthority('admin')"><a href="/admin/userList">유저 리스트</a></li>
                 <li sec:authorize="hasAuthority('admin')"><a href="/board">방명록 관리</a></li>
