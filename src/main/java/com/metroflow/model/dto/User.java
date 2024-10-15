@@ -3,8 +3,6 @@ package com.metroflow.model.dto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Set;
 
@@ -35,5 +33,4 @@ public class User {
     )
     @Column(length = 5)
     private Set<String> userRole;
-
 }
