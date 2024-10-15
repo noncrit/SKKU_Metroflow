@@ -44,12 +44,3 @@ document.getElementById('deleteAccount').addEventListener('click', function(even
     }
 });
 
-// 페이지 로드 시 탈퇴 성공 여부 확인
-document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const deleteSuccess = urlParams.get('deleteSuccess');
-
-    if(deleteSuccess) {
-        alert("회원 탈퇴가 성공적으로 완료되었습니다.");
-    }
-});
