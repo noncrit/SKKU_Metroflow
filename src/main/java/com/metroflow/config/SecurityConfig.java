@@ -20,7 +20,8 @@ public class SecurityConfig {
 //                        필요할 시 아래 경로 바꿀 것
                                 .requestMatchers("/","/favicon.ico","/css/**", "/images/**","/js/**","/test", "/home", "/login", "/register", "/goRegister", "/goLogin"
                                         ,"/board", "/goSearch", "/search", "/goSearch/stations","/board", "/station-info", "/goSearch/**", "/goSearch/stationLines**", "/goSearch/result", "/goCongestion", "/congestion").permitAll()
-                                .requestMatchers("/logout", "/addToFavorite", "/deleteFromFavoriteList", "/goFavoriteList").hasAuthority("user")
+                                .requestMatchers("/logout", "/addToFavorite", "/deleteFromFavoriteList", "/goFavoriteList").hasAnyAuthority("user","admin")
+                                .requestMatchers("/admin/**").hasAuthority("admin")
 //                        .requestMatchers("/user/**").hasRole("user")
                                 .anyRequest().authenticated()
                 )
