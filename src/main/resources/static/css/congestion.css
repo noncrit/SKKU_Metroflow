@@ -12,7 +12,7 @@
 #middleArea {
     background-color: white; /* 배경을 흰색으로 */
     padding: 20px;
-    /*border-radius: 10px; !* 모서리 둥글게 *!*/
+    border-radius: 10px; /* 모서리 둥글게 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
     width: 800px; /* 최대 너비 설정 */
     text-align: center; /* 텍스트 가운데 정렬 */
