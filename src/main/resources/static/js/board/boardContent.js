@@ -56,8 +56,6 @@ function goRecommendation(boardNo, isThumbsUp, isThumbsDown, priorThumbsUp, prio
         priorThumbsUp: priorThumbsUp,
         priorThumbsDown: priorThumbsDown,
     }; // 전송할 데이터
-    console.log(header);
-    console.log(token);
 
     fetch(url, {
         method: "POST",
@@ -68,9 +66,6 @@ function goRecommendation(boardNo, isThumbsUp, isThumbsDown, priorThumbsUp, prio
         body: JSON.stringify(data) // 데이터를 JSON 문자열로 변환
     })
         .then(response => {
-            if (response.ok) {
-                console.log('성공!')
-            }
         })
         .catch(error => {
             console.error("문제가 발생했습니다:", error);
