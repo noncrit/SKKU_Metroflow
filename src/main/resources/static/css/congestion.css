@@ -49,3 +49,9 @@
 p {
     color: #666;
 }
+
+.whatIsCongestion_description {
+    text-align: left;
+    margin-left: 20%;
+    line-height: 1.5;
+}
