@@ -16,5 +16,6 @@ const inputFields = document.getElementsByTagName("input");
 window.addEventListener('load', function () {
     Array.from(inputFields).forEach(input => {
         input.addEventListener('keydown', disableSpacebar);
+        input.addEventListener('input', disableKorean);
     });
 });
