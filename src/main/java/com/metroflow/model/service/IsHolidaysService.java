@@ -1,6 +1,6 @@
 package com.metroflow.model.service;
 
-import com.metroflow.model.dto.TimeAttributes;
+import com.metroflow.model.dto.TimeChecker;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -240,14 +240,16 @@ public class IsHolidaysService {
         }
     }
 
-    public TimeAttributes getCurrentTimeAttributes() {
+    public TimeChecker.ClockDTO getCurrentTimeAttributes() {
         LocalDateTime now = LocalDateTime.now();
 
         String amPm = now.format(DateTimeFormatter.ofPattern("a", Locale.ENGLISH));
         String hour = now.format(DateTimeFormatter.ofPattern("hh"));
         String minute = now.format(DateTimeFormatter.ofPattern("mm"));
 
-        return new TimeAttributes(amPm, hour, minute);
+        TimeChecker timeChecker = new TimeChecker();
+
+        return timeChecker.new ClockDTO(amPm, hour, minute);
     }
 
 }

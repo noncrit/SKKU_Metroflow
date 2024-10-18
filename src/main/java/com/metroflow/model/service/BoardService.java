@@ -84,7 +84,7 @@ public class BoardService {
     }
 
     // 보드 내용 얻어오기
-    public Board getInfo(Long no) {
+    public Board getBoardInfo(Long no) {
         Board board = BOARDREPOSITORY.findById(no).get();
         String userId = board.getUser().getUserId();
         User user = USERREPOSITORY.findByUserId(userId).get();

@@ -63,8 +63,6 @@ body {
 }
 
 .alert-item {
-    border: 1px solid #ddd;
-    background-color: #f8f9fa;
     padding: 5px;
     margin-top: 8px;
     border-radius: 8px;
@@ -134,4 +132,25 @@ body {
         flex-direction: column;
     }
 
+}
+
+/*!* .st52와 .st47 클래스를 동시에 가지는 <text>에 hover 시 커서 변경 *!*/
+/*.st52.st47 {*/
+/*    cursor: crosshair; !* 기본 커서 설정 *!*/
+/*}*/
+
+/* hover 시 커서 변경 */
+.st52.st47:hover {
+    cursor: url('/images/mouse/smileTrain_middle.cur'), auto; /* hover 시 갈고리로 커서 변경 */
+}
+
+.alert-clicked {
+    font-weight: 500;
+    text-decoration: none;
+    transition: font-weight 0.3s ease;
+}
+
+.alert-clicked:hover {
+    font-weight: 900;
+    text-decoration: none;
 }

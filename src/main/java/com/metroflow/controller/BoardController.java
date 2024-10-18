@@ -12,14 +12,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -92,7 +89,7 @@ public class BoardController {
     // 보드 작성란에서 작성 후 글쓰기 누를 시 아래 컨트롤러 작동
     // 글쓰기 컨트롤러
     @PostMapping("/board/write")
-    public String write(@ModelAttribute Board board, Model model) {
+    public String write(@ModelAttribute Board board) {
         BOARDDAO.writeBoard(board); // insert해주는 DAO
         return "redirect:/board"; // "/board"를 GET방식으로 받는 컨트롤러(goBoard)로 감
     }
@@ -102,7 +99,7 @@ public class BoardController {
     public String viewContent(@RequestParam("boardNo") Long no, Model model) {
         BOARDREPOSITORY.plusView(no); // 조회수 추가 메소드
         BOARDDAO.insertRecommendation(no); // 추천 테이블속 유저에게 해당하는 테이블 없을 시 생성, 있다면 void 반환
-        model.addAttribute("board", BOARDSERVICE.getInfo(no));
+        model.addAttribute("board", BOARDSERVICE.getBoardInfo(no));
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
         model.addAttribute("userRec", BOARDSERVICE.getMyRecommendation(no));
         return "board/boardContent"; // 보드 내용
@@ -114,7 +111,7 @@ public class BoardController {
     public String goUpdate(@RequestParam("no") Long no, Model model) {
         Map<String, List<String>> stationMap =  BOARDSERVICE.getStationNames();
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
-        model.addAttribute("board", BOARDSERVICE.getInfo(no));
+        model.addAttribute("board", BOARDSERVICE.getBoardInfo(no));
         model.addAttribute("station", stationMap);
         return "board/boardToWrite"; // 작성 화면
     }
@@ -124,7 +121,7 @@ public class BoardController {
     @PostMapping("/board/update")
     public String update(@ModelAttribute("board") Board board, Model model) {
         BOARDREPOSITORY.updateBoard(board.getBoardText(), board.getStationLine(), board.getStationName(), board.getTitle(), board.getBoardNo());
-        model.addAttribute("board", BOARDSERVICE.getInfo(board.getBoardNo()));
+        model.addAttribute("board", BOARDSERVICE.getBoardInfo(board.getBoardNo()));
         model.addAttribute("sessionUser", USERSERVICE.getUserObject());
         model.addAttribute("userRec", BOARDSERVICE.getMyRecommendation(board.getBoardNo()));
         return "board/boardContent"; // 보드 수정이 완료된 내용 화면
@@ -138,19 +135,11 @@ public class BoardController {
         return "redirect:/board"; // 보드 화면으로 redirect
     }
 
-    // 보드 화면에서 다른 버튼이나 a태그 클릭시 경유하는 컨트롤러
     // 좋아요 수 관련 로직 컨트롤러
     @PostMapping("/board/recommendation")
     public ResponseEntity<String> recommendation(@RequestBody RecommendationRequestForm rec) {
-        String url = rec.getUrl(); // 이동할 url
         Long boardNo = rec.getBoardNo(); // 해당 보드의 숫자
         BOARDDAO.updateRecommendation(boardNo, rec.isThumbsUp(), rec.isThumbsDown(), rec.isPriorThumbsUp(), rec.isPriorThumbsDown()); // 좋아요나 싫어요를 누른 결과에 따라 DB에 좋아요, 싫어요 수 반영
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(url));
-        if (url.equals("/board/updateBoard") || url.equals("/board/delete")) { // goUpdate 컨트롤러나 delete 컨트롤러는 파라미터로 no를 필요로 하기 때문에 따로 빼줌
-            headers.setLocation(URI.create(url + "?no=" + boardNo)); // uri
-            return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X
-        }
-        return new ResponseEntity<>(headers, HttpStatus.FOUND); // redirection을 하겠다는 의미, 이것만 있으면 작동 X, js에서 다뤄줘야 함(response.redirected)
+        return ResponseEntity.ok("success");
     }
 }

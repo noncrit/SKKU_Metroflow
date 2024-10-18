@@ -15,10 +15,10 @@ body {
 }
 
 .logo {
-    width: 150px;
-    height: auto;
     display: inline-block;
+    margin-top: -8px;
 }
+
 
 /* "메뉴" 텍스트 스타일 설정 */
 .menu-label {
@@ -38,7 +38,6 @@ body {
 .menu-checkbox {
     display: none; /* 체크박스가 보이지 않도록 설정 */
 }
-
 
 .menu-link {
     text-decoration: none;

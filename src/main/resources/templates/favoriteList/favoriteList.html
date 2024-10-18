@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,7 +98,7 @@
                 <option value="PM">오후</option>
             </select>
             <select id="hour">
-                <option value="00">시간</option>
+                <option value="05">시간</option>
                 <option value="01">01</option>
                 <option value="02">02</option>
                 <option value="03">03</option>
@@ -113,7 +113,7 @@
                 <option value="12">12</option>
             </select>
             <select id="minute">
-                <option value="00">분</option>
+                <option value="30">분</option>
                 <option value="01">01</option>
                 <option value="02">02</option>
                 <option value="03">03</option>
@@ -252,6 +252,10 @@
                 </div>
 
             </div>
+
+                <span th:if="${totalPages == 0}">
+                    <text>등록된 즐겨찾기가 없습니다.</text>
+                </span>
         </div>
 
         <div class="paging-container">
@@ -260,15 +264,15 @@
                      <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage - 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">이전</a>
                  </span>
 
-                <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
+                <span th:if="${totalPages>0}" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
                     <a th:href="@{/goFavoriteListWithSetTime(page=${pageNum},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}"
                        th:class="${pageNum == currentPage ? 'active' : ''}"
                        th:text="${pageNum + 1}"></a>
                 </span>
 
                 <span th:if="${currentPage < totalPages - 1}">
-            <a th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">다음</a>
-        </span>
+                    <a th:class="next" th:href="@{/goFavoriteListWithSetTime(page=${currentPage + 1},year=${year},month=${month},day=${day},ampm=${ampm}, hour=${hour}, minute=${minute})}">다음</a>
+                </span>
             </div>
         </div>
 

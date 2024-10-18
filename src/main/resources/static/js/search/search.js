@@ -2,7 +2,7 @@
 $('#searchInput').on('input', function() {
     var query = $('#searchInput').val();
 
-    console.log(query);
+    // console.log(query);
 
     if (query.trim() === '') {
         $('#stationList').empty().hide();
@@ -19,7 +19,7 @@ $('#searchInput').on('input', function() {
 
             var seenStations = new Set();
             var maxItems = 5;
-            var uniqueStations = data.filter(function(station) {
+            var uniqueStations = $.grep(data, function(station) {  // $.grep: 배열에서 특정 항목만 걸러냄
                 if (seenStations.has(station.stationName)) {
                     return false;
                 }
@@ -46,7 +46,7 @@ $('#stationList').on('click', 'li', function() {
 });
 
 $(document).click(function(event) {
-    // 리스트 이외의 다른 곳을 클릭했을때 리스트 사라짐, 나중에 다시
+    // 리스트 이외의 다른 곳을 클릭했을때 리스트 사라짐
     if (!$(event.target).closest('#searchInput, #stationList').length) {
         console.log('리스트 숨기기')
         $('#stationList').hide().empty();
@@ -70,16 +70,9 @@ $('#searchInput').on('keydown', function(event) {
 });
 
 // 역이름을 넣었을때 호선에 대한 데이터가 바뀜
-// $('.search-btn1').on('click', function() {
 $('#searchInput').on('change', function() {
     var query = $('#searchInput').val();
 
-    // console.log('역이름: ' + query); // 로그를 통해 값 확인
-    // if (!query || query.trim() === '') {
-    //     alert('역 이름을 입력해주세요!');
-    //     $('#searchInput').empty();
-    //     return;
-    // }
 
     $.ajax({
         type: 'GET',
@@ -95,13 +88,15 @@ $('#searchInput').on('change', function() {
             var seenStationLine = new Set();
 
             // 고유한 stationLine들만 필터링
-            var uniqueStationLine = data.filter(function(station) {
+            var uniqueStationLine = $.grep(data,function(station) {
                 if (seenStationLine.has(station.stationLine)) {
                     return false; // 중복되면 제외
                 }
                 seenStationLine.add(station.stationLine);
                 return true; // 고유한 경우만 포함
             });
+
+            console.log(uniqueStationLine);
 
             // 필터링된 호선 정보를 select 박스에 추가
             uniqueStationLine.forEach(function(station) {
@@ -116,14 +111,15 @@ $('#searchInput').on('change', function() {
 });
 
 // 역이름 호선 시간 데이터가 모두 들어가있으면 혼잡도 결과 보여주기
-document.querySelector('.search-btn2').addEventListener('click', function (event) {
+$('.search-btn2').on('click', function (event) {
     event.preventDefault();
 
-    let stationName = document.getElementById('searchInput').value;
-    let stationLine = document.getElementById('stationLineList').value;
-    let ampm = document.getElementById('ampm').value;
-    let hour = document.getElementById('hour').value;
-    let minute = document.getElementById('minute').value;
+    let stationName = $('#searchInput').val();
+    let stationLine = $('#stationLineList').val();
+    let ampm = $('#ampm').val();
+    let hour = $('#hour').val();
+    let minute = $('#minute').val();
+
 
     if (!stationName || !ampm || !hour || !minute || !stationLine) {
         alert('모든 값을 입력해주세요!');
@@ -131,7 +127,7 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
     }
 
     // 결과창에 시간 표시
-    document.getElementById('input-time').textContent = `${ampm} ${hour}시 ${minute}분`
+    $('#input-time').text(`${ampm} ${hour}시 ${minute}분`);
 
     $.ajax( {
         type: 'POST',
@@ -147,22 +143,25 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         }),
         beforeSend: function(xhr) {
             // CSRF 토큰과 헤더를 설정
-            const csrfToken = document.querySelector('meta[name="_csrf"]').content;
-            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+            const csrfToken = $('meta[name="_csrf"]').attr('content');
+            const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (response) {
-            // console.log('응답내용: ',response);
+            console.log('응답내용: ',response);
+
             let station = {
                 stationName: stationName,
                 stationLine: stationLine
             }
+
             displayResults(response);
             insertToLocalStorage(station);
+
             // 검색후에 값 초기화
             $('#stationLineList').empty();
             $('#stationLineList').append('<option value="">' + '호선' + '</option>');
-            document.getElementById('searchInput').value = '';
+            $('#searchInput').val('');
             $('#ampm').val('AM');
             $('#hour').val('');
             $('#minute').val('');
@@ -170,14 +169,13 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
         },
         error: function(err) {
             console.log('에러: ', err);
-
-            const messageElement = document.getElementById('result-container');
-            messageElement.textContent = '혼잡도 데이터가 없습니다'
-            messageElement.style.display = 'block';
+            const messageElement = $('#result-container');
+            messageElement.text('혼잡도 데이터가 없습니다').show();
+            // messageElement.style.display = 'block';
 
             $('#stationLineList').empty();
             $('#stationLineList').append('<option value="">' + '호선' + '</option>');
-            document.getElementById('searchInput').value = '';
+            $('#searchInput').val('');
             $('#ampm').val('AM');
             $('#hour').val('');
             $('#minute').val('');
@@ -188,9 +186,11 @@ document.querySelector('.search-btn2').addEventListener('click', function (event
 
 // 데이터를 받아서 HTML로 변환하는 함수
 function displayResults(data) {
-    resultContainer.innerHTML = '';  // 기존 결과 초기화
+    $('#result-container').empty();  // 기존 결과 초기화
+    // console.log('displayresults 호출됨: ', data);
 
     data.forEach(item => {
+        // console.log('아이템: ', item);
         const statusColor = getStatusColor(item.congestion);
         const lineColor = lineColors[item.stationLine] || "#000000";
 
@@ -210,7 +210,9 @@ function displayResults(data) {
             </div>
         `;
 
-        resultContainer.innerHTML += resultItem;
+        console.log('resultItem: ', resultItem);
+
+        $('#result-container').append(resultItem);
     });
 }
 
@@ -226,7 +228,6 @@ const lineColors = {
     9: "#8C8279", // 9호선
 };
 
-const resultContainer = document.getElementById('result-container');
 
 function getStatusColor(congestion) {
     if (congestion <= 33) {
@@ -268,7 +269,7 @@ function setRecentSearch() {
     }
 
     if (stationLine) {
-        $('#stationLineList').append('<option value="' + stationLine + '">' + stationLine + '호선' + '</option>');
+        $('#stationLineList').append(`<option value="${stationLine}">${stationLine}호선</option>`);
         $('#stationLineList').val(stationLine)
     }
 }

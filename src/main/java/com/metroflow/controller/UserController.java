@@ -59,9 +59,9 @@ public class UserController {
 
     @GetMapping("/myProfile")
     public String getProfile(Model model) {
-        User user = USERSERVICE.getUserObject(); // Fetch user data
-        model.addAttribute("sessionUser", user); // Add user data to the model for Thymeleaf
-        return "/user/myProfile"; // Return the Thymeleaf template name
+        User user = USERSERVICE.getUserObject();
+        model.addAttribute("sessionUser", user);
+        return "/user/myProfile";
     }
 
     @GetMapping("/myPage")

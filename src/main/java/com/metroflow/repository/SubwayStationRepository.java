@@ -20,4 +20,4 @@ public interface SubwayStationRepository extends JpaRepository<SubwayStation, Lo
             " from SubwayStation station" +
             " where station.stationName = :stationName")
     List<SubwayStation> findStationLineByStationName(@Param("stationName") String stationName);
-} // 얘 뭔가 안됨
+}

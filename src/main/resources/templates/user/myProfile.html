@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 정보</title>
-    <link href="/css/myProfile.css" rel="stylesheet" type="text/css">
+    <link href="/css/user/myProfile.css" rel="stylesheet" type="text/css">
     <link href="/css/menu.css" rel="stylesheet">
 </head>
+
 <body>
+
 <div th:insert="~{fragments/menu :: menuBar}"></div>
+
 <!--/* 회원 프로필 DB 가져와야댐 */-->
+<div class="middleArea">
 <div class="container">
     <h2>회원 정보</h2>
 
@@ -29,9 +33,10 @@
         <input type="email" readonly="readonly" id="email" name="email" placeholder="이메일" th:value="${sessionUser.userEmail}">
 
         <div class="buttons">
-            <a href="/myPage" class="myPage btn btn-outline-light" role="button">내 정보 수정</a>
+            <a href="/myPage" class="change-button" role="button">내 정보 수정</a>
         </div>
     </form>
+</div>
 </div>
 
 </body>
