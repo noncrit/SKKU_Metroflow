@@ -12,15 +12,27 @@
 #middleArea {
     background-color: white; /* 배경을 흰색으로 */
     padding: 20px;
-    /*border-radius: 10px; !* 모서리 둥글게 *!*/
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-    width: 800px; /* 최대 너비 설정 */
+    width: 740px; /* 최대 너비 설정 */
     text-align: center; /* 텍스트 가운데 정렬 */
+    margin-top: 15px;
 }
 
-#middleArea h1, h3 {
+#middleArea h1 {
     color: #333;
+    margin-top: 2px;
+    margin-bottom: 30px;
+    font-size: 35px;
 }
+
+#middleArea h3 {
+    color: #333;
+    margin-top: 50px;
+    margin-bottom: 2px;
+    font-size: 17px;
+}
+
 
 /*img {*/
 /*    width: 100px; !* 이미지 크기 조정 *!*/
@@ -30,6 +42,7 @@
 /* 각 설명 섹션 간격 */
 #middleArea div {
     margin-bottom: 20px;
+    font-size: 15px;
 }
 
 /* 설명 텍스트 스타일 */

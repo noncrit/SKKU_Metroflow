@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +27,7 @@
             <ul th:each="notice, stat: ${notices}">
                 <li>
                    <div class="alert-item">
-                       <a th:href="'/board/content?boardNo=' + ${notice.boardNo}" th:text="${notice.board.title}"></a>
+                       <a class="alert-clicked" th:href="'/board/content?boardNo=' + ${notice.boardNo}" th:text="${notice.board.title}"></a>
                        <p th:text="${notice.board.boardText}"></p>
                    </div>
                 </li>
