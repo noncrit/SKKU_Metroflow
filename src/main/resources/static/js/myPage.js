@@ -65,13 +65,13 @@ function injectValue(pathValue, profilePath) {
 }
 
 // 회원 탈퇴 확인 처리
-document.getElementById('deleteAccount').addEventListener('click', function(event) {
-    event.preventDefault();  // 기본 링크 동작을 막습니다.
-
-    if (confirm('정말로 회원을 탈퇴하시겠습니까?')) {
-        // 확인을 눌렀을 경우, 탈퇴 요청을 서버로 전송
-        window.location.href = '/user/delete';
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('deleteAccount').addEventListener('click', function(event) {
+        event.preventDefault();
+        if (confirm('정말로 회원을 탈퇴하시겠습니까?')) {
+            window.location.href = '/user/delete';
+        }
+    });
 });
 
 // nickname 필드를 제외하고 한글과 스페이스바 입력을 막는 함수
