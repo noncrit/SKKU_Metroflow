@@ -114,7 +114,7 @@ public class UserService {
             user.setPassword(BCRYPTPASSWORDENCODER.encode(newPassword));
         }
 
-        // 이메일 변경시 이메일 업데이트
+        // 이메일, 닉네임 변경시 이메일 업데이트
         user.setUserEmail(email);
         user.setNickname(nickname);
 
