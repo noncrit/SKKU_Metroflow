@@ -57,6 +57,15 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("changeProfilePic").addEventListener("click", function () {
         modal.style.display = "none";  // 모달 닫기
     });
+
+    // 회원 탈퇴 확인 처리
+    document.getElementById('deleteAccount').addEventListener('click', function(event) {
+        event.preventDefault();
+        if (confirm('정말로 회원을 탈퇴하시겠습니까?')) {
+            window.location.href = '/user/delete';
+        }
+    });
+
 });
 
 // 초기 이미지 저장 로직
@@ -64,15 +73,6 @@ function injectValue(pathValue, profilePath) {
     pathValue.value = profilePath.src;
 }
 
-// 회원 탈퇴 확인 처리
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('deleteAccount').addEventListener('click', function(event) {
-        event.preventDefault();
-        if (confirm('정말로 회원을 탈퇴하시겠습니까?')) {
-            window.location.href = '/user/delete';
-        }
-    });
-});
 
 // nickname 필드를 제외하고 한글과 스페이스바 입력을 막는 함수
 function disableKoreanAndSpaceBar(inputFields, nickname) {
