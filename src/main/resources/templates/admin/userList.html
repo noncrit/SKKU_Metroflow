@@ -15,11 +15,13 @@
         <tr>
             <th>User ID</th>
             <th>User 닉네임</th>
+            <th>User Role</th>
         </tr>
         </thead>
         <tr th:each="user : ${userList}">
             <td th:text="${user.userId}"></td>
             <td th:text="${user.nickname}"></td>
+            <td><span th:each="role : ${user.userRole}"><span th:text="${role}"></span></span></td>
         </tr>
     </table>
     <div class="pagination">

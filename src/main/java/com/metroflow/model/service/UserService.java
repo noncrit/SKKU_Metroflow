@@ -81,8 +81,8 @@ public class UserService {
         // page 위치에 있는 값은 0부터 시작
         // 모든 보드들을 페이징 처리
         Page<User> users =
-                USERREPOSITORY.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "userId")));
-        return users.map(user -> new UserForm(user.getUserId(), user.getNickname()));
+                USERREPOSITORY.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.ASC, "userId")));
+        return users.map(user -> new UserForm(user.getUserId(), user.getNickname(), user.getUserRole()));
     }
 
 
