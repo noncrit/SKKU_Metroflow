@@ -395,12 +395,13 @@ input:focus {
 
 /* 부모 요소에 position: relative 추가 */
 .topItems {
+    gap: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     font-weight: bold;
     margin-bottom: 10px;
-    margin-left: 5%;
+    /*margin-left: 3%;*/
     position: relative; /* 버튼이 이 부모 요소를 기준으로 위치함 */
 }
 
@@ -427,4 +428,72 @@ input:focus {
     color: #fff; /* 글자색 흰색 */
     border-radius: 5px;
 }
+
+/* 호선 별 마크 (타임리프 렌더링 처리 엮인 부분이니 건드리지 말기)*/
+.line-number-div {
+    align-content: flex-start;
+}
+
+.lines {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: white;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.default-line {
+    background-color: transparent; /* 기본 스타일 */
+    padding: 5px;
+
+}
+
+.line1 {
+    background-color: #0032A0;
+    color: white;
+}
+
+.line2 {
+    background-color: #00B140;
+    color: white;
+}
+
+.line3 {
+    background-color: #FC4C02;
+    color: white;
+}
+
+.line4 {
+    background-color: #00A9E0;
+    color: white;
+}
+
+.line5 {
+    background-color: #A05EB5;
+    color: white;
+}
+
+.line6 {
+    background-color: #A9431E;
+    color: white;
+}
+
+.line7 {
+    background-color: #67823A;
+    color: white;
+}
+
+.line8 {
+    background-color: #E31C79;
+    color: white;
+}
+
+.line9 {
+    background-color: #8C8279;
+    color: white;
+}
+
 
