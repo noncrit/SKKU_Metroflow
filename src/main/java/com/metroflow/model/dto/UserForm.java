@@ -15,8 +15,9 @@ public class UserForm {
     private String userEmail;
     private Set<String> userRole;
 
-    public UserForm(String userId, String nickname) {
+    public UserForm(String userId, String nickname, Set<String> userRole) {
         this.userId = userId;
         this.nickname = nickname;
+        this.userRole = userRole;
     }
 }
