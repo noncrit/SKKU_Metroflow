@@ -47,7 +47,8 @@ public class UserController {
     @GetMapping("/goLogin")
     public String goLoginPage(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute("errorMessage", ""); // 에러 메세지 초기화
+        session.setAttribute("IDError", ""); // 에러 메세지 초기화
+        session.setAttribute("PWError", ""); // 에러 메세지 초기화
         return "user/login";
     }
 
