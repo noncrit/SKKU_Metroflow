@@ -90,6 +90,8 @@ function zoomReset() {
     // 드래그 이벤트 충돌 방지 -> 좌표 초기화 필요
     resetDragCoordinates();
     nowZoom = 1; // 초기 비율로 리셋
+    translateX = 0; // X 좌표 초기화
+    translateY = 0; // Y 좌표 초기화
     zooms();
 }
 
@@ -143,7 +145,7 @@ function endDrag() {
 function resetDragCoordinates(){
     startX = 0;
     startY = 0;
-    translateY = 0;
+    translateX = 0;
     translateY = 0;
 }
 
