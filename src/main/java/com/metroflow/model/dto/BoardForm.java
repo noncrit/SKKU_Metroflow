@@ -20,9 +20,10 @@ public class BoardForm {
     private Long view;
     private boolean isNoticeBoard; // 긴급 공지인지 여부
 
-    public BoardForm(long boardNo, User user, String stationLine, String title, LocalDateTime createdTime, Long thumbsUp, Long view, boolean isNoticeBoard) {
+    public BoardForm(long boardNo, User user, String stationName, String stationLine, String title, LocalDateTime createdTime, Long thumbsUp, Long view, boolean isNoticeBoard) {
         this.boardNo = boardNo;
         this.user = user;
+        this.stationName = stationName;
         this.stationLine = stationLine;
         this.title = title;
         this.createdTime = createdTime;

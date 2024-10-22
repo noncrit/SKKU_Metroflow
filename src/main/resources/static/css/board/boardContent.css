@@ -9,6 +9,11 @@
     min-height: 600px;
     margin-top: 10px;
 }
+.stationDiv {
+    display: flex;
+    gap: 15px;
+}
+
 
 /* 상단 목록보기 버튼 */
 .btn-back {
