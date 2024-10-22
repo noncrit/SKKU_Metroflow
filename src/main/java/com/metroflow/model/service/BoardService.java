@@ -79,7 +79,7 @@ public class BoardService {
         // 엔티티 객체를 DTO 객체로 옮겨담음
         return boards.map(board -> new BoardForm(board.getBoardNo(),
                 BOARDREPOSITORY.findById(board.getBoardNo()).get().getUser(),
-                board.getStationLine(), board.getTitle(), board.getCreatedTime(), board.getThumbsUp(),
+                board.getStationLine(), board.getStationName(), board.getTitle(), board.getCreatedTime(), board.getThumbsUp(),
                 board.getView(), board.isNoticeBoard()));
     }
 
@@ -116,7 +116,7 @@ public class BoardService {
         // 엔티티 객체를 DTO 객체로 옮겨담음
         return boards.map(board -> new BoardForm(board.getBoardNo(),
                 BOARDREPOSITORY.findById(board.getBoardNo()).get().getUser(),
-                board.getStationLine(), board.getTitle(), board.getCreatedTime(), board.getThumbsUp(),
+                board.getStationLine(), board.getStationName(), board.getTitle(), board.getCreatedTime(), board.getThumbsUp(),
                 board.getView(), board.isNoticeBoard()));
     }
 

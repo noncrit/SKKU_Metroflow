@@ -22,7 +22,10 @@
     <div class="post-header">
         <h2 th:text="${board.title}" th:field="${board.title}"></h2>
     </div>
-
+    <div class="stationDiv">
+        <h3 th:text="${board.stationLine}"></h3>
+        <h3 th:text="${board.stationName}" th:field="${board.stationName}"></h3>
+    </div>
     <!-- 게시글 작성자 이미지-->
     <div class="post-meta">
         <img th:src="${board.user.userImgPath}" alt="작성자 이미지" class="author-img">
