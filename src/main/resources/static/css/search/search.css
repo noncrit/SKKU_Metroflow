@@ -269,3 +269,11 @@ select:focus, input:focus {
     text-decoration: none;
     color: #8B50A4;
 }
+
+#favoriteModal-header {
+    display: none;
+}
+
+body {
+    background-color: white;
+}
