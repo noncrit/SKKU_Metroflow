@@ -16,6 +16,7 @@ $('#searchInput').on('input', function() {
         dataType: 'json',
         success: function (data) {
             $('#stationList').empty();
+            console.log(data);
 
             var seenStations = new Set();
             var maxItems = 5;
