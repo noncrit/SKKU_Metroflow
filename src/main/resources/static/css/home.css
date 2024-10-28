@@ -97,7 +97,7 @@ body {
 .middleArea {
     flex: 3;
     padding: 20px;
-    justify-items: center;
+    /*justify-items: center;*/
     align-items: center;
     margin-left: 50px;
     /*스크롤바 구현을 위한 설정*/
