@@ -12,12 +12,12 @@
     <image src="https://github.com/user-attachments/assets/0c339d5d-f518-41f0-9836-e96d1b9c5875"></image>
 </details>
 <details>
-    <summary>여유</summary>
-    <image src="https://github.com/user-attachments/assets/0c339d5d-f518-41f0-9836-e96d1b9c5875"></image>
+    <summary>혼잡</summary>
+    <image src="https://github.com/user-attachments/assets/b1620c37-70fa-4dae-9663-54dfa49443a6"></image>
 </details>
 <details>
-    <summary>여유</summary>
-    <image src="https://github.com/user-attachments/assets/0c339d5d-f518-41f0-9836-e96d1b9c5875"></image>
+    <summary>아침 출근길 급행 열차(혼잡도 120 이상)</summary>
+    <image src="https://github.com/user-attachments/assets/f647a718-14e4-4e61-af23-f04ebf61da1f"></image>
 </details>
 
 ## 작업 기간
