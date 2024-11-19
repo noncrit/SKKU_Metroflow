@@ -6,7 +6,7 @@
 ### 혼잡도란?
 ![image](https://github.com/user-attachments/assets/2fe97487-0cdb-4048-947e-257875ea6b1b)
 
-   ### 열차 내부 상황 그림 예시
+   ### 열차 내부 상황 예시
 <details>
     <summary>여유</summary>
     <image src="https://github.com/user-attachments/assets/0c339d5d-f518-41f0-9836-e96d1b9c5875"></image>
@@ -43,9 +43,10 @@
 ## 개발 환경
 - Java openjdk 17.0.0.1
 - SpringBoot 3.3.4
+- 보안 / 권한 관리 : Spring Security 활용
 - DB : MySQL
 - Query : ORM(JPA, JPQL), MyBatis
-- View : Thymeleaf
+- View 구현 : Thymeleaf, JavaScript
 - Design tool : Figma
 - IDE : VSCode, IntelliJ
 - Version Control : Git
@@ -54,13 +55,49 @@
 
 ## 주요 기능
 !! 현재 배포를 하지 않은 상태라서, 데이터가 들어가 있지 않아 로컬에서 실행이 불가능합니다.
+
 ### 메인화면 노선도
-- JS 기반의 화면 조작
-- 역 이름 클릭을 통한 혼잡도 정보 보기
+- JS 기반의 노선도 화면 조작(확대, 축소, 드래그 이동 등)
+- 역 이름 클릭을 통해 혼잡도 정보를 제공하는 모달에 접근 가능
+- 모달의 별 버튼을 통해 즐겨찾기 기능에 접근이 가능하지만, 로그인 상태의 이용자에게만 해당 요소가 렌더링됩니다.
 <details>
    <summary>메인화면 시연</summary>
    <image src=""></image>
 </details>
-### 
+
+### 역 검색
+- 특정 역의 혼잡도를 검색할 수 있는 기능
+- JS 기반의 노선도 화면 조작
+- JavaScript, JQuery 기반으로 AJAX 처리
+<details>
+   <summary>검색 시연</summary>
+   <image src=""></image>
+</details>
+
+### 즐겨찾기
+- 이용자가 즐겨찾기로 등록한 역들의 혼잡도 정보를 제공
+- 특정 시점(시간 or 날짜)의 혼잡도 정보를 선택해서 볼 수 있음
+<details>
+   <summary>즐겨찾기 시연</summary>
+   <image src=""></image>
+</details>
+
+### 회원 관련 기능
+Spring Annotation, Spring Security를 이용해 예외처리 수행
+- 로그인   
+- 회원 가입
+- 내 정보 관리
+<details>
+   <summary>회원 기능 시연</summary>
+   <image src=""></image>
+</details>
+
+### 관리자 기능
+Spring Security를 이용해 권한 처리, 관리자만 접근이 가능하도록 설정
+- 전체 이용자 조회
+<details>
+   <summary>관리자 기능 시연</summary>
+   <image src=""></image>
+</details>
 
 
