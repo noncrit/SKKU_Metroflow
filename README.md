@@ -21,8 +21,27 @@
 </details>
 
 ## 작업 기간
-2024.09.23 ~ 10.31 (약 1개월)
+- 2024.09.23 ~ 10.31 (약 1개월)
+- API 데이터 수집/전처리, 필요한 기술 스택 학습 기간 포함
 
-<details>
-    <summary></summary>
-</details>
+## 팀 구성
+총 5명(프론트+백 4명, 디자인 총괄 1명)
+
+## 담당 업무
+- 프로젝트 기획, 작업 배분, 일정 관리
+- 메인 트러블 슈팅 담당
+- 혼잡도 데이터 전처리
+- SVG 기반 지하철 노선도 구현
+- ORM을 활용한 메인화면 혼잡도 서비스, 즐겨찾기 기능 개발
+- Thymleaf + JavaScript를 활용한 AJAX 기반의 view 제작
+
+## 개발 환경
+- Java openjdk 17.0.0.1
+- SpringBoot 3.3.4
+- DB : MySQL
+- Query : ORM(JPA, JPQL), MyBatis
+- View : Thymeleaf
+- IDE : VSCode, IntelliJ
+- Version Control : Git, Git Proeject
+
+
