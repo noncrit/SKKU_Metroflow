@@ -3,6 +3,8 @@
 ## 프로젝트 소개
 - 지하철 혼잡도 정보를 제공하는 것을 목표로 한 프로젝트입니다.
 - 공공 데이터 포털 API를 데이터를 이용해 혼잡도 예측값을 제공합니다.
+- 트러블 슈팅 기록 등 상세한 내용은 아래 링크 노션 페이지에 있습니다.   
+<a href="https://cuddly-echo-750.notion.site/MetroFlow-e32cab7486ed41f38623de66042df6c5?pvs=74" target="_blank">MetroFlow Project</a>
 ### 혼잡도란?
 ![image](https://github.com/user-attachments/assets/2fe97487-0cdb-4048-947e-257875ea6b1b)
 
@@ -42,8 +44,7 @@
 
 ## 개발 환경
 - Java openjdk 17.0.0.1
-- SpringBoot 3.3.4
-- 보안 / 권한 관리 : Spring Security 활용
+- SpringBoot 3.3.4, Spring Security 사용
 - DB : MySQL
 - Query : ORM(JPA, JPQL), MyBatis
 - View 구현 : Thymeleaf, JavaScript
