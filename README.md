@@ -81,7 +81,7 @@
 - 특정 시점(시간 or 날짜)의 혼잡도 정보를 선택해서 볼 수 있음
 <details>
    <summary>즐겨찾기 시연</summary>
-   <image src=""></image>
+   <image src="https://github.com/user-attachments/assets/142f97ba-8811-4b91-8438-135e2cf65899"></image>
 </details>
 
 ### 회원 관련 기능
