@@ -55,8 +55,6 @@
 - 협업 툴 : Notion, Discord
 
 ## 주요 기능
-!! 현재 배포를 하지 않은 상태라서, 내부 데이터가 없기에 로컬에서 실행이 불가능합니다 !!   
-!! Docker 이미지 제작이 완료되면 배포할 예정입니다 !!
 
 ### 메인화면 노선도
 - JS 기반의 노선도 화면 조작(확대, 축소, 드래그 이동 등)
@@ -64,7 +62,7 @@
 - 모달의 별 버튼을 통해 즐겨찾기 기능에 접근이 가능하지만, 로그인 상태의 이용자에게만 해당 요소가 렌더링됩니다.
 <details>
    <summary>메인화면 시연</summary>
-   <image src=""></image>
+   <image src="https://github.com/user-attachments/assets/8fc36a62-634c-44af-92e8-75d3e28e73b9"></image>
 </details>
 
 ### 역 검색
@@ -73,7 +71,7 @@
 - JavaScript, JQuery 기반으로 AJAX 처리
 <details>
    <summary>검색 시연</summary>
-   <image src=""></image>
+   <image src="https://github.com/user-attachments/assets/142f97ba-8811-4b91-8438-135e2cf65899"></image>
 </details>
 
 ### 즐겨찾기
@@ -81,7 +79,7 @@
 - 특정 시점(시간 or 날짜)의 혼잡도 정보를 선택해서 볼 수 있음
 <details>
    <summary>즐겨찾기 시연</summary>
-   <image src="https://github.com/user-attachments/assets/142f97ba-8811-4b91-8438-135e2cf65899"></image>
+   <image src="https://github.com/user-attachments/assets/c9d5d66e-8cb6-4db9-acac-be5c8babd1f5"></image>
 </details>
 
 ### 회원 관련 기능
@@ -91,7 +89,7 @@ Spring Annotation, Spring Security를 이용해 예외처리 수행
 - 내 정보 관리
 <details>
    <summary>회원 기능 시연</summary>
-   <image src=""></image>
+   <image src="https://github.com/user-attachments/assets/37c9c9db-85a1-42b9-83d9-18e710049d32"></image>
 </details>
 
 ### 관리자 기능
@@ -99,7 +97,7 @@ Spring Security를 이용해 권한 처리, 관리자만 접근이 가능하도�
 - 전체 이용자 조회
 <details>
    <summary>관리자 기능 시연</summary>
-   <image src=""></image>
+   <image src="https://github.com/user-attachments/assets/32856802-7f95-4a37-b084-51a0702d9a90"></image>
 </details>
 
 
